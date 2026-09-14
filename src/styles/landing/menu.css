@@ -1,0 +1,134 @@
+.menu {
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 2000;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+
+  transform: translateX(-100%);
+
+  transition: transform 0.4s ease;
+}
+
+.menu.open {
+  transform: translateX(0);
+}
+
+.menu-top {
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  align-items: center;
+}
+.menu-bottom {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.menu-icons {
+  border: 1px solid transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
+  span {
+    font-size: 12px;
+  }
+  display: flex;
+  padding: 10px;
+  cursor: pointer;
+  gap: 20px;
+  border-radius: 10px;
+  justify-content: start;
+  align-items: center;
+}
+.menu-icons > svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.menu-icons:hover {
+  background-color: rgba(255, 26, 26, 0.244);
+  border-color: rgb(157, 0, 0);
+  svg {
+    stroke: red;
+  }
+}
+
+.menu-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 18px 0 10px;
+  border-top: 1px solid var(--color-border);
+}
+
+.menu-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+.menu-profile-link img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.menu-profile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.menu-profile-text strong {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.menu-profile-text span {
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.menu-profile-link:hover span {
+  color: #ff1f2d;
+}
+.menu-profile-link:focus-visible {
+  outline: 2px solid #ff1f2d;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+.menu-profile-logout {
+  flex-shrink: 0;
+  color: #9ca3af;
+}
+.menu-i-bottom {
+  padding-top: 15px;
+  margin-top: 15px;
+  border-top: 1px solid rgba(128, 128, 128, 0.491);
+}

@@ -1,0 +1,31 @@
+.lessonsP {
+  min-height: 100vh;
+
+  color: #fff;
+
+  background-image: url("/images/sectionBackgrounds/section3.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: space-around;align-items: center;
+  position: relative;
+img{
+    width: 135px;
+    height: auto;
+    object-fit: cover;
+    position: absolute;
+    left: 100px;
+    top: 140px;
+}
+.right{
+
+    position: absolute;
+    right: 230px;
+    top: 150px;
+    p{
+        max-width: 450px !important;
+    }
+    
+}
+}
