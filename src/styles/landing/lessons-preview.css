@@ -18,6 +18,7 @@ img{
     left: 100px;
     top: 140px;
 }
+
 .right{
 
     position: absolute;
@@ -28,4 +29,19 @@ img{
     }
     
 }
+}
+
+@media (max-width: 900px) {
+  .lessonsP {
+    height: auto;
+    min-height: 100svh;
+    padding: 100px 24px 72px;
+    gap: 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    img { position: static; }
+    .right { position: static; max-width: 100%; }
+    .section-title { font-size: clamp(36px, 7vw, 52px); }
+  }
 }

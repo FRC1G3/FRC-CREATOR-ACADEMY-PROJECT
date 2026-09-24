@@ -13,7 +13,7 @@ export default function LessonsPrewiew() {
         <span className="section-eyebrow">REAL KNOWLEDGE</span>
         <h2 className="section-title">Practical Lessons</h2>
         <p className="section-description mt-[20px] " >
-          Learn from real examples,not just theory. <br />
+          Learn from real examples, not just theory. <br />
           Get the knowledge you can apply right away.
         </p>
       </div>

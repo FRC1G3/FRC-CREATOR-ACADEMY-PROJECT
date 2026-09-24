@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# F.R.C Creator Academy
 
-## Getting Started
+F.R.C Creator Academy is an online learning platform for content creators, beginning with a structured YouTube Creator course.
 
-First, run the development server:
+## Current development status
+
+**UI Prototype / Phase 1.** Mock data is used during UI development. The technical documentation describes the target v1 product, not functionality already implemented in this repository.
+
+Implemented UI:
+
+- Landing Page
+- Dashboard
+- Courses Catalog
+- Course Detail
+- Responsive navigation/sidebar and shared footer
+
+Planned / next: Lesson and Video Player, Gamified Roadmap, Quiz System, Achievements, Profile, Login/Register, Authentication, PostgreSQL + Prisma, and YouTube integration.
+
+Core learning idea:
+
+**Course → Lessons → Checkpoint Quiz → Roadmap Unlock → Badge / Progress**
+
+The planned default checkpoint follows three lessons and requires **80%** to pass. Current progress, quiz results and achievements are static examples; they are not persisted or calculated. Search/filter controls are visual-only, and unavailable actions are disabled or marked Coming Soon.
+
+## Stack
+
+Next.js (App Router), React, TypeScript, Tailwind CSS, plain/custom CSS and Lucide React. The existing visual system uses Inter + Manrope, dark backgrounds, a red accent and shared app-card styling.
+
+Planned backend: PostgreSQL, Prisma ORM and authentication. None is required for the current prototype; no environment variables or external service credentials are needed.
+
+## Local setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000). Review routes: /, /dashboard, /courses, /courses/youtube.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The build uses next/font to obtain Inter and Manrope and may require network access.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [Implementation Status](docs/IMPLEMENTATION_STATUS.md) for the current-versus-planned breakdown.

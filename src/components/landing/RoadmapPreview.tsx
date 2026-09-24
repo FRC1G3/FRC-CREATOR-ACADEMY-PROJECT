@@ -32,6 +32,7 @@ export default function RoadmapPreview() {
             <span className="section-description">New Levels</span>
         </div>
       </div>
+      <p className="roadmap-checkpoint">3 Lessons → Checkpoint Quiz → Score 80%+ → Next Stage Unlocks</p>
     </section>
   );
 }

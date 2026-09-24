@@ -1,0 +1,17 @@
+/* Dashboard - Overall Progress */
+.overall-progress { padding: 24px; color: var(--color-text-primary); display: flex; flex-direction: column; gap: 24px; }
+.overall-progress h2 { font-size: 23px; line-height: 1.25; font-weight: 600; letter-spacing: -0.025em; }
+.overall-progress-body { display: flex; align-items: center; gap: 18px; flex: 1; }
+.overall-progress-ring { position: relative; flex: 1; min-width: 0; max-width: 200px; aspect-ratio: 1; }
+.overall-progress-ring svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); fill: none; stroke-width: 12; }
+.overall-progress-track { stroke: #242e39; }
+.overall-progress-fill { stroke: var(--color-red); stroke-linecap: round; }
+.overall-progress-ring strong { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(28px, 2.6vw, 44px); font-weight: 650; }
+.overall-progress-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 19px; }
+.overall-progress-legend li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.4; }
+.overall-progress-legend p { margin-top: 4px; color: #aeb8c5; }
+.overall-progress-dot { width: 16px; height: 16px; margin-top: 3px; border-radius: 50%; flex-shrink: 0; }
+.overall-progress-dot.completed { background: var(--color-red); }
+.overall-progress-dot.in-progress { background: #657180; }
+.overall-progress-dot.not-started { background: #242e39; }
+@media (max-width: 640px) { .overall-progress { padding: 20px; } }

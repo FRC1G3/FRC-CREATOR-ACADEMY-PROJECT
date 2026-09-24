@@ -1,0 +1,12 @@
+/* Dashboard - Learning Streak */
+.streak-card { padding: 24px; color: var(--color-text-primary); display: flex; flex-direction: column; gap: 24px; }
+.streak-card h2 { font-size: 23px; line-height: 1.25; font-weight: 600; letter-spacing: -0.025em; }
+.streak-summary { display: flex; align-items: center; gap: 22px; flex: 1; }
+.streak-flame { width: 66px; height: 80px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(255, 65, 25, 0.15)); }
+.streak-summary strong { font-size: 36px; font-weight: 650; line-height: 1.2; }
+.streak-summary p { color: #aeb8c5; font-size: 16px; margin-top: 10px; }
+.streak-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; list-style: none; margin: 0; padding: 0; }
+.streak-week li { display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 13px; }
+.streak-day { display: grid; place-items: center; width: 100%; max-width: 36px; aspect-ratio: 1; border-radius: 50%; border: 2px solid #303c49; }
+.streak-day.completed { background: var(--color-red); border-color: var(--color-red); }
+@media (max-width: 640px) { .streak-card { padding: 20px; } }

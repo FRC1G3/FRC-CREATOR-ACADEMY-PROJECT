@@ -1,5 +1,6 @@
 import "@/styles/landing/quiz-preview.css";
 import Image from "next/image";
+import Link from "next/link";
 export default function QuizPreview() {
   return (
     <section className="quiz-preview">
@@ -10,27 +11,27 @@ export default function QuizPreview() {
         <div className="images">
           <Image
             src="/images/profiles/frc.PNG"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
           <Image
             src="/images/profiles/harun.jpg"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
 
           <Image
             src="/images/profiles/noijat.jpg"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
 
           <Image
             src="/images/profiles/miri.jpg"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
@@ -49,13 +50,13 @@ export default function QuizPreview() {
         </div>
       </div>
       <h2 className="section-title w-[80%]">Join a Growing <span className="text-red-500">Community</span></h2>
-      <p className="opacity-[0.7] mb-5 w-[300]">
-        Learn,share and grow together with a community of future creators. Get
+      <p className="opacity-[0.7] mb-5 w-[300px]">
+        Learn, share and grow together with a community of future creators. Get
         access to exclusive content, resources and support from like-minded
         individuals.
       </p>
       </div>
-      <button className="start">
+      <Link href="/courses" className="start">
         Start Learning
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +73,7 @@ export default function QuizPreview() {
           <path d="M5 12h14" />
           <path d="m12 5 7 7-7 7" />
         </svg>
-      </button>
+      </Link>
     </section>
   );
 }

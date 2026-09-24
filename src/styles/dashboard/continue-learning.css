@@ -1,0 +1,144 @@
+/* Dashboard - Continue Learning */
+.continue-learning {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  color: var(--color-text-primary);
+  
+  margin-left: 30px;
+}
+.dashboard {
+  gap: 20px;
+  box-sizing: border-box;
+}
+.continue-learning .continue-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.continue-learning .continue-top > span:first-child {
+  font-size: 26px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.continue-learning .view-course {
+  color: var(--color-red);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.continue-learning .view-course svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+.continue-learning .view-course:hover svg { transform: translateX(3px); }
+.continue-learning .continue-body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+}
+.continue-learning .continue-body > img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 13px;
+}
+.continue-learning .c-b-right {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  align-items: flex-start;
+}
+.continue-learning .c-b-right > span:first-child {
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: #141c24;
+  color: #d5dce3;
+  font-size: 16px;
+  line-height: 1.3;
+}
+.continue-learning .c-b-right h2 {
+  margin: 10px 0 9px;
+  font-size: 26px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.continue-learning .c-b-right > h2 + span {
+  color: #b8c0ca;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.continue-learning .progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  margin: 12px 0 18px;
+  color: #e5e7eb;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.continue-learning progress {
+  appearance: none;
+  border: 0;
+  border-radius: 10px;
+  height: 10px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  background: #18212a;
+}
+.continue-learning progress::-webkit-progress-bar { background: #18212a; border-radius: 10px; }
+.continue-learning progress::-webkit-progress-value { background: var(--color-red); border-radius: 10px; }
+.continue-learning progress::-moz-progress-bar { background: var(--color-red); border-radius: 10px; }
+.continue-learning .continue-button { display: flex; align-items: center; gap: 14px; max-width: 100%; }
+.continue-learning .continue-button :is(button, a) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: var(--color-red);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.continue-learning .continue-button :is(button, a) svg { width: 20px; height: 20px; flex-shrink: 0; }
+.continue-learning .continue-button :is(button, a):hover { background: #d90024; }
+.continue-learning .continue-button .continue-bookmark {
+  width: 48px;
+  flex-shrink: 0;
+  padding: 10px;
+  background: #141c24;
+  border-color: rgba(255, 255, 255, 0.04);
+  color: #99a5b2;
+}
+.continue-learning .continue-button .continue-bookmark:hover { border-color: var(--color-red); color: #fff; }
+.continue-learning :is(button, a):focus-visible { outline: 2px solid #ff3656; outline-offset: 4px; }
+@media (max-width: 650px) {
+  .continue-learning { padding: 20px; gap: 20px; }
+  .continue-learning .continue-top > span:first-child { font-size: 21px; }
+  .continue-learning .view-course { font-size: 14px; gap: 5px; }
+  .continue-learning .continue-body { grid-template-columns: 1fr; gap: 20px; }
+  .continue-learning .c-b-right { width: 100%; }
+  .continue-learning .c-b-right h2 { font-size: 24px; }
+  .continue-learning .continue-button { gap: 10px; }
+  .continue-learning .continue-button :is(button, a) { padding: 10px 14px; font-size: 16px; }
+}

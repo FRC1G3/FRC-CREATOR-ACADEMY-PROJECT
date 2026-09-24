@@ -6,7 +6,7 @@ export default function YoutubePreview() {
       <div className="growth-left w-[40%]">
         <span className=" text-2xl font-bold text-red-500">TRACK YOUR PROGRESS</span>
         <h2 className="section-heading text-7xl font-bold" >See Your <span className="text-red-500">Growth</span></h2>
-        <p className="section-description mt-[20]">
+        <p className="section-description mt-[20px]">
           Complete lessons, pass quizzes and earn badges. Keep going and become
           a better creator every day.
         </p>

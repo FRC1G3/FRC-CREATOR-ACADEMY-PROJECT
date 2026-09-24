@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+body > main {
+  flex: 1;
+}
+
+body > main:not(.landing-page) {
+  padding-top: 76px;
+}
+
 html:has(.landing-page) {
   scrollbar-width: none;
 }
@@ -57,8 +65,8 @@ button{
   --color-border: rgba(255, 255, 255, 0.08);
 }
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-bg);
+  --foreground: var(--color-text-primary);
 }
 .section-eyebrow {
   color: var(--color-red);
@@ -88,14 +96,14 @@ button{
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--color-bg);
+    --foreground: var(--color-text-primary);
   }
 }
 
@@ -103,4 +111,33 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
+}
+.col-1  { width: 8.333333%; }
+.col-2  { width: 16.666667%; }
+.col-3  { width: 25%; }
+.col-4  { width: 33.333333%; }
+.col-5  { width: 41.666667%; }
+.col-6  { width: 50%; }
+.col-7  { width: 58.333333%; }
+.col-8  { width: 66.666667%; }
+.col-9  { width: 75%; }
+.col-10 { width: 83.333333%; }
+.col-11 { width: 91.666667%; }
+.col-12 { width: 100%; }
+:root {
+  --card-bg: linear-gradient(
+    135deg,
+    #060e17 0%,
+    #060e17 45%,
+    #060c13 100%
+  );
+
+  --card-border: 1px solid rgba(255, 255, 255, 0.06);
+  --card-radius: 20px;
+}
+
+.app-card {
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
 }

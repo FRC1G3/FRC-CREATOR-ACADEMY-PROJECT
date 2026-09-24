@@ -50,7 +50,7 @@
   font-size: 14px;
 }
 .grow {
-  color: red;
+  color: var(--color-red);
 }
 .landing-hero {
   padding: 132px 48px 72px clamp(120px, 12vw, 180px);
@@ -70,7 +70,7 @@
   opacity: 1;
   margin-bottom: 24px;
 }
-.h1 {
+.landing-hero h1 {
   font-family: var(--font-manrope), sans-serif;
 }
 
@@ -115,7 +115,7 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
   justify-content: center;
   align-items: center;
   gap: 9px;
-  button {
+  button, .sign {
     padding: 9px 19.8px;
     white-space: nowrap;
     border-radius: 13.5px;
@@ -123,7 +123,7 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
     transition: 0.2s;
     cursor: pointer;
   }
-  button:hover {
+  button:hover:not(:disabled), .sign:hover {
     -webkit-box-shadow: -1px 0px 7px 4px #c90000;
     box-shadow: -1px 0px 7px 4px #c90000;
   }
@@ -134,12 +134,12 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
 }
 
 .sign {
-  background-color: red;
+  background-color: var(--color-red);
 }
 
 .start{
-    background-color: red;
-    border: 15px;
+    background-color: var(--color-red);
+    border: none;
     width: fit-content;
     max-width: 100%;
     gap: 12px;
@@ -377,9 +377,13 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
     gap: 5.4px;
   }
 
-  .nav_right button {
+  .nav_right button, .nav_right .sign {
     padding: 8.1px 9px;
     font-size: 10.8px;
     border-radius: 9px;
   }
 }
+
+.nav-menu-toggle { display: grid; place-items: center; background: transparent; color: inherit; border: 0; }
+.nav-menu-toggle:focus-visible, .nav_left a:focus-visible, .nav_right a:focus-visible, .start:focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
+.nav_right button:disabled { cursor: default; color: var(--color-text-secondary); border-color: var(--color-border); }

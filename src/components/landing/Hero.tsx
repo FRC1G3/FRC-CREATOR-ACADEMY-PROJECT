@@ -1,5 +1,6 @@
 import "@/styles/landing/hero.css";
 import Image from "next/image";
+import Link from "next/link";
 export default function Hero() {
   return (
     <section className="landing-hero">
@@ -8,10 +9,10 @@ export default function Hero() {
         Create. <br />
         <span className="grow">Grow.</span>
       </h1>
-      <p className="opacity-[0.7] mb-5 w-[300]">
+      <p className="opacity-[0.7] mb-5 w-[300px]">
         A step-by-step learning platform for future creators
       </p>
-      <button className="start">
+      <Link href="/courses" className="start">
         Start Learning
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,32 +29,32 @@ export default function Hero() {
           <path d="M5 12h14" />
           <path d="m12 5 7 7-7 7" />
         </svg>
-      </button>
+      </Link>
       <div className="profiles">
         <div className="images">
           <Image
             src="/images/profiles/frc.PNG"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
           <Image
             src="/images/profiles/harun.jpg"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
 
           <Image
             src="/images/profiles/noijat.jpg"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
 
           <Image
             src="/images/profiles/miri.jpg"
-            alt="Profile"
+            alt=""
             width={45}
             height={45}
           />
