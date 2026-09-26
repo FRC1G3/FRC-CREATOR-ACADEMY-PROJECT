@@ -1,7 +1,8 @@
 import { Check, ChevronDown, ChevronUp, FileText, LockKeyhole, Play, TvMinimalPlay } from "lucide-react";
-import type { courseModules } from "@/data/course-detail-data";
+import Link from "next/link";
+import type { ModuleView } from "@/types/learning";
 
-type CourseModuleProps = { module: (typeof courseModules)[number] };
+type CourseModuleProps = { module: ModuleView };
 
 export default function CourseModule({ module }: CourseModuleProps) {
   const isExpanded = module.lessons.length > 0;
@@ -26,7 +27,7 @@ export default function CourseModule({ module }: CourseModuleProps) {
                 {lesson.status === "locked" && <LockKeyhole size={18} />}
                 {lesson.status === "quiz" && <FileText size={18} />}
               </span>
-              <span className="course-lesson-title">{lesson.title}</span>
+              <span className="course-lesson-title">{lesson.href ? <Link href={lesson.href}>{lesson.title}</Link> : lesson.title}</span>
               <span className="course-lesson-duration">{lesson.duration}</span>
               {lesson.status === "quiz" ? <span className="course-lesson-action">--</span> : <TvMinimalPlay size={17} aria-hidden="true" />}
             </li>

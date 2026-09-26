@@ -1,7 +1,7 @@
 import { ListChecks, Trophy, Target } from "lucide-react";
-import { roadmapSummary } from "@/data/roadmap-data";
+import type { SummaryView } from "@/types/learning";
 
-export default function RoadmapSummary() {
+export default function RoadmapSummary({ roadmapSummary }: { roadmapSummary: SummaryView }) {
   return (
     <section className="roadmap-summary" aria-label="Course progress summary">
       <div className="roadmap-summary-card app-card">
@@ -12,7 +12,7 @@ export default function RoadmapSummary() {
       </div>
       <div className="roadmap-summary-card app-card"><ListChecks aria-hidden="true" /><div><strong>{roadmapSummary.modules}</strong><h2>Modules Completed</h2></div></div>
       <div className="roadmap-summary-card app-card"><Trophy className="roadmap-summary-trophy" aria-hidden="true" /><div><strong>{roadmapSummary.quizzes}</strong><h2>Quizzes Passed</h2></div></div>
-      <div className="roadmap-summary-card app-card"><Target aria-hidden="true" /><div><h2>Current Module</h2><strong className="roadmap-summary-current">{roadmapSummary.current}</strong><p>In Progress</p></div></div>
+      <div className="roadmap-summary-card app-card"><Target aria-hidden="true" /><div><h2>Current Module</h2><strong className="roadmap-summary-current">{roadmapSummary.current}</strong><p>{roadmapSummary.current === "Complete" ? "Completed" : "Next step"}</p></div></div>
     </section>
   );
 }

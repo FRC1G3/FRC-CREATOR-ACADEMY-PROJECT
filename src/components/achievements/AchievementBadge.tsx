@@ -1,7 +1,7 @@
 import { Play, Star, Flame, Clapperboard, ChartNoAxesColumnIncreasing, Crown, CalendarDays, LockKeyhole } from "lucide-react";
-import type { achievementBadges } from "@/data/achievements-data";
+import type { BadgeView } from "@/types/learning";
 
-type AchievementBadgeProps = { badge: (typeof achievementBadges)[number] };
+type AchievementBadgeProps = { badge: BadgeView };
 const badgeIcons = { play: Play, star: Star, flame: Flame, shorts: Clapperboard, chart: ChartNoAxesColumnIncreasing, crown: Crown };
 
 export default function AchievementBadge({ badge }: AchievementBadgeProps) {

@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { getCurrentUser } from "@/lib/current-user";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
   description: "Online learning platform for future creators",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const user = await getCurrentUser();
   return (
     <html
       lang="en"
@@ -27,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
+        <Navbar user={user ? { name: user.name, avatarUrl: user.avatarUrl, role: user.role } : null} />
         {children}
         <Footer />
       </body>

@@ -1,7 +1,8 @@
 import { Check, LockKeyhole, Play, Trophy } from "lucide-react";
-import type { roadmapNodes } from "@/data/roadmap-data";
+import Link from "next/link";
+import type { RoadmapView } from "@/types/learning";
 
-type RoadmapNodeProps = { node: (typeof roadmapNodes)[number]; index: number; last: boolean };
+type RoadmapNodeProps = { node: RoadmapView; index: number; last: boolean };
 
 export default function RoadmapNode({ node, index, last }: RoadmapNodeProps) {
   const status = node.status === "completed" ? (node.kind === "quiz" ? "Completed · Passed" : "Completed") : node.status === "current" ? "Current" : "Locked";
@@ -12,7 +13,7 @@ export default function RoadmapNode({ node, index, last }: RoadmapNodeProps) {
         {node.kind === "reward" ? <Trophy size={25} /> : node.status === "completed" ? <Check size={23} strokeWidth={3} /> : node.status === "current" ? <Play size={24} fill="currentColor" /> : <LockKeyhole size={21} />}
       </div>
       <div className="roadmap-node-text">
-        <h2>{node.title}</h2>
+        <h2>{node.href ? <Link href={node.href}>{node.title}</Link> : node.title}</h2>
         <p>{node.detail}<span>·</span><strong>{status}</strong></p>
       </div>
     </li>

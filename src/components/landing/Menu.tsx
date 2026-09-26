@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { logout } from "@/actions/auth";
 import { LogOut, Route, UsersRound, ChevronsLeft, House, TvMinimalPlay, BookOpen,ChartNoAxesCombined,Star,Wrench,Bookmark,NotebookPen,Settings } from "lucide-react";
 type MenuProps = {
+  user: { name: string; avatarUrl: string | null; role: string } | null;
   isSidebarOpen: boolean;
   setisSidebarOpen: (isOpen: boolean) => void;
 };
-export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
+export default function Menu({ isSidebarOpen, setisSidebarOpen, user }: MenuProps) {
   const pathname = usePathname();
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
         ><ChevronsLeft className="cursor-pointer size-10" aria-hidden="true" /></button>
       </div>
       <div className="menu-bottom">
+        {user?.role === "ADMIN" && <div className="menu-icons"><Link href="/admin">Admin Dashboard</Link></div>}
         <div className="menu-icons" data-active={pathname === "/dashboard" ? "true" : undefined}>
           <Link href="/dashboard" aria-current={pathname === "/dashboard" ? "page" : undefined}><House className="size-5" /> <span>Dashboard</span></Link>
         </div>
@@ -84,13 +87,13 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
       </div>
       <div className="menu-profile">
         <Link href="/profile" className="menu-profile-link" aria-current={pathname === "/profile" ? "page" : undefined}>
-          <Image src="/images/profiles/frc.PNG" alt="F.R.C" width={42} height={42} />
+          <Image unoptimized src={user?.avatarUrl ?? "/images/profiles/frc.PNG"} alt="Profile" width={42} height={42} />
           <div className="menu-profile-text">
-            <strong>F.R.C</strong>
+            <strong>{user?.name ?? "Guest"}</strong>
             <span>View Profile</span>
           </div>
         </Link>
-        <LogOut className="menu-profile-logout" size={22} aria-label="Log out" />
+        {user && <form action={logout}><button type="submit" aria-label="Log out"><LogOut className="menu-profile-logout" size={22} /></button></form>}
       </div>
     </section>
   );

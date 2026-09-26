@@ -1,7 +1,7 @@
 import { Flame, Trophy, ChartNoAxesColumnIncreasing } from "lucide-react";
-import { lessonPreview } from "@/data/lesson-data";
+import type { LessonView } from "@/types/learning";
 
-export default function CourseProgressCard() {
+export default function CourseProgressCard({ lessonPreview }: { lessonPreview: LessonView }) {
   return (
     <section className="lesson-course-progress app-card">
       <h2>Course Progress</h2>
@@ -10,7 +10,7 @@ export default function CourseProgressCard() {
       <div className="lesson-progress-stats">
         <div><Flame /><p><b>{lessonPreview.streak}</b><span>Day Streak</span></p></div>
         <div><Trophy /><p><b>{lessonPreview.quizzes}</b><span>Quizzes Passed</span></p></div>
-        <div><ChartNoAxesColumnIncreasing /><p>Beginner →<br />Advanced</p></div>
+        <div><ChartNoAxesColumnIncreasing /><p>{lessonPreview.course}</p></div>
       </div>
     </section>
   );

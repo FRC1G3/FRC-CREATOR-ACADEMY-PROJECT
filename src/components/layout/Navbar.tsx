@@ -6,7 +6,7 @@ import Sidebar from "../landing/Menu";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import Link from "next/link";
-export default function Navbar() {
+export default function Navbar({ user }: { user: { name: string; avatarUrl: string | null; role: string } | null }) {
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
 
   return (
@@ -25,11 +25,12 @@ export default function Navbar() {
       </div>
 
       <div className="nav_right">
-        <Link href="/login" className="login">Login</Link>
+        <Link href={user ? "/profile" : "/login"} className="login">{user ? user.name : "Login"}</Link>
         <Link href="/courses" className="sign">Get Started</Link>
       </div>
 
       <Sidebar
+        user={user}
         isSidebarOpen={isSidebarOpen}
         setisSidebarOpen={setisSidebarOpen}
       />

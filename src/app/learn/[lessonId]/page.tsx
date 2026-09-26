@@ -6,29 +6,55 @@ import LessonHeader from "@/components/learn/LessonHeader";
 import KeyTakeaways from "@/components/learn/KeyTakeaways";
 import CourseProgressCard from "@/components/learn/CourseProgressCard";
 import ModuleLessons from "@/components/learn/ModuleLessons";
-import { lessonPreview } from "@/data/lesson-data";
+import { requireUser } from "@/lib/current-user";
+import { accessible, LearningError, nodeHref } from "@/services/learning";
+import { moduleViews } from "@/services/presentation";
+import type { LessonView } from "@/types/learning";
+import ActionForm from "@/components/learning/ActionForm";
+import EmptyState from "@/components/learning/EmptyState";
+import StartLesson from "@/components/learn/StartLesson";
+import { completeLesson } from "@/actions/learning";
+import { getPrisma } from "@/lib/prisma";
+import { streak } from "@/lib/learning-rules";
 import "@/styles/learn/lesson-page.css";
 
 export default async function LessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
   const { lessonId } = await params;
-  if (lessonId !== "thumbnail-psychology") notFound();
+  const user = await requireUser(`/learn/${lessonId}`);
+  const access = await accessible(user.id, "LESSON", lessonId).catch(error => { if (error instanceof LearningError) return false as const; throw error; });
+  if (access === false) return <main className="lesson-page"><div className="lesson-container"><EmptyState message="Enroll and complete earlier roadmap steps to unlock this lesson." /><Link href="/roadmap">View Roadmap</Link></div></main>;
+  if (!access) notFound();
+  const { state } = access;
+  const lesson = state.lessons.find(l => l.id === access.id)!;
+  const courseModule = state.course.modules.find(m => m.id === lesson.moduleId)!;
+  const currentIndex = state.nodes.findIndex(n => n.id === access.node.id);
+  const previous = state.nodes.slice(0, currentIndex).filter(n => n.type !== "REWARD").at(-1);
+  const next = state.nodes.slice(currentIndex + 1).find(n => n.type !== "REWARD");
+  const [activityLessons, activityQuizzes] = await Promise.all([getPrisma().lessonProgress.findMany({ where: { userId: user.id, completedAt: { not: null } }, select: { completedAt: true } }), getPrisma().quizAttempt.findMany({ where: { userId: user.id, completedAt: { not: null } }, select: { completedAt: true } })]);
+  const activityStreak = streak([...activityLessons, ...activityQuizzes].flatMap(a => a.completedAt ? [a.completedAt] : []));
+  const lessonPreview: LessonView = { number: lesson.order, title: lesson.title, course: state.course.title, module: courseModule.title, moduleNumber: courseModule.order, duration: `${Math.ceil(lesson.durationSeconds / 60)} min`, description: lesson.description, thumbnail: lesson.thumbnailUrl ?? "/images/hero.png", videoUrl: lesson.videoUrl, progress: state.percentage, completed: `${state.completedLessons} / ${state.totalLessons}`, streak: activityStreak.days, quizzes: `${state.passed.size} / ${state.course.quizzes.length}`, status: state.completed.has(lesson.id) ? "Completed" : "In Progress", time: "Video not available yet" };
   return (
     <main className="lesson-page">
       <div className="lesson-container">
         <div className="lesson-breadcrumb" aria-label="Breadcrumb">
           <Link href="/courses">Courses</Link><ChevronRight />
-          <Link href="/courses/youtube">{lessonPreview.course}</Link><ChevronRight />
-          <span>Module 2</span><ChevronRight /><span aria-current="page">{lessonPreview.title}</span>
+          <Link href={`/courses/${state.course.slug}`}>{lessonPreview.course}</Link><ChevronRight />
+          <span>Module {courseModule.order}</span><ChevronRight /><span aria-current="page">{lessonPreview.title}</span>
         </div>
         <div className="lesson-layout">
           <div className="lesson-main">
-            <LessonPlayer />
-            <LessonHeader />
-            <KeyTakeaways />
+            <StartLesson slug={lesson.slug} />
+            <LessonPlayer lessonPreview={lessonPreview} />
+            <LessonHeader lessonPreview={lessonPreview}>
+              <ActionForm action={completeLesson} slug={lesson.slug} label={state.completed.has(lesson.id) ? "Completed" : "Mark as Complete"} className="lesson-complete" disabled={state.completed.has(lesson.id)} />
+              {next && next.status !== "locked" ? <Link href={nodeHref(state, next)}>{next.type === "QUIZ" ? "Next Checkpoint" : "Next Lesson"} →</Link> : <button disabled type="button">{next ? "Complete lesson to continue" : "Final lesson"}</button>}
+            </LessonHeader>
+            {previous && <Link href={nodeHref(state, previous)}>← Previous step</Link>}
+            <KeyTakeaways lessonTakeaways={[lesson.description]} />
           </div>
           <aside className="lesson-sidebar" aria-label="Course progress and lesson navigation">
-            <CourseProgressCard />
-            <ModuleLessons />
+            <CourseProgressCard lessonPreview={lessonPreview} />
+            <ModuleLessons modules={moduleViews(state)} current={courseModule.order} />
           </aside>
         </div>
       </div>

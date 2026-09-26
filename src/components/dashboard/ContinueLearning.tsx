@@ -2,12 +2,12 @@ import "@/styles/dashboard/continue-learning.css";
 import { Bookmark, MoveRight,ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-export default function ContinueLearning() {
+export default function ContinueLearning({ course, title, detail, progress, href, courseHref }: { course: string; title: string; detail: string; progress: number; href: string; courseHref: string }) {
   return (
     <section className="continue-learning app-card col-6 ">
       <div className="continue-top">
         <span>Continue Learning</span>
-        <Link href="/courses/youtube" className="view-course">
+        <Link href={courseHref} className="view-course">
           View Course <ArrowRight className="size-5" />
         </Link>
       </div>
@@ -19,15 +19,15 @@ export default function ContinueLearning() {
           height={1086}
         ></Image>
         <div className="c-b-right">
-          <span className="p-[3px] bg-[#0f1c2cd9]">YouTube Creator Mastery</span>
-        <h2>Thumbnail Psychology</h2>
-        <span>Module 2 · Lesson 5</span>
+          <span className="p-[3px] bg-[#0f1c2cd9]">{course}</span>
+        <h2>{title}</h2>
+        <span>{detail}</span>
         <div className="progress-bar">
-          <progress value={68} max={100} aria-label="Course completion" />
-          <span>68%</span>
+          <progress value={progress} max={100} aria-label="Course completion" />
+          <span>{progress}%</span>
         </div>
         <div className="continue-button">
-          <Link href="/learn/thumbnail-psychology">
+          <Link href={href}>
             Continue Learning
             <MoveRight />{" "}
           </Link>{" "}

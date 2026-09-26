@@ -1,7 +1,7 @@
 import { FileQuestion } from "lucide-react";
-import { quizPreview } from "@/data/quiz-data";
 
-export default function QuizHeader() {
+
+export default function QuizHeader({ quizPreview }: { quizPreview: { title: string; module: string; description: string } }) {
   return (
     <header className="quiz-heading">
       <div className="quiz-heading-icon"><FileQuestion size={38} aria-hidden="true" /></div>

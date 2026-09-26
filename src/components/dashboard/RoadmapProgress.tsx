@@ -1,9 +1,9 @@
 import "@/styles/dashboard/roadmap-progress.css";
 import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole, BookOpen } from "lucide-react";
-import { roadmapStages } from "@/data/dashboard-data";
 
-export default function RoadmapProgress() {
+
+export default function RoadmapProgress({ roadmapStages }: { roadmapStages: { title: string; status: string }[] }) {
   return (
     <section className="roadmap-progress app-card">
       <div className="roadmap-progress-top">

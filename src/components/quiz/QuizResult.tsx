@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Trophy, X, CircleCheck, CircleX, Clock3, ChartNoAxesColumnIncreasing, LockKeyholeOpen, BookOpen, ArrowRight, RotateCw, ChevronRight, House } from "lucide-react";
-import { quizPassRequirement, quizResultPreviews } from "@/data/quiz-result-data";
+import type { ResultView } from "@/types/learning";
 
-type QuizResultProps = { result: (typeof quizResultPreviews)[keyof typeof quizResultPreviews]; quizId: string };
+type QuizResultProps = { result: ResultView; quizId: string };
 
 export default function QuizResult({ result, quizId }: QuizResultProps) {
-  const passed = result.score >= quizPassRequirement;
+  const passed = result.passed;
+  const quizPassRequirement = result.requirement;
   const quizUrl = `/quizzes/${encodeURIComponent(quizId)}`;
   return (
     <main className={`quiz-result-page ${passed ? "passed" : "failed"}`}>
@@ -13,8 +14,8 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
         <div className="quiz-result-breadcrumb" aria-label="Breadcrumb">
           <Link href="/" aria-label="Home"><House size={15} /></Link>
           <Link href="/courses">Courses</Link><ChevronRight />
-          <Link href="/courses/youtube">YouTube Creator Mastery</Link><ChevronRight />
-          <span>Module 2</span><ChevronRight /><Link href={quizUrl}>Checkpoint Quiz</Link>
+          <Link href={`/courses/${result.courseSlug}`}>{result.courseTitle}</Link><ChevronRight />
+          <span>{result.moduleTitle}</span><ChevronRight /><Link href={quizUrl}>Checkpoint Quiz</Link>
         </div>
         <section className="quiz-result-hero" aria-labelledby="quiz-result-title">
           <div className="quiz-result-confetti" aria-hidden="true">{Array.from({ length: 18 }, (_, index) => <i key={index} style={{ left: `${5 + ((index * 37) % 90)}%`, top: `${8 + ((index * 19) % 83)}%`, transform: `rotate(${index * 29}deg)` }} />)}</div>
@@ -31,12 +32,12 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
         </div>
         <div className="quiz-result-recommendation app-card">
           <span>{passed ? <LockKeyholeOpen /> : <BookOpen />}</span>
-          <div><h2>{passed ? "Next Stage Unlocked" : "Review Recommended Lessons"}</h2><p>{passed ? "You can now continue to Module 3: Video Production." : "We recommend reviewing the key lessons from this module before trying again."}</p></div>
+          <div><h2>{passed ? "Next Stage Unlocked" : "Review Recommended Lessons"}</h2><p>{passed ? "Continue along your learning roadmap." : "We recommend reviewing the key lessons from this module before trying again."}</p></div>
           {passed && <ChevronRight aria-hidden="true" />}
         </div>
         <div className="quiz-result-actions">
-          {passed ? <button type="button" disabled><RotateCw />Review Answers</button> : <Link href="/learn/thumbnail-psychology"><BookOpen />Review Lessons</Link>}
-          <Link className="quiz-result-primary" href={passed ? "/roadmap" : quizUrl}>{passed ? <>Continue to Next Stage <ArrowRight /></> : <><RotateCw />Retry Quiz</>}</Link>
+          {passed ? <a href="#answer-review"><RotateCw />Review Answers</a> : <Link href={`/courses/${result.courseSlug}`}><BookOpen />Review Lessons</Link>}
+          <Link className="quiz-result-primary" href={passed ? `/roadmap?course=${result.courseSlug}` : quizUrl}>{passed ? <>Continue to Next Stage <ArrowRight /></> : <><RotateCw />Retry Quiz</>}</Link>
         </div>
       </div>
     </main>

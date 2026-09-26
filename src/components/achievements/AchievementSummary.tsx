@@ -1,7 +1,7 @@
 import { Trophy, ChartNoAxesColumnIncreasing, Flag, ChevronRight } from "lucide-react";
-import { achievementSummary } from "@/data/achievements-data";
 
-export default function AchievementSummary() {
+
+export default function AchievementSummary({ achievementSummary }: { achievementSummary: { earned: number; total: number; progress: number; next: string } }) {
   return (
     <section className="achievements-summary" aria-label="Achievement summary">
       <div className="achievements-summary-card app-card earned">

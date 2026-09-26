@@ -1,8 +1,8 @@
 import { Check } from "lucide-react";
-import { learningStreak } from "@/data/dashboard-data";
+
 import "@/styles/dashboard/streak-card.css";
 
-export default function StreakCard() {
+export default function StreakCard({ learningStreak }: { learningStreak: { days: number; week: { day: string; completed: boolean }[] } }) {
   return (
     <section className="streak-card app-card col-3" aria-labelledby="streak-title">
       <h2 id="streak-title">{learningStreak.days} Day Streak</h2>

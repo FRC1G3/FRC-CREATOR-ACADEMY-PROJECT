@@ -4,16 +4,23 @@ import { notFound } from "next/navigation";
 import CourseDetailHero from "@/components/course/CourseDetailHero";
 import CourseModule from "@/components/course/CourseModule";
 import CourseProgress from "@/components/course/CourseProgress";
-import { courseModules } from "@/data/course-detail-data";
+import { courseState, nodeHref } from "@/services/learning";
+import { moduleViews } from "@/services/presentation";
+import { getCurrentUser } from "@/lib/current-user";
+import ActionForm from "@/components/learning/ActionForm";
+import { enroll } from "@/actions/learning";
 import "@/styles/courses/course-detail.css";
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ courseId: string }> }) {
   const { courseId } = await params;
-  if (courseId !== "youtube") notFound();
+  const user = await getCurrentUser();
+  const state = await courseState(user?.id ?? null, courseId);
+  if (!state) notFound();
+  const courseModules = moduleViews(state);
   return (
     <main className="course-detail-page">
       <div className="course-detail-container">
-        <CourseDetailHero />
+        <CourseDetailHero title={state.course.title} description={state.course.description} lessons={state.totalLessons} modules={state.course.modules.length} level={state.course.level} instructor={state.course.instructorName}>{state.enrollment ? <Link className="course-detail-continue" href={nodeHref(state, state.current)}>Continue Learning <ArrowRight /></Link> : user ? <ActionForm action={enroll} slug={courseId} label="Enroll in Course" className="course-detail-continue" /> : <Link className="course-detail-continue" href={`/login?callbackUrl=${encodeURIComponent(`/courses/${courseId}`)}`}>Log In to Enroll</Link>}</CourseDetailHero>
         <section className="course-detail-outcomes" aria-labelledby="course-outcomes-title">
           <h2 id="course-outcomes-title">What you&apos;ll learn</h2>
           <ul>
@@ -21,7 +28,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ c
             <li>Understand thumbnails, titles and audience behavior</li>
             <li>Learn production, growth and monetization fundamentals</li>
           </ul>
-          <Link href="/roadmap" className="course-detail-roadmap">View Learning Roadmap <ArrowRight size={16} /></Link>
+          <Link href={`/roadmap?course=${courseId}`} className="course-detail-roadmap">View Learning Roadmap <ArrowRight size={16} /></Link>
         </section>
         <div className="course-detail-grid">
           <section className="course-curriculum" aria-labelledby="course-content-title">
@@ -34,7 +41,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ c
             </div>
           </section>
           <aside className="course-detail-sidebar" aria-label="Course progress and inspiration">
-            <CourseProgress />
+            <CourseProgress progress={state.percentage} completed={state.completedLessons} total={state.totalLessons} modules={state.completedModules} totalModules={state.course.modules.length} />
             <div className="course-detail-motivation app-card">
               <Quote size={30} aria-hidden="true" />
               <p>Discipline<br />Creates<br />Freedom.</p>

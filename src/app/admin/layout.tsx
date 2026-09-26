@@ -1,8 +1,10 @@
+import { requireAdmin } from "@/lib/current-user";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import "@/styles/admin/admin.css";
 import "@/styles/admin/admin-forms.css";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  await requireAdmin();
   return (
     <main className="admin-page">
       <AdminSidebar />

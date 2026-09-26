@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, LockKeyhole, Smartphone, Clapperboard, NotebookPen, TrendingUp, Wrench } from "lucide-react";
-import type { courses } from "@/data/mock-data";
+import type { CourseCardView } from "@/types/learning";
 import "@/styles/courses/course-card.css";
 
-type CourseCardProps = { course: (typeof courses)[number] };
+type CourseCardProps = { course: CourseCardView };
 
 const thumbnailIcons = {
   shorts: Smartphone,
@@ -15,7 +15,7 @@ const thumbnailIcons = {
 };
 
 export default function CourseCard({ course }: CourseCardProps) {
-  const isActive = course.progress !== null;
+  const isActive = true;
   const ThumbnailIcon = thumbnailIcons[course.id as keyof typeof thumbnailIcons] ?? BookOpen;
 
   return (
@@ -23,8 +23,8 @@ export default function CourseCard({ course }: CourseCardProps) {
       <div className="course-thumbnail">
         {course.image ? (
           <>
-            <Image src={course.image} alt="Red YouTube creator studio" fill loading={isActive ? "eager" : "lazy"} sizes="(max-width: 600px) 95vw, (max-width: 1000px) 46vw, 31vw" />
-            <span className="course-thumbnail-title">YouTube<br />Creator Mastery</span>
+            <Image src={course.image} alt="Course thumbnail" fill loading={isActive ? "eager" : "lazy"} sizes="(max-width: 600px) 95vw, (max-width: 1000px) 46vw, 31vw" />
+            <span className="course-thumbnail-title">{course.title}</span>
           </>
         ) : (
           <div className={`course-placeholder ${course.id}`} aria-hidden="true"><ThumbnailIcon strokeWidth={1} /></div>
@@ -37,16 +37,17 @@ export default function CourseCard({ course }: CourseCardProps) {
         <div className="course-meta">
           <span><BookOpen size={14} />{course.lessons} Lessons</span>
           <span><ChartNoAxesColumnIncreasing size={14} />{course.level}</span>
+          {course.duration != null && <span>{course.duration} min</span>}
         </div>
-        {isActive && (
+        {course.progress !== null && (
           <div className="course-progress">
             <progress value={course.progress ?? 0} max={100} aria-label={`${course.title} progress`} />
-            <span>{course.progress}%</span>
+            <span>{course.progress ?? 0}%</span>
           </div>
         )}
         {isActive ? (
           <Link className="course-button" href={`/courses/${course.id}`}>
-            Continue Learning <ArrowRight size={17} />
+            View Course <ArrowRight size={17} />
           </Link>
         ) : (
           <button className="course-button" type="button" disabled>Coming Soon</button>

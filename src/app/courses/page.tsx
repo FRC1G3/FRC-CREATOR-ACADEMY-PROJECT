@@ -1,9 +1,17 @@
 import "@/styles/courses/courses.css";
 import { Search } from "lucide-react";
 import CourseCard from "@/components/course/CourseCard";
-import { courses } from "@/data/mock-data";
+import { getPrisma } from "@/lib/prisma";
+import { connection } from "next/server";
+import { getCurrentUser } from "@/lib/current-user";
+import { percentage } from "@/lib/learning-rules";
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+  await connection();
+  const user = await getCurrentUser();
+  const [enrollments, completed] = user ? await Promise.all([getPrisma().enrollment.findMany({ where: { userId: user.id }, select: { course: { select: { slug: true } } } }), getPrisma().lessonProgress.findMany({ where: { userId: user.id, status: "COMPLETED", lesson: { status: "PUBLISHED" } }, select: { lesson: { select: { module: { select: { course: { select: { slug: true } } } } } } } })]) : [[], []];
+  const records = await getPrisma().course.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, title: true, shortDescription: true, thumbnailUrl: true, level: true, estimatedDuration: true, modules: { select: { _count: { select: { lessons: { where: { status: "PUBLISHED" } } } } } } } });
+  const courses = records.map(c => { const lessons = c.modules.reduce((n, m) => n + m._count.lessons, 0); return { id: c.slug, title: c.title, description: c.shortDescription, image: c.thumbnailUrl, level: c.level, duration: c.estimatedDuration, progress: enrollments.some(e => e.course.slug === c.slug) ? percentage(completed.filter(p => p.lesson.module.course.slug === c.slug).length, lessons) : null, lessons }; });
   return (
     <main className="courses-page">
       <div className="courses-container">
@@ -25,7 +33,7 @@ export default function CoursesPage() {
           </div>
         </div>
         <section className="courses-grid" aria-label="Available and upcoming courses">
-          {courses.map((course) => <CourseCard key={course.id} course={course} />)}
+          {courses.length === 0 && <p>No published courses yet.</p>}{courses.map((course) => <CourseCard key={course.id} course={course} />)}
         </section>
         <section className="courses-banner app-card">
           <div><h2>Same You.<br />A More Creative You.</h2><span /></div>

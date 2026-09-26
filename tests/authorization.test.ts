@@ -1,0 +1,14 @@
+import { beforeEach, expect, it, vi } from "vitest";
+const mock = vi.hoisted(() => ({ session: vi.fn(), user: vi.fn(), cookie: "" }));
+vi.mock("react", () => ({ cache: (fn: unknown) => fn }));
+vi.mock("next/headers", () => ({ headers: async () => new Headers({cookie:mock.cookie}) }));
+vi.mock("next/navigation", () => ({ redirect: (path:string) => { throw new Error(`redirect:${path}`); } }));
+vi.mock("@/lib/auth", () => ({getAuth:()=>({api:{getSession:mock.session}})}));
+vi.mock("@/lib/prisma", () => ({getPrisma:()=>({user:{findUnique:mock.user}})}));
+import { requireUser, requireAdmin } from "../src/lib/current-user";
+beforeEach(() => { vi.clearAllMocks(); mock.cookie="better-auth.session_token=test"; vi.stubEnv("DATABASE_URL","test"); vi.stubEnv("BETTER_AUTH_SECRET","test"); });
+it("blocks unauthenticated users", async () => { mock.cookie=""; await expect(requireUser()).rejects.toThrow("redirect:/login"); });
+it("does not accept a forged cookie without a valid session", async () => { mock.session.mockResolvedValue(null); await expect(requireUser()).rejects.toThrow("redirect:/login"); });
+it("blocks student from admin using current database role", async () => { mock.session.mockResolvedValue({user:{id:"u",role:"ADMIN"}}); mock.user.mockResolvedValue({id:"u",role:"STUDENT"}); await expect(requireAdmin()).rejects.toThrow("redirect:/dashboard"); });
+it("permits current admin", async () => { mock.session.mockResolvedValue({user:{id:"u"}}); mock.user.mockResolvedValue({id:"u",role:"ADMIN"}); await expect(requireAdmin()).resolves.toMatchObject({role:"ADMIN"}); });
+it("selects no password fields", async () => { mock.session.mockResolvedValue({user:{id:"u"}}); mock.user.mockResolvedValue({id:"u",role:"STUDENT"}); await requireUser(); expect(mock.user.mock.calls[0][0].select).not.toHaveProperty("passwordHash"); });

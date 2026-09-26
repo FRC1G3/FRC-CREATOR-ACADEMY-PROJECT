@@ -1,9 +1,9 @@
 import "@/styles/dashboard/next-lesson.css";
 import Image from "next/image";
 import { ChevronRight, Clock3, Play } from "lucide-react";
-import { nextLesson } from "@/data/dashboard-data";
+import Link from "next/link";
 
-export default function NextLesson() {
+export default function NextLesson({ nextLesson }: { nextLesson: { title: string; module: string; duration: string; href: string } }) {
   return (
     <section className="next-lesson app-card">
       <h2>Next Lesson</h2>
@@ -17,7 +17,7 @@ export default function NextLesson() {
           <p>{nextLesson.module}</p>
           <span><Clock3 size={14} />{nextLesson.duration}</span>
         </div>
-        <button type="button" disabled aria-label="Understanding CTR lesson"><ChevronRight size={22} /></button>
+        <Link href={nextLesson.href} aria-label={nextLesson.title}><ChevronRight size={22} /></Link>
       </div>
     </section>
   );

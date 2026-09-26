@@ -54,9 +54,15 @@ Admin uses one layout and one toggleable sidebar with route-aware active links. 
 
 ## PHASE 2 — FUNCTIONALITY
 
-Planned, requiring separate implementation tasks:
+### Step 1: Database Foundation implemented and schema validated
 
-- PostgreSQL, Prisma, schema/migrations and seed data
+PostgreSQL schema (15 models, 8 enums), Prisma 7.10.0 PostgreSQL adapter/client, environment template, scripts and repeatable demo seed are implemented. Prisma format, validate and client generation succeeded. No DATABASE_URL is configured, so no migration has been applied and the seed has not run against PostgreSQL. See [Database setup](DATABASE.md).
+
+UI components and mock data remain unchanged. No database queries, authentication or business logic were added to the application.
+
+Remaining, requiring separate implementation tasks:
+
+- Configure PostgreSQL, create/apply the initial migration and execute the prepared seed
 - Authentication, sessions, protected routes and admin authorization
 - Real courses, modules, lessons and enrollment
 - Lesson completion persistence and progress calculation

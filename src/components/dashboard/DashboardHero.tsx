@@ -1,6 +1,6 @@
 import "@/styles/dashboard/dashboard-hero.css";
 import { Quote } from 'lucide-react';
-export default function DashboardHero() {
+export default function DashboardHero({ name }: { name: string }) {
   return (
   
       <section className="dashboard-hero">
@@ -8,7 +8,7 @@ export default function DashboardHero() {
         <p className="dashboard-welcome text-3xl">Welcome back,</p>
 
         <h1 className="dashboard-user-name text-5xl">
-          Samir 👋
+          {name} 👋
         </h1>
 
         <p className="dashboard-quote">

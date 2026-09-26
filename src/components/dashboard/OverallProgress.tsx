@@ -1,7 +1,7 @@
-import { overallProgress } from "@/data/dashboard-data";
+import type { ProgressView } from "@/types/learning";
 import "@/styles/dashboard/overall-progress.css";
 
-export default function OverallProgress() {
+export default function OverallProgress({ overallProgress }: { overallProgress: ProgressView }) {
   return (
     <section className="overall-progress app-card col-3" aria-labelledby="overall-progress-title">
       <h2 id="overall-progress-title">Overall Progress</h2>

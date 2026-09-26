@@ -2,13 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useActionState, useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { authenticate } from "@/actions/auth";
 import AuthInput from "./AuthInput";
 import "@/styles/auth/auth.css";
 
 export default function AuthForm() {
+  const [state, submit, pending] = useActionState(authenticate, {});
+  const callbackUrl = useSearchParams().get("callbackUrl") ?? "";
   const pathname = usePathname();
   const mode = pathname === "/register" ? "register" : "login";
   const [contentMode, setContentMode] = useState(mode);
@@ -36,7 +39,8 @@ export default function AuthForm() {
             ? "Continue your creator journey and pick up where you left off."
             : "Start your creator journey today and gain access to all courses."}</p>
         </header>
-        <form className="auth-form" onSubmit={(event) => event.preventDefault()}>
+        <form className="auth-form" action={submit}>
+          <input type="hidden" name="mode" value={contentMode} /><input type="hidden" name="callbackUrl" value={callbackUrl} />
           {!isLogin && <AuthInput id="full-name" label="Full Name" type="text" placeholder="Your full name" autoComplete="name" />}
           <AuthInput id="email" label="Email" type="email" placeholder="you@example.com" autoComplete="email" />
           <AuthInput id="password" label="Password" type="password" placeholder={isLogin ? "Your password" : "Create a password"}
@@ -44,16 +48,17 @@ export default function AuthForm() {
           {!isLogin && <AuthInput id="confirm-password" label="Confirm Password" type="password" placeholder="Confirm your password" autoComplete="new-password" />}
           {isLogin && (
             <div className="auth-options">
-              <label className="auth-remember"><input type="checkbox" defaultChecked /> Keep me signed in</label>
+              <label className="auth-remember"><input type="checkbox" name="remember" defaultChecked /> Keep me signed in</label>
               <button type="button" className="auth-forgot" disabled>Forgot password?</button>
             </div>
           )}
-          <button type="button" className="auth-primary" aria-disabled="true">
-            {isLogin ? "Log In" : "Create Account"}<ArrowRight size={20} aria-hidden="true" />
+          {state.error && <p role="alert">{state.error}</p>}{state.success && <p role="status">{state.success} <Link href="/login">Log In</Link></p>}
+          <button type="submit" className="auth-primary" disabled={pending || mode !== contentMode}>
+            {pending ? "Please wait..." : isLogin ? "Log In" : "Create Account"}<ArrowRight size={20} aria-hidden="true" />
           </button>
         </form>
         <div className="auth-divider"><span>OR</span></div>
-        <button type="button" className="auth-google" aria-disabled="true">
+        <button type="button" className="auth-google" disabled>
           <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.36Z" />
             <path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.41l-3.24-2.51c-.9.6-2.05.97-3.38.97-2.6 0-4.81-1.76-5.6-4.12H3.06v2.59A10 10 0 0 0 12 22Z" />
