@@ -23,7 +23,7 @@ export default function CourseCard({ course }: CourseCardProps) {
       <div className="course-thumbnail">
         {course.image ? (
           <>
-            <Image src={course.image} alt="Red YouTube creator studio" fill sizes="(max-width: 600px) 95vw, (max-width: 1000px) 46vw, 31vw" />
+            <Image src={course.image} alt="Red YouTube creator studio" fill loading={isActive ? "eager" : "lazy"} sizes="(max-width: 600px) 95vw, (max-width: 1000px) 46vw, 31vw" />
             <span className="course-thumbnail-title">YouTube<br />Creator Mastery</span>
           </>
         ) : (

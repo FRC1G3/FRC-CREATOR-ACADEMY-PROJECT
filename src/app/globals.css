@@ -63,10 +63,11 @@ button{
   --color-text-muted: #6b7280;
 
   --color-border: rgba(255, 255, 255, 0.08);
-}
-:root {
   --background: var(--color-bg);
   --foreground: var(--color-text-primary);
+  --card-bg: linear-gradient(135deg, #060e17 0%, #060e17 45%, #060c13 100%);
+  --card-border: 1px solid rgba(255, 255, 255, 0.06);
+  --card-radius: 20px;
 }
 .section-eyebrow {
   color: var(--color-red);
@@ -97,14 +98,6 @@ button{
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-bg);
-    --foreground: var(--color-text-primary);
-  }
 }
 
 body {
@@ -124,18 +117,6 @@ body {
 .col-10 { width: 83.333333%; }
 .col-11 { width: 91.666667%; }
 .col-12 { width: 100%; }
-:root {
-  --card-bg: linear-gradient(
-    135deg,
-    #060e17 0%,
-    #060e17 45%,
-    #060c13 100%
-  );
-
-  --card-border: 1px solid rgba(255, 255, 255, 0.06);
-  --card-radius: 20px;
-}
-
 .app-card {
   background: var(--card-bg);
   border: var(--card-border);

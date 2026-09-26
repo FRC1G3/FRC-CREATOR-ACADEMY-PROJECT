@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import AuthInput from "./AuthInput";
 import "@/styles/auth/auth.css";
@@ -10,7 +11,16 @@ import "@/styles/auth/auth.css";
 export default function AuthForm() {
   const pathname = usePathname();
   const mode = pathname === "/register" ? "register" : "login";
-  const isLogin = mode === "login";
+  const [contentMode, setContentMode] = useState(mode);
+  const isLogin = contentMode === "login";
+
+  useEffect(() => {
+    // Swap the content halfway through the 700ms panel slide.
+    const noSlide = window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 700px)").matches;
+    const timer = window.setTimeout(() => setContentMode(mode), noSlide ? 0 : 350);
+
+    return () => window.clearTimeout(timer);
+  }, [mode]);
 
   return (
     <main className={`auth-page auth-page-${mode}`}>

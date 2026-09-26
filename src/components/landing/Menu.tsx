@@ -2,6 +2,7 @@
 
 import "@/styles/landing/menu.css";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LogOut, Route, UsersRound, ChevronsLeft, House, TvMinimalPlay, BookOpen,ChartNoAxesCombined,Star,Wrench,Bookmark,NotebookPen,Settings } from "lucide-react";
@@ -11,11 +12,19 @@ type MenuProps = {
 };
 export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
   const pathname = usePathname();
+  const closeRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!isSidebarOpen) return;
+    const previousFocus = document.activeElement;
+    closeRef.current?.focus();
+    return () => { if (previousFocus instanceof HTMLElement) previousFocus.focus(); };
+  }, [isSidebarOpen]);
   return (
     <section
       id="site-menu"
       aria-label="Main menu"
       inert={!isSidebarOpen}
+      onKeyDown={(event) => { if (event.key === "Escape") setisSidebarOpen(false); }}
       onClick={(event) => {
         if (event.target instanceof Element && event.target.closest("a[href]")) {
           setisSidebarOpen(false);
@@ -30,7 +39,7 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
           height={724}
           alt="F.R.C Creator Academy"
         />
-        <button type="button" className="menu-close" aria-label="Close navigation menu"
+        <button ref={closeRef} type="button" className="menu-close" aria-label="Close navigation menu"
           onClick={() => setisSidebarOpen(false)}
         ><ChevronsLeft className="cursor-pointer size-10" aria-hidden="true" /></button>
       </div>

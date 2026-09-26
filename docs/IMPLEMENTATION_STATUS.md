@@ -1,34 +1,74 @@
 # Implementation Status
 
-The Technical Documentation (v1.1) describes the **target v1 system**. This repository is currently a **Phase 1 UI prototype**, prepared for the first university/PM review. Routes are not protected and learning data is static/mock.
+## PHASE 1 — COMPLETE
 
-## IMPLEMENTED UI
+The UI prototype is complete. All learning, profile and admin records are mock/static. All routes are public, including Admin. No authentication, persistence or backend service is implemented.
 
-- Landing (`/`): introduction, roadmap/checkpoint messaging, lessons, progress, community and CTA.
-- Dashboard (`/dashboard`): continue learning, mock progress/streak, next lesson, roadmap preview, achievements and last quiz result.
-- Courses (`/courses`): catalog, course links, visual-only search and filters.
-- Course Detail (`/courses/youtube`): outcomes, instructor, static curriculum and progress. The dynamic route currently displays the same demo course for any ID.
-- Shared navbar, responsive toggleable sidebar and footer; implemented routes have active menu states.
+### Public and student UI
 
-## IN PROGRESS / NEXT
+| Route | UI |
+| --- | --- |
+| `/` | Landing sections, section scroll indicator and shared footer |
+| `/login` | Login form, password visibility and sliding auth panel |
+| `/register` | Registration form sharing the persistent auth layout |
+| `/dashboard` | Continue learning, progress, streak, roadmap and achievements |
+| `/courses` | Course catalog; unavailable courses remain disabled |
+| `/courses/youtube` | YouTube Creator Mastery curriculum and progress preview |
+| `/roadmap` | Long, centered vertical zig-zag learning path |
+| `/learn/thumbnail-psychology` | Lesson metadata, player preview and module list |
+| `/quizzes/content-strategy` | Static selected-answer checkpoint preview |
+| `/quizzes/content-strategy/result` | Passed result preview |
+| `/quizzes/content-strategy/result?preview=failed` | Failed result preview |
+| `/achievements` | Earned and locked badge previews |
+| `/profile` | Identity, progress, badges, activity and YouTube connection preview |
 
-- Lesson page / video player (`/learn/[lessonId]` is an intentional placeholder).
-- Gamified Roadmap (`/roadmap` is an intentional placeholder).
-- Quiz UI and checkpoint experience.
-- Achievements.
-- Profile (`/profile` is an intentional placeholder).
-- Login/Register.
+Only the listed student dynamic IDs have implemented detail previews. Unknown IDs show the standard not-found UI. Auth leaf pages intentionally return null: their shared layout owns the form so Login/Register transitions preserve the panels.
 
-Unavailable navigation/actions are disabled or marked Coming Soon. Curriculum expansion, bookmarks, catalog search/filtering and learning actions have no application logic yet. Dashboard totals, dates, quiz results and streaks are independent visual fixtures, not calculated progress.
+### Admin UI
 
-## PLANNED BACKEND
+| Route | UI |
+| --- | --- |
+| `/admin` | Overview, summary cards, quick actions, courses and activity |
+| `/admin/courses` | Searchable/filterable mock course table |
+| `/admin/courses/new` | Course form |
+| `/admin/courses/[courseId]/edit` | Shared course form, mock IDs 1 through 5 |
+| `/admin/lessons` | Mock lessons, course/module filters |
+| `/admin/lessons/new` | Lesson form with a video URL field |
+| `/admin/quizzes` | Mock quiz list and filters |
+| `/admin/quizzes/new` | Quiz builder with local additional question fields |
+| `/admin/roadmap` | Ordered node management preview |
+| `/admin/badges` | Badge cards and create/edit form dialog |
+| `/admin/students` | Demo learners, search and filters |
 
-- PostgreSQL and Prisma ORM.
-- Authentication, sessions and protected routes.
-- Lesson progress persistence.
-- Quiz scoring and the 80% checkpoint gate (default: three lessons before a quiz).
-- Badge persistence.
-- YouTube OAuth/API integration.
-- Admin/instructor management.
+Admin uses one layout and one toggleable sidebar with route-aware active links. Forms, dialogs and filters are presentation only. Save/publish/move/delete operations do not change data. Lesson playback, scoring, progress changes and actual YouTube connections are not available.
 
-No backend, database, authentication or external service integration is implemented. These require a separate Phase 2 task.
+### Final audit
+
+- Reviewed route/component/style structure, imports, assets, forms and event cleanup.
+- Removed unused empty scaffolding and obsolete Geist theme references; consolidated root variables without changing theme values.
+- Guarded student dynamic preview routes against unsupported IDs.
+- Preserved Login/Register sliding design and midpoint content switch; short viewports can scroll inside the form to reach every field.
+- Added keyboard entry/Escape handling to student navigation and focus containment to the admin drawer.
+- Corrected the admin header backdrop overlap and the catalog hero image loading warning.
+- No mock statistics were changed and no Phase 2 functionality was added.
+
+## PHASE 2 — FUNCTIONALITY
+
+Planned, requiring separate implementation tasks:
+
+- PostgreSQL, Prisma, schema/migrations and seed data
+- Authentication, sessions, protected routes and admin authorization
+- Real courses, modules, lessons and enrollment
+- Lesson completion persistence and progress calculation
+- Quiz attempts/scoring and the 80% pass rule
+- Roadmap unlocking and badge persistence
+- Admin CRUD and publishing
+- YouTube integration
+
+## OPTIONAL / FUTURE
+
+- Community
+- AI assistant
+- Payments
+- Certificates
+- Deeper YouTube analytics

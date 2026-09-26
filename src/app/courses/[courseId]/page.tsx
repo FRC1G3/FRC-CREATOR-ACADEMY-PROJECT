@@ -1,12 +1,15 @@
 import { ArrowRight, ChevronUp, Quote } from "lucide-react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import CourseDetailHero from "@/components/course/CourseDetailHero";
 import CourseModule from "@/components/course/CourseModule";
 import CourseProgress from "@/components/course/CourseProgress";
 import { courseModules } from "@/data/course-detail-data";
 import "@/styles/courses/course-detail.css";
 
-export default function CourseDetailPage() {
+export default async function CourseDetailPage({ params }: { params: Promise<{ courseId: string }> }) {
+  const { courseId } = await params;
+  if (courseId !== "youtube") notFound();
   return (
     <main className="course-detail-page">
       <div className="course-detail-container">

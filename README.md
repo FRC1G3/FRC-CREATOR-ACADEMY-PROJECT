@@ -1,32 +1,27 @@
 # F.R.C Creator Academy
 
-F.R.C Creator Academy is an online learning platform for content creators, beginning with a structured YouTube Creator course.
+An online learning platform for content creators, beginning with YouTube creation.
 
-## Current development status
+## PHASE 1 — UI PROTOTYPE COMPLETE
 
-**UI Prototype / Phase 1.** Mock data is used during UI development. The technical documentation describes the target v1 product, not functionality already implemented in this repository.
+All current data is **mock/static**. This demonstrates the interface, not a working learning or administration backend. Routes are public and no credentials are required.
 
-Implemented UI:
+Student/public UI:
 
-- Landing Page
-- Dashboard
-- Courses Catalog
-- Course Detail
-- Responsive navigation/sidebar and shared footer
+- Landing, Dashboard, Courses Catalog and Course Detail
+- Vertical Learning Roadmap, Lesson / Video Player preview
+- Checkpoint Quiz and passed/failed Quiz Result previews
+- Achievements and Profile
+- Login/Register with shared sliding panels
 
-Planned / next: Lesson and Video Player, Gamified Roadmap, Quiz System, Achievements, Profile, Login/Register, Authentication, PostgreSQL + Prisma, and YouTube integration.
+Admin UI:
 
-Core learning idea:
+- Overview, Courses and Course Create/Edit
+- Lessons and Lesson Create
+- Quizzes and Quiz Builder
+- Roadmap, Badges and Students
 
-**Course → Lessons → Checkpoint Quiz → Roadmap Unlock → Badge / Progress**
-
-The planned default checkpoint follows three lessons and requires **80%** to pass. Current progress, quiz results and achievements are static examples; they are not persisted or calculated. Search/filter controls are visual-only, and unavailable actions are disabled or marked Coming Soon.
-
-## Stack
-
-Next.js (App Router), React, TypeScript, Tailwind CSS, plain/custom CSS and Lucide React. The existing visual system uses Inter + Manrope, dark backgrounds, a red accent and shared app-card styling.
-
-Planned backend: PostgreSQL, Prisma ORM and authentication. None is required for the current prototype; no environment variables or external service credentials are needed.
+Admin filters, badge dialogs, question fields, navigation and password visibility use local UI state only. Save, publish and other unavailable operations do not persist anything. The lesson player and quiz results are visual previews.
 
 ## Local setup
 
@@ -35,13 +30,27 @@ npm install
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000). Review routes: /, /dashboard, /courses, /courses/youtube.
+Open [localhost:3000](http://localhost:3000). Admin starts at [/admin](http://localhost:3000/admin).
+
+Useful demo URLs:
+
+- `/courses/youtube`
+- `/learn/thumbnail-psychology`
+- `/quizzes/content-strategy`
+- `/quizzes/content-strategy/result` (passed)
+- `/quizzes/content-strategy/result?preview=failed`
+- `/admin/courses/1/edit`
 
 ```bash
 npm run lint
 npm run build
+npm run start
 ```
 
-The build uses next/font to obtain Inter and Manrope and may require network access.
+## Stack and next phase
 
-See [Implementation Status](docs/IMPLEMENTATION_STATUS.md) for the current-versus-planned breakdown.
+Next.js App Router, React, TypeScript, Tailwind CSS, plain CSS and Lucide React. The UI uses Inter/Manrope, dark cards and the F.R.C red accent. `next/font` may need network access during the build.
+
+**Phase 2: PostgreSQL + Prisma + functionality.** Database, persistence, real authentication, quiz scoring, roadmap unlocking, badge persistence, Admin CRUD and YouTube API integration are **not implemented**. No environment variables or external service credentials are needed for Phase 1.
+
+See [Implementation Status](docs/IMPLEMENTATION_STATUS.md) for routes and the Phase 2 plan.
