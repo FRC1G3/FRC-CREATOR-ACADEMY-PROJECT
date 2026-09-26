@@ -142,6 +142,9 @@
   outline-offset: 4px;
   border-radius: 6px;
 }
+.menu-profile-link[aria-current="page"] { color: var(--color-red); }
+.menu-profile-link[aria-current="page"] span { color: var(--color-red); }
+.menu-profile-link[aria-current="page"] img { outline: 2px solid var(--color-red); outline-offset: 2px; }
 .menu-profile-logout {
   flex-shrink: 0;
   color: #9ca3af;

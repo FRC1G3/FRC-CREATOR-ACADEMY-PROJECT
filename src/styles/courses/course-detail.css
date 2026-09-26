@@ -34,8 +34,8 @@
 .course-detail-actions {
   display: flex;
   gap: 12px;
-  button { display: flex; align-items: center; justify-content: center; gap: 14px; height: 46px; border-radius: 7px; font-size: 14px; }
-  button:focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
+  :is(button, a) { display: flex; align-items: center; justify-content: center; gap: 14px; height: 46px; border-radius: 7px; font-size: 14px; }
+  :is(button, a):focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
 }
 .course-detail-continue { background: var(--color-red); color: #fff; padding: 0 26px; border: 1px solid var(--color-red); font-weight: 600; }
 .course-detail-bookmark { width: 46px; background: #060d13; border: 1px solid var(--color-border); color: #c3cbd4; }

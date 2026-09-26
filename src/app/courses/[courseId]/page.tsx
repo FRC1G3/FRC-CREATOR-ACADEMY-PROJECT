@@ -1,4 +1,5 @@
 import { ArrowRight, ChevronUp, Quote } from "lucide-react";
+import Link from "next/link";
 import CourseDetailHero from "@/components/course/CourseDetailHero";
 import CourseModule from "@/components/course/CourseModule";
 import CourseProgress from "@/components/course/CourseProgress";
@@ -17,7 +18,7 @@ export default function CourseDetailPage() {
             <li>Understand thumbnails, titles and audience behavior</li>
             <li>Learn production, growth and monetization fundamentals</li>
           </ul>
-          <button type="button" disabled className="course-detail-roadmap">View Learning Roadmap <ArrowRight size={16} /></button>
+          <Link href="/roadmap" className="course-detail-roadmap">View Learning Roadmap <ArrowRight size={16} /></Link>
         </section>
         <div className="course-detail-grid">
           <section className="course-curriculum" aria-labelledby="course-content-title">

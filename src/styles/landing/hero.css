@@ -115,7 +115,7 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
   justify-content: center;
   align-items: center;
   gap: 9px;
-  button, .sign {
+  button, .sign, .login {
     padding: 9px 19.8px;
     white-space: nowrap;
     border-radius: 13.5px;
@@ -123,7 +123,7 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
     transition: 0.2s;
     cursor: pointer;
   }
-  button:hover:not(:disabled), .sign:hover {
+  button:hover:not(:disabled), .sign:hover, .login:hover {
     -webkit-box-shadow: -1px 0px 7px 4px #c90000;
     box-shadow: -1px 0px 7px 4px #c90000;
   }
@@ -377,7 +377,7 @@ box-shadow: 0 8px 30px rgba(255, 0, 20, 0.04);
     gap: 5.4px;
   }
 
-  .nav_right button, .nav_right .sign {
+  .nav_right button, .nav_right .sign, .nav_right .login {
     padding: 8.1px 9px;
     font-size: 10.8px;
     border-radius: 9px;

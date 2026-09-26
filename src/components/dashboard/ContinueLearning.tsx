@@ -27,7 +27,7 @@ export default function ContinueLearning() {
           <span>68%</span>
         </div>
         <div className="continue-button">
-          <Link href="/courses/youtube">
+          <Link href="/learn/thumbnail-psychology">
             Continue Learning
             <MoveRight />{" "}
           </Link>{" "}

@@ -1,4 +1,5 @@
 import "@/styles/dashboard/roadmap-progress.css";
+import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole, BookOpen } from "lucide-react";
 import { roadmapStages } from "@/data/dashboard-data";
 
@@ -7,7 +8,7 @@ export default function RoadmapProgress() {
     <section className="roadmap-progress app-card">
       <div className="roadmap-progress-top">
         <h2>Roadmap Progress</h2>
-        <span aria-disabled="true">Roadmap <ArrowRight size={16} /></span>
+        <Link href="/roadmap">View Roadmap <ArrowRight size={16} /></Link>
       </div>
       <ol className="roadmap-stages">
         {roadmapStages.map((stage) => (

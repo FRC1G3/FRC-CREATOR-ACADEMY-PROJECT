@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight, Bookmark, ChartNoAxesColumnIncreasing, Clapperboard, TvMinimalPlay } from "lucide-react";
 
 export default function CourseDetailHero() {
@@ -14,7 +15,7 @@ export default function CourseDetailHero() {
         </div>
         <p className="course-detail-instructor">Instructor <strong>F.R.C</strong></p>
         <div className="course-detail-actions">
-          <button type="button" className="course-detail-continue" disabled>Continue Learning <ArrowRight size={19} /></button>
+          <Link href="/learn/thumbnail-psychology" className="course-detail-continue">Continue Learning <ArrowRight size={19} /></Link>
           <button type="button" className="course-detail-bookmark" disabled aria-label="Bookmark course"><Bookmark size={20} /></button>
         </div>
       </div>

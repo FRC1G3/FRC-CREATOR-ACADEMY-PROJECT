@@ -38,17 +38,17 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
         <div className="menu-icons" data-active={pathname === "/dashboard" ? "true" : undefined}>
           <Link href="/dashboard" aria-current={pathname === "/dashboard" ? "page" : undefined}><House className="size-5" /> <span>Dashboard</span></Link>
         </div>
-        <div className="menu-icons" data-active={pathname === "/courses" || pathname.startsWith("/courses/") ? "true" : undefined}>
-        <Link href="/courses" aria-current={pathname === "/courses" || pathname.startsWith("/courses/") ? "page" : undefined}><TvMinimalPlay /> <span>Courses</span></Link>
+        <div className="menu-icons" data-active={pathname === "/courses" || pathname.startsWith("/courses/") || pathname.startsWith("/learn/") || pathname.startsWith("/quizzes/") ? "true" : undefined}>
+        <Link href="/courses" aria-current={pathname === "/courses" || pathname.startsWith("/courses/") || pathname.startsWith("/learn/") || pathname.startsWith("/quizzes/") ? "page" : undefined}><TvMinimalPlay /> <span>Courses</span></Link>
       </div>
-      <div className="menu-icons" aria-disabled="true">
-        <Route /> <span>Roadmap</span>
+      <div className="menu-icons" data-active={pathname === "/roadmap" ? "true" : undefined}>
+        <Link href="/roadmap" aria-current={pathname === "/roadmap" ? "page" : undefined}><Route /> <span>Roadmap</span></Link>
       </div>
       <div className="menu-icons" aria-disabled="true">
          <ChartNoAxesCombined /> <span>Progress</span>
       </div>
-      <div className="menu-icons" aria-disabled="true">
-        <Star /> <span>Achievements</span>
+      <div className="menu-icons" data-active={pathname === "/achievements" ? "true" : undefined}>
+        <Link href="/achievements" aria-current={pathname === "/achievements" ? "page" : undefined}><Star /> <span>Achievements</span></Link>
       </div>
       <div className="menu-icons" aria-disabled="true">
        <UsersRound /> <span>Community</span>
@@ -74,13 +74,13 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen }: MenuProps) {
      
       </div>
       <div className="menu-profile">
-        <div className="menu-profile-link" aria-disabled="true">
+        <Link href="/profile" className="menu-profile-link" aria-current={pathname === "/profile" ? "page" : undefined}>
           <Image src="/images/profiles/frc.PNG" alt="F.R.C" width={42} height={42} />
           <div className="menu-profile-text">
             <strong>F.R.C</strong>
             <span>View Profile</span>
           </div>
-        </div>
+        </Link>
         <LogOut className="menu-profile-logout" size={22} aria-label="Log out" />
       </div>
     </section>

@@ -25,7 +25,7 @@ export default function Navbar() {
       </div>
 
       <div className="nav_right">
-        <button className="login" type="button" disabled>Login</button>
+        <Link href="/login" className="login">Login</Link>
         <Link href="/courses" className="sign">Get Started</Link>
       </div>
 
