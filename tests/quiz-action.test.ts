@@ -8,8 +8,8 @@ vi.mock("@/services/learning",()=>({accessible:mocks.access,evaluateBadgesForUse
 import { submitQuiz } from "../src/actions/learning";
 beforeEach(()=> {
   vi.clearAllMocks(); mocks.user.mockResolvedValue({id:"session-user"}); mocks.access.mockResolvedValue({id:"q"}); mocks.prior.mockResolvedValue(null); mocks.evaluate.mockResolvedValue(undefined);
-  mocks.quiz.mockResolvedValue({id:"q",passScore:80,questions:[{id:"question",options:[{id:"correct",isCorrect:true},{id:"wrong",isCorrect:false}]}]});
-  mocks.transaction.mockImplementation(async (fn:(db:unknown)=>Promise<unknown>)=>fn({quizAttempt:{findUnique:mocks.prior,create:mocks.create},quiz:{findUniqueOrThrow:mocks.quiz}}));
+  mocks.quiz.mockResolvedValue({id:"q",status:"PUBLISHED",passScore:80,questions:[{id:"question",options:[{id:"correct",isCorrect:true},{id:"wrong",isCorrect:false}]}]});
+  mocks.transaction.mockImplementation(async (fn:(db:unknown)=>Promise<unknown>)=>fn({$queryRaw:vi.fn(),quizAttempt:{findUnique:mocks.prior,create:mocks.create},quiz:{findUniqueOrThrow:mocks.quiz}}));
 });
 const input=()=>({quizId:"checkpoint",requestId:crypto.randomUUID(),answers:[{questionId:"question",optionId:"correct"}]});
 it("derives score and identity from server, writes answers atomically",async()=>{const result=await submitQuiz(input());expect(result.url).toContain("/result?attempt=");expect(mocks.create.mock.calls[0][0].data).toMatchObject({userId:"session-user",score:100,passed:true,answers:{create:[{questionId:"question",selectedOptionId:"correct",isCorrect:true}]}});expect(mocks.transaction).toHaveBeenCalledTimes(1);});
@@ -20,3 +20,5 @@ it("rejects another user's idempotency key",async()=>{mocks.prior.mockResolvedVa
 it("same submission does not create duplicate attempts",async()=>{mocks.prior.mockResolvedValue({id:"existing",userId:"session-user",quizId:"q"});expect(await submitQuiz(input())).toHaveProperty("url");expect(mocks.create).not.toHaveBeenCalled();});
 it("new submissions preserve separate retry attempts",async()=>{await submitQuiz(input());await submitQuiz(input());expect(mocks.create).toHaveBeenCalledTimes(2);expect(mocks.create.mock.calls[0][0].data.id).not.toBe(mocks.create.mock.calls[1][0].data.id);});
 it("does not leak database exceptions",async()=>{mocks.transaction.mockRejectedValue(new Error("SQL password=private"));const result=await submitQuiz(input());expect(JSON.stringify(result)).not.toMatch(/SQL|private/);});
+
+it("rejects quiz unpublished while waiting for the admin edit lock",async()=>{mocks.quiz.mockResolvedValue({id:"q",status:"DRAFT",passScore:80,questions:[]});expect(await submitQuiz(input())).toEqual({error:"Quiz unavailable."});expect(mocks.create).not.toHaveBeenCalled();});

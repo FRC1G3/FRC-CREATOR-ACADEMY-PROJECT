@@ -1,6 +1,6 @@
 /* Dashboard - Promo */
 .dashboard-promo.app-card {
-  background: url("/images/dashboard/dashboardbottom.png") center / cover no-repeat;
+  background: url("/images/dashboard/dashboardbottom.webp") center / cover no-repeat;
   min-height: 220px;
   padding: 38px;
   display: flex;

@@ -33,7 +33,6 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
         <div className="quiz-result-recommendation app-card">
           <span>{passed ? <LockKeyholeOpen /> : <BookOpen />}</span>
           <div><h2>{passed ? "Next Stage Unlocked" : "Review Recommended Lessons"}</h2><p>{passed ? "Continue along your learning roadmap." : "We recommend reviewing the key lessons from this module before trying again."}</p></div>
-          {passed && <ChevronRight aria-hidden="true" />}
         </div>
         <div className="quiz-result-actions">
           {passed ? <a href="#answer-review"><RotateCw />Review Answers</a> : <Link href={`/courses/${result.courseSlug}`}><BookOpen />Review Lessons</Link>}

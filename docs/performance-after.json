@@ -1,0 +1,45 @@
+{
+  "note": "Local production server + remote Neon, full HTML response, 3 sequential samples; no browser/assets. Not a controlled benchmark.",
+  "timings": [
+    {
+      "path": "/courses",
+      "fullResponseMs": [
+        1279,
+        1210,
+        1223
+      ]
+    },
+    {
+      "path": "/dashboard",
+      "fullResponseMs": [
+        3317,
+        1777,
+        1627
+      ]
+    },
+    {
+      "path": "/courses/youtube",
+      "fullResponseMs": [
+        1957,
+        1454,
+        1454
+      ]
+    },
+    {
+      "path": "/profile",
+      "fullResponseMs": [
+        1476,
+        1425,
+        1440
+      ]
+    },
+    {
+      "path": "/achievements",
+      "fullResponseMs": [
+        1020,
+        984,
+        998
+      ]
+    }
+  ]
+}

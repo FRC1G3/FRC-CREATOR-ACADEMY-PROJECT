@@ -7,6 +7,8 @@ export type Database = Prisma.TransactionClient;
 export class LearningError extends Error {}
 export async function lockLearningUser(db: Database, userId: string) {
   await db.$queryRaw`SELECT "id" FROM "User" WHERE "id" = ${userId} FOR UPDATE`;
+  // Serialize curriculum edits with learning writes. Always lock courses in ID order.
+  await db.$queryRaw`SELECT "id" FROM "Course" WHERE "id" IN (SELECT "courseId" FROM "Enrollment" WHERE "userId" = ${userId}) ORDER BY "id" FOR UPDATE`;
 }
 
 const courseGraph = {
@@ -70,19 +72,52 @@ export async function accessible(userId: string, kind: "LESSON" | "QUIZ", slug: 
 export async function evaluateBadgesForUser(userId: string, db: Database = getPrisma()) {
   const { states, badges, streak: activityStreak } = await studentOverview(userId, db);
   const stats = { modules: states.reduce((sum, s) => sum + s.completedModules, 0), courses: states.filter(s => s.complete).length, quizzes: states.reduce((n,s) => n+s.passed.size,0), streak: activityStreak.days };
-  await db.userBadge.createMany({ data: badges.filter(b => badgeMet(b.conditionType, b.conditionValue, stats)).map(b => ({ userId, badgeId: b.id })), skipDuplicates: true });
-  for (const state of states.filter(s => s.complete)) await db.enrollment.updateMany({ where: { userId, courseId: state.course.id, completedAt: null }, data: { completedAt: new Date() } });
+  await db.userBadge.createMany({ data: badges.filter(b => b.status === "ACTIVE" && badgeMet(b.conditionType, b.conditionValue, stats)).map(b => ({ userId, badgeId: b.id })), skipDuplicates: true });
+  for (const state of states) await syncEnrollmentCompletion(userId, state.course.id, state.complete, db);
+}
+
+// completedAt describes CURRENT requirements, not a historical certificate.
+// Preserve an existing completion date until requirements stop being satisfied.
+export async function syncEnrollmentCompletion(userId: string, courseId: string, complete: boolean, db: Database) {
+  await db.enrollment.updateMany({
+    where: { userId, courseId, completedAt: complete ? null : { not: null } },
+    data: { completedAt: complete ? new Date() : null },
+  });
+}
+
+// Caller holds the course lock in the same transaction as the curriculum edit.
+// Course visibility does not erase progress; only published learning requirements count.
+export async function reconcileCourseEnrollments(courseId: string, db: Database) {
+  const course = await db.course.findUnique({ where: { id: courseId }, include: courseGraph });
+  if (!course) return;
+  const enrollments = await db.enrollment.findMany({ where: { courseId } });
+  if (!enrollments.length) return;
+  const userIds = enrollments.map(e => e.userId);
+  const [progress, attempts] = await Promise.all([
+    db.lessonProgress.findMany({ where: { userId: { in: userIds }, lesson: { module: { courseId } } } }),
+    db.quizAttempt.findMany({ where: { userId: { in: userIds }, quiz: { courseId }, completedAt: { not: null } }, select: { id: true, userId: true, quizId: true, passed: true, completedAt: true, score: true } }),
+  ]);
+  for (const enrollment of enrollments) {
+    const state = deriveCourseState(course, enrollment, progress.filter(p => p.userId === enrollment.userId), attempts.filter(a => a.userId === enrollment.userId), []);
+    await syncEnrollmentCompletion(enrollment.userId, courseId, state.complete, db);
+  }
 }
 
 export async function studentOverview(userId: string, db: Database = getPrisma()) {
   const [enrollments, badges, progress, attempts] = await Promise.all([
     db.enrollment.findMany({ where: { userId, course: { status: "PUBLISHED" } }, orderBy: { enrolledAt: "desc" }, include: { course: { include: courseGraph } } }),
-    db.badge.findMany({ where: { status: "ACTIVE" }, include: { users: { where: { userId }, select: { earnedAt: true } } } }),
+    studentBadges(userId, db),
     db.lessonProgress.findMany({ where: { userId }, include: { lesson: { select: { title: true } } } }),
     db.quizAttempt.findMany({ where: { userId, completedAt: { not: null }, quiz: { status: "PUBLISHED", course: { status: "PUBLISHED" } } }, orderBy: { completedAt: "desc" }, select: { id: true, quizId: true, score: true, passed: true, completedAt: true, quiz: { select: { title: true, slug: true } } } }),
   ]);
   const states = enrollments.map(e => deriveCourseState(e.course, e, progress, attempts, badges.filter(b => b.users.length).map(b => ({ badgeId: b.id }))));
-  badges.sort((a,b) => (b.users[0]?.earnedAt.getTime() ?? 0) - (a.users[0]?.earnedAt.getTime() ?? 0));
+
   const completed = states.reduce((n, s) => n + s.completedLessons, 0), total = states.reduce((n, s) => n + s.totalLessons, 0);
   return { states, active: states.find(s => !s.complete) ?? states[0] ?? null, badges, progress, attempts, completed, total, percentage: percentage(completed, total), streak: streak([...progress, ...attempts].flatMap(a => a.completedAt ? [a.completedAt] : [])) };
+}
+
+export async function studentBadges(userId: string, db: Database = getPrisma()) {
+  const badges = await db.badge.findMany({ where: { OR: [{ status: "ACTIVE" }, { users: { some: { userId } } }] }, include: { users: { where: { userId }, select: { earnedAt: true } } } });
+  badges.sort((a,b) => (b.users[0]?.earnedAt.getTime() ?? 0) - (a.users[0]?.earnedAt.getTime() ?? 0));
+  return badges;
 }

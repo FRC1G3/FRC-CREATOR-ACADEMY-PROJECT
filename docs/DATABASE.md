@@ -34,13 +34,13 @@ Uniqueness protects email/slugs, module/course order, lesson/module order, quest
 
 Learning history relations use Restrict, including enrollment, progress, attempts, answers and earned badges. Ownership uses Cascade for content where appropriate. Optional quiz/module uses SetNull. Roadmap target references use Restrict. A cascade can be blocked by existing history/roadmap references intentionally. User-owned auth sessions/accounts and YouTube connection cascade on deletion, but learning history can block user deletion.
 
-Future content editing must preserve historical quiz meaning (versioning/snapshots before Admin CRUD). Future admin validators must enforce one matching target per roadmap node, valid same-course references, positive order/duration, valid score ranges and single-choice questions with exactly one correct option. Current student mutations enforce their own access and answer consistency; the schema is not a generic content validation engine.
+Admin validators enforce matching roadmap targets, same-course relations, positive order, nonnegative duration, valid pass scores and exactly one correct answer per question. Once attempts exist, quiz questions/options and the pass score cannot change. Existing lessons/modules/quizzes cannot be reparented; their history stays attached to stable IDs.
 
 ## Seed
 
 Run only on a development database. `SEED_PASSWORD` is required and must fit bcrypt's 72-byte limit. The seed hashes it with the same cost-12 helper used by registration; no plaintext is stored. It creates credential accounts for admin@frc.academy and student@frc.academy. Existing credentials/users/history are preserved by upserts; rerunning does not reset passwords or promote an existing student to admin. No automatic reset/purge is provided.
 
-Fresh database fixtures: 2 users and credential accounts, 1 YouTube Creator Mastery course, 6 modules, 18 lessons, 6 checkpoint quizzes (passScore 80), 18 questions, 72 options, 26 ordered roadmap nodes, 4 badges, 1 enrollment, 4 progress rows, 1 completed quiz attempt with 3 answers and 1 earned badge. No YouTube connections/tokens are seeded. Fixed seed learning history is demo content; video URLs at example.com are placeholders.
+Fresh database fixtures: 2 users and credential accounts, 1 YouTube Creator Mastery course, 6 modules, 18 lessons, 6 checkpoint quizzes (passScore 80), 18 questions, 72 options, 26 ordered roadmap nodes, 4 badges, 1 enrollment, 4 progress rows, 1 completed quiz attempt with 3 answers and 1 earned badge. No YouTube connections/tokens are seeded. Fixed seed learning history is demo content; new seed lessons use the shared temporary YouTube URL from `prisma/video-default.ts`.
 
 Remote seeding uses independently committed upserts, not a single interactive transaction. The previous transaction exceeded its 60-second lifetime on Neon. Only the fixed quiz attempt and its three answers share a short transaction, after their referenced content exists. A failed run may leave completed seed steps committed; rerunning resumes safely using stable identities and empty updates. Errors report the current stage and safe Prisma codes without raw connection details.
 
@@ -57,3 +57,11 @@ Lesson completion and quiz submission lock the current user row inside a transac
 ## Dependency note
 
 The existing audit reported four high-severity entries in the pinned Prisma CLI dependency tree (prisma, @prisma/config, deepmerge-ts, mysql2). Its proposed Prisma downgrade conflicts with the required 7.10.0 version. No forced fix or unverified override was applied. Review upstream updates before deployment; this project uses PostgreSQL, not MySQL.
+
+## Admin mutations and one-time video update
+
+No schema migration was required. Course deletion is limited to empty courses; module deletion is limited to empty modules. Lesson/quiz/badge deletes rely on existing restrictive foreign keys to preserve progress, attempts, answers, awards and referenced roadmap targets. Roadmap removal is blocked for courses with enrollment or learning history. Draft/Inactive remains available instead. Earned inactive badges remain visible, but inactive badges are not newly awarded.
+
+Admin quiz writes lock the quiz row; student submission uses the same lock and checks publication again before grading. Atomic nested question/option creation and bounded transactions protect consistency. Roadmap swaps lock the course and use a temporary order above the current maximum, then swap the two orders without a uniqueness collision. Numeric module/lesson ordering conflicts return readable errors.
+
+`npx tsx prisma/update-lesson-videos.ts --apply` was a one-time development update of all 18 existing Lesson.videoUrl values to the supplied video (plus automatic updatedAt). It is not run by the app or seed. Do not rerun --apply after custom videos are assigned unless intentionally replacing them. Without --apply the script only verifies counts. No progress, enrollment, quiz or roadmap records are updated by this script.

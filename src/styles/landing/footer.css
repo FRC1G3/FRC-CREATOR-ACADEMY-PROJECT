@@ -1,6 +1,6 @@
 .landing-footer {
   color: #f5f5f5;
-  background: linear-gradient(rgba(5, 4, 8, 0.72), rgba(5, 4, 8, 0.78)), url("/images/footer-background.png") center / cover no-repeat;
+  background: linear-gradient(rgba(5, 4, 8, 0.72), rgba(5, 4, 8, 0.78)), url("/images/footer-background.webp") center / cover no-repeat;
   padding: 48px clamp(24px, 6vw, 96px) 40px;
 }
 

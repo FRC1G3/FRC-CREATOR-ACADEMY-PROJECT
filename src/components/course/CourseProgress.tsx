@@ -1,9 +1,9 @@
-import { BookOpen, ChevronRight, Layers } from "lucide-react";
+import { BookOpen, Layers } from "lucide-react";
 
 export default function CourseProgress({ progress, completed, total, modules, totalModules }: { progress: number; completed: number; total: number; modules: number; totalModules: number }) {
   return (
     <section className="course-detail-progress app-card" aria-labelledby="course-progress-title">
-      <div className="course-detail-progress-heading"><h2 id="course-progress-title">Your Progress</h2><ChevronRight size={17} aria-hidden="true" /></div>
+      <div className="course-detail-progress-heading"><h2 id="course-progress-title">Your Progress</h2></div>
       <strong>{progress}%</strong>
       <progress value={progress} max={100} aria-label="Course progress" />
       <div className="course-detail-stats">

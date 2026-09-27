@@ -1,4 +1,4 @@
-import { Trophy, ChartNoAxesColumnIncreasing, Flag, ChevronRight } from "lucide-react";
+import { Trophy, ChartNoAxesColumnIncreasing, Flag } from "lucide-react";
 
 
 export default function AchievementSummary({ achievementSummary }: { achievementSummary: { earned: number; total: number; progress: number; next: string } }) {
@@ -14,7 +14,7 @@ export default function AchievementSummary({ achievementSummary }: { achievement
       </div>
       <div className="achievements-summary-card app-card">
         <span className="achievements-summary-icon"><Flag aria-hidden="true" /></span>
-        <div><h2>Next Milestone</h2><h3>{achievementSummary.next}</h3></div><ChevronRight className="achievements-summary-chevron" aria-hidden="true" />
+        <div><h2>Next Milestone</h2><h3>{achievementSummary.next}</h3></div>
       </div>
     </section>
   );

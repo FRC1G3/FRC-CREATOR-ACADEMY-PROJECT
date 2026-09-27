@@ -1,15 +1,2 @@
-import { ArrowRight } from "lucide-react";
-import { adminActivity } from "@/data/admin-data";
-
-export default function RecentActivity() {
-  return (
-    <section className="app-card admin-panel">
-      <div className="admin-panel-heading"><h2>Recent Activity</h2><button type="button" className="admin-text-button" aria-disabled="true">View All<ArrowRight size={14} /></button></div>
-      <ol className="admin-activity">
-        {adminActivity.map(({ title, detail, time, icon: Icon, tone }) => (
-          <li key={title}><span className={`admin-icon admin-tone-${tone}`}><Icon size={18} aria-hidden="true" /></span><div><strong>{title}</strong><p>{detail}</p></div><span className="admin-activity-time">{time}</span></li>
-        ))}
-      </ol>
-    </section>
-  );
-}
+import { BookOpen } from "lucide-react";
+export default function RecentActivity({courses}:{courses:{id:string;title:string;updated:string}[]}){return <section className="app-card admin-panel"><div className="admin-panel-heading"><h2>Recent Content Updates</h2></div><ol className="admin-activity">{courses.map(c=><li key={c.id}><span className="admin-icon admin-tone-red"><BookOpen size={18}/></span><div><strong>Course updated</strong><p>{c.title}</p></div><span className="admin-activity-time">{c.updated}</span></li>)}</ol>{!courses.length && <p>No updates yet.</p>}</section>;}

@@ -3,6 +3,7 @@ import { getPrisma } from "../src/lib/prisma";
 import { seedBadges, seedModules } from "./seed-data";
 import { hashPassword } from "../src/lib/password";
 import { Prisma } from "../src/generated/prisma/client";
+import { TEMP_LESSON_VIDEO_URL } from "./video-default";
 
 let stage = "configuration";
 
@@ -51,7 +52,7 @@ async function main() {
         const lesson = await db.lesson.upsert({ where: { slug: item.slug }, update: {}, create: {
           slug: item.slug, title: item.title, moduleId: courseModule.id, order: lessonIndex + 1,
           description: `Learn ${item.title.toLowerCase()} with practical examples and exercises.`,
-          videoUrl: `https://example.com/videos/${item.slug}.mp4`,
+          videoUrl: TEMP_LESSON_VIDEO_URL,
           thumbnailUrl: item.slug === "thumbnail-psychology" ? "/images/lessons/thumbnail-psychology.png" : "/images/hero.png",
           durationSeconds: item.seconds, status: "PUBLISHED",
         } });

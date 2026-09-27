@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import DatabaseImage from "@/components/learning/DatabaseImage";
 import { Menu, ChevronsLeft, ArrowLeft } from "lucide-react";
 import { adminNavigation } from "@/data/admin-data";
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ user }: { user: { name: string; avatarUrl: string | null; role: string } }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const panelRef = useRef<HTMLElement>(null);
@@ -45,8 +46,8 @@ export default function AdminSidebar() {
           ))}
         </div>
         <div className="admin-sidebar-bottom">
-          <Link href="/dashboard"><ArrowLeft size={18} />Back to Academy</Link>
-          <div className="admin-profile"><Image src="/images/profiles/harun.jpg" alt="" width={42} height={42} /><div><strong>Samir Mammadov</strong><span>Admin</span></div></div>
+          <Link href="/dashboard" onClick={() => setIsOpen(false)}><ArrowLeft size={18} />Back to Academy</Link>
+          <div className="admin-profile"><DatabaseImage src={user.avatarUrl} fallback="/images/profiles/frc.PNG" alt="" width={42} height={42} /><div><strong>{user.name}</strong><span>{user.role === "ADMIN" ? "Admin" : "Student"}</span></div></div>
         </div>
       </aside>
     </>

@@ -3,7 +3,7 @@ body:has(> .admin-page) > .landing-footer { display: none; }
 body > main.admin-page { padding: 0; min-height: 100svh; background: #030a10; color: var(--color-text-primary); }
 .admin-content { max-width: 1600px; margin: auto; padding: 20px 28px 32px; }
 .admin-header { position: relative; padding: 58px 4px 26px; isolation: isolate; }
-.admin-header::before { content: ""; position: absolute; inset: -20px -28px -90px; z-index: -1; background: linear-gradient(90deg, #030a10 20%, #030a1020), linear-gradient(0deg, #030a10, transparent 75%), url("/images/auth/auth-background.png") right 18% / 65% auto no-repeat; opacity: 0.75; pointer-events: none; }
+.admin-header::before { content: ""; position: absolute; inset: -20px -28px -90px; z-index: -1; background: linear-gradient(90deg, #030a10 20%, #030a1020), linear-gradient(0deg, #030a10, transparent 75%), url("/images/auth/auth-background.webp") right 18% / 65% auto no-repeat; opacity: 0.75; pointer-events: none; }
 .admin-header h1 { font-family: var(--font-manrope), sans-serif; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.2; letter-spacing: -1px; font-weight: 800; margin: 8px 0; }
 .admin-description { color: #a7bed0; font-size: 16px; line-height: 1.5; }
 .admin-toolbar { position: absolute; top: 0; right: 0; display: flex; align-items: center; gap: 18px; }
@@ -16,7 +16,7 @@ body > main.admin-page { padding: 0; min-height: 100svh; background: #030a10; co
 .admin-avatar { width: 38px; height: 38px; object-fit: cover; border-radius: 50%; border: 1px solid #ffffff30; }
 .admin-page button, .admin-page a { transition: background-color 160ms, border-color 160ms, color 160ms; }
 .admin-page button:hover:not(:disabled) { border-color: #ff1f2d80; background-color: #ff1f2d12; }
-.admin-page :is(button, a, input, [tabindex]):focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
+.admin-page :is(button, a, input, textarea, select, [tabindex]):focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
 .admin-stats { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-bottom: 20px; }
 .admin-page .app-card { border-radius: 14px; border-color: #ffffff0f; background: linear-gradient(135deg, #061018f5, #070c13f5); }
 .admin-stat { display: flex; align-items: center; gap: 20px; padding: 22px; }

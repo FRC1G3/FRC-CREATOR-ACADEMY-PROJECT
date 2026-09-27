@@ -1,40 +1,32 @@
 # Implementation Status
 
-Phase 1's UI is retained. Phase 2 core student functionality has now been exercised against Neon through real HTTP requests and Server Actions. See [2026-09-27 live verification](STUDENT_FLOW_VERIFICATION.md) for the current results, retained records and test boundaries. The table below preserves the earlier pre-runtime implementation snapshot; its "pending DB" notes have been superseded by that report. This does not imply browser interaction, video playback or concurrency fault-injection testing is complete.
+University MVP implementation is complete for the scoped UI, database, authentication/authorization, course learning, lesson progress, quizzes, linear roadmap, badges, profile and Admin CRUD. The existing dark/red design is preserved. No migration was needed for stabilization. Final browser interaction/video playback validation remains separate from automated and HTTP checks.
 
-| Area | Status | Actual repository state |
-| --- | --- | --- |
-| Database Foundation | Partial | PostgreSQL/Prisma 7.10.0, 19 models, 8 enums, generated client and seed; migration/seed execution pending |
-| Authentication | Partial | Better Auth, bcrypt credentials, registration/login/logout, database sessions, safe callbacks; live session flow pending DB |
-| Authorization | Partial | Server guards protect student pages and all admin pages; helpers tested and unauthenticated redirects checked; live STUDENT/ADMIN sessions pending |
-| Courses | Partial | Published catalog/detail from Prisma, real counts and enrollment progress; runtime DB reads pending |
-| Enrollment | Partial | Session-owned upsert with compound uniqueness and publication check |
-| Lessons | Partial | Published, enrolled, prerequisite-checked lesson lookup and navigation; native video playback for real URLs, seed videos are placeholders |
-| Lesson Progress | Partial | In-progress/completed persistence, no automatic downgrade, transactional completion and revalidation |
-| Dashboard | Partial | Real user, course progress, current learning step, streak, roadmap, badges and latest quiz; empty state without enrollment |
-| Profile | Partial | Real identity/stats, edit name/bio/avatar, real completed-lesson activity; no fabricated YouTube data |
-| Quiz Engine | Partial | Server validation/scoring, publication and prerequisite checks; no pre-submission answer leakage |
-| Quiz Attempts | Partial | Transactional answers/result, retries/history, owned results, idempotency key and answer review; elapsed time not tracked |
-| Roadmap | Partial | Ordered database nodes, derived linear states; previous successful attempt remains sufficient |
-| Badges | Partial | Seeded conditions evaluated after mutations; unique awards and course completion; SQL execution pending |
-| Achievements | Partial | Active badge definitions with real earned/locked state and earned dates |
-| Unit/service/action tests | Complete | Core behavior covered; see audit for final count/results; database operations mocked |
-| Admin UI | Complete | Existing mock management screens remain, now guarded by ADMIN authorization |
-| Admin CRUD | Pending | No real admin create/edit/delete/publish mutations or database lists added |
-| YouTube Integration | Pending | Schema and stored-data display only; no OAuth or API synchronization |
+| Area | Current status |
+| --- | --- |
+| Database/auth | Live Neon connection, migrations, idempotent seed, Better Auth credentials/sessions, server roles verified |
+| Student learning | DB courses/enrollment, lessons/progress, quiz grading/history, derived roadmap, badges, profile and achievements |
+| Public catalog | PostgreSQL data with working title/description search, combined level filters and empty state |
+| Course outcomes | Actual module descriptions/titles with course-title fallback |
+| Completion consistency | Current published requirements; shared set/retain/clear policy; transactional reconciliation after curriculum changes |
+| Admin identity/images | Authenticated sidebar props; local optimized images, browser-loaded HTTPS sources, safe fallbacks |
+| Admin overview | Real course/lesson/student counts and completed-attempt pass rate; recent course updates; top courses ranked by enrollment |
+| Course management | Real list/search/status filters; create/edit/publish/unpublish; empty-only deletion |
+| Modules | Create/edit/description/numeric order inside Course Edit; empty-only deletion |
+| Lessons | DB course/module choices, create/edit/status/order/video URL, safe deletion, stable IDs |
+| Quiz management | Atomic create; metadata/status editing; structural edits and threshold locked after any attempts |
+| Roadmap | Real course selector; add typed nodes, safe up/down order swaps, guarded removal; linear only |
+| Badges | Create/edit/activate/deactivate; earned badge history protected |
+| Students | Safe DB list/search/course/status filters and progress detail; no credential/session data |
+| Video player | DB-driven YouTube iframe, native direct video, fallback preview; temporary common YouTube video stored in all current lessons |
+| YouTube API/OAuth | Not implemented; embeds do not connect channels |
 
-## Routes
+See [student verification](STUDENT_FLOW_VERIFICATION.md) and [Admin verification](ADMIN_CRUD_VERIFICATION.md) for exact evidence and limits. Admin routes and every mutation enforce ADMIN on the server. Quiz correctness is visible only to authorized quiz editors and completed-attempt owners, never the pre-submit student payload.
 
-Public: `/`, `/login`, `/register`, `/courses`, `/courses/[courseId]` (course slug).
+Additional routes: /admin/lessons/[lessonId]/edit, /admin/quizzes/[quizId]/edit, /admin/students/[userId]. Course Edit uses DB IDs; student course/lesson/quiz URLs continue using slugs.
 
-Authenticated: `/dashboard`, `/roadmap?course=<slug>`, `/learn/[lessonId]` (lesson slug), `/quizzes/[quizId]` (quiz slug), `/quizzes/[quizId]/result?attempt=<id>`, `/achievements`, `/profile`.
+Final university validation: browser interactions, keyboard/mobile checks and actual video playback. See [stabilization evidence](UNIVERSITY_STABILIZATION.md). All current lessons intentionally share the temporary demonstration video; this is not a complete original course-content library. Notifications remain disabled.
 
-ADMIN only: `/admin` and all existing `/admin/*` screens, including direct URLs to create/edit pages. There are no admin mutations to authorize yet. Future admin Server Actions must call `requireAdmin()` themselves; a layout is not mutation authorization.
+Future / post-university: YouTube account OAuth/API, branching roadmap, production deployment hardening, password recovery/email verification, large-scale pagination, course versioning, community, payments, AI and certificates. None is claimed as implemented. Heavy concurrent-load/fault-injection validation is also outside this MVP pass.
 
-Login/Register leaf pages intentionally return null because their persistent shared layout owns the animated form. `StartLesson` also intentionally renders nothing. Unknown database-backed records use notFound when DB lookup is possible; unmet prerequisites show a locked/empty state. Missing DB configuration displays a setup message on course pages, not mock content.
-
-## Required next work
-
-Neon migration, two successful idempotent seed runs, local auth setup and the two-role HTTP/Server Action learning journey are now verified. Remaining validation includes browser interactions, transaction rollback fault injection and concurrency. Supply actual video URLs. Full Admin CRUD requires a separate explicit task.
-
-Google sign-in, password recovery, email verification, avatar uploads, YouTube OAuth/API, payments, community, certificates and roadmap branching are not implemented. Profile sharing/bookmark/notes controls and catalog search filters remain their existing disabled/UI-only controls.
+P0 interaction/performance pass: coordinated course accordions, native lesson disclosures, roadmap node links, clearer disabled controls, preserved profile drafts, pending guards and route loading feedback. Nine CSS backgrounds now use WebP (96.55% fewer bytes); catalog/profile queries overlap and achievements use a focused badge query. Latest verification: 165 tests, lint, TypeScript, build and production HTTP/Admin CRUD checks passed. A transient Neon connection failure occurred before the successful retry. Actual browser clicks remain unverified. See [full audit and measured timings](INTERACTION_PERFORMANCE_AUDIT.md) and [manual smoke checklist](MANUAL_SMOKE_TEST.md).

@@ -1,5 +1,3 @@
 import QuizzesManagement from "@/components/admin/QuizzesManagement";
-
-export default function QuizzesManagementPage() {
-  return <QuizzesManagement />;
-}
+import { adminQuizzes } from "@/services/admin-queries";
+export default async function Page() { return <QuizzesManagement rows={await adminQuizzes()} />; }

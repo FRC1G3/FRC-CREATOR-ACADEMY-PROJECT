@@ -1,5 +1,3 @@
 import StudentsManagement from "@/components/admin/StudentsManagement";
-
-export default function StudentsManagementPage() {
-  return <StudentsManagement />;
-}
+import { adminStudents } from "@/services/admin-queries";
+export default async function Page() { return <StudentsManagement rows={await adminStudents()} />; }

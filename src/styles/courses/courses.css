@@ -31,6 +31,7 @@
   button:hover:not(:disabled) { border-color: var(--color-red); }
 }
 .courses-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.courses-grid > p[role="status"] { grid-column: 1 / -1; padding: 24px; color: var(--color-text-secondary); }
 .courses-banner.app-card {
   margin-top: 22px;
   min-height: 170px;
@@ -39,7 +40,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  background: url("/images/dashboard/dashboardbottom.png") center 52% / cover no-repeat;
+  background: url("/images/dashboard/dashboardbottom.webp") center 52% / cover no-repeat;
   h2 { font-size: 25px; font-weight: 650; line-height: 1.25; letter-spacing: -0.02em; }
   span { display: block; width: 42px; height: 2px; background: var(--color-red); margin-top: 20px; }
   p { font-size: 10px; line-height: 1.5; letter-spacing: 0.08em; color: #a4b3c3; }

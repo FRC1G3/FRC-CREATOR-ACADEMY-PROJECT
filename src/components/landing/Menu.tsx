@@ -4,6 +4,7 @@ import "@/styles/landing/menu.css";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import DatabaseImage from "@/components/learning/DatabaseImage";
 import Link from "next/link";
 import { logout } from "@/actions/auth";
 import { LogOut, Route, UsersRound, ChevronsLeft, House, TvMinimalPlay, BookOpen,ChartNoAxesCombined,Star,Wrench,Bookmark,NotebookPen,Settings } from "lucide-react";
@@ -56,30 +57,30 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen, user }: MenuProp
       <div className="menu-icons" data-active={pathname === "/roadmap" ? "true" : undefined}>
         <Link href="/roadmap" aria-current={pathname === "/roadmap" ? "page" : undefined}><Route /> <span>Roadmap</span></Link>
       </div>
-      <div className="menu-icons" aria-disabled="true">
+      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
          <ChartNoAxesCombined /> <span>Progress</span>
       </div>
       <div className="menu-icons" data-active={pathname === "/achievements" ? "true" : undefined}>
         <Link href="/achievements" aria-current={pathname === "/achievements" ? "page" : undefined}><Star /> <span>Achievements</span></Link>
       </div>
-      <div className="menu-icons" aria-disabled="true">
+      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
        <UsersRound /> <span>Community</span>
       </div>
-      <div className="menu-icons" aria-disabled="true">
+      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
         <Wrench /> <span>Creator Tools</span>
       </div>
-      <div className="menu-icons" aria-disabled="true">
+      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
         <NotebookPen /><span>Notes</span>
       </div>
       
       <div className="menu-i-bottom">
-        <div className="menu-icons" aria-disabled="true">
+        <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
         <Bookmark /> <span>Bookmarks</span>
       </div>
-      <div className="menu-icons" aria-disabled="true">
+      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
         <Settings /> <span>Settings</span>
       </div>
-      <div className="menu-icons" aria-disabled="true">
+      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
         <BookOpen /> <span>Library</span>
       </div>
       </div>
@@ -87,7 +88,7 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen, user }: MenuProp
       </div>
       <div className="menu-profile">
         <Link href="/profile" className="menu-profile-link" aria-current={pathname === "/profile" ? "page" : undefined}>
-          <Image unoptimized src={user?.avatarUrl ?? "/images/profiles/frc.PNG"} alt="Profile" width={42} height={42} />
+          <DatabaseImage fallback="/images/profiles/frc.PNG" src={user?.avatarUrl} alt="Profile" width={42} height={42} />
           <div className="menu-profile-text">
             <strong>{user?.name ?? "Guest"}</strong>
             <span>View Profile</span>

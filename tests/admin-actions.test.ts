@@ -1,0 +1,10 @@
+import { beforeEach, expect, it, vi } from "vitest";
+const mock=vi.hoisted(()=>({guard:vi.fn(),execute:vi.fn(),refresh:vi.fn()}));
+vi.mock("@/lib/current-user",()=>({requireAdmin:mock.guard}));
+vi.mock("@/services/admin",()=>({executeAdmin:mock.execute,adminError:()=>"Safe failure"}));
+vi.mock("next/cache",()=>({revalidatePath:mock.refresh}));
+import { mutateAdmin } from "../src/actions/admin";
+beforeEach(()=>{vi.clearAllMocks();mock.guard.mockResolvedValue({role:"ADMIN"});mock.execute.mockResolvedValue({id:"new"});});
+it.each(["course","module","lesson","quiz","badge","node"])("blocks student %s mutation even with forged role",async entity=>{mock.guard.mockRejectedValue(new Error("redirect:/dashboard"));await expect(mutateAdmin({entity,operation:"save",data:{role:"ADMIN"}})).rejects.toThrow("redirect");expect(mock.execute).not.toHaveBeenCalled();});
+it("permits authorized mutation and refreshes student/admin paths",async()=>{expect(await mutateAdmin({entity:"course",operation:"save",data:{}})).toMatchObject({id:"new",url:"/admin/courses/new/edit"});expect(mock.guard).toHaveBeenCalled();expect(mock.refresh).toHaveBeenCalledWith("/admin","layout");expect(mock.refresh).toHaveBeenCalledWith("/learn/[lessonId]","page");});
+it("rejects unknown commands",async()=>{expect(await mutateAdmin({entity:"user",operation:"delete"})).toHaveProperty("error");expect(mock.execute).not.toHaveBeenCalled();});

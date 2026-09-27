@@ -1,34 +1,19 @@
-import Image from "next/image";
+import DatabaseImage from "@/components/learning/DatabaseImage";
 import Link from "next/link";
-import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, LockKeyhole, Smartphone, Clapperboard, NotebookPen, TrendingUp, Wrench } from "lucide-react";
+import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, LockKeyhole } from "lucide-react";
 import type { CourseCardView } from "@/types/learning";
 import "@/styles/courses/course-card.css";
 
 type CourseCardProps = { course: CourseCardView };
 
-const thumbnailIcons = {
-  shorts: Smartphone,
-  editing: Clapperboard,
-  strategy: NotebookPen,
-  monetization: TrendingUp,
-  tools: Wrench,
-};
-
 export default function CourseCard({ course }: CourseCardProps) {
   const isActive = true;
-  const ThumbnailIcon = thumbnailIcons[course.id as keyof typeof thumbnailIcons] ?? BookOpen;
 
   return (
     <article className={`course-card app-card ${isActive ? "active" : "locked"}`}>
       <div className="course-thumbnail">
-        {course.image ? (
-          <>
-            <Image src={course.image} alt="Course thumbnail" fill loading={isActive ? "eager" : "lazy"} sizes="(max-width: 600px) 95vw, (max-width: 1000px) 46vw, 31vw" />
-            <span className="course-thumbnail-title">{course.title}</span>
-          </>
-        ) : (
-          <div className={`course-placeholder ${course.id}`} aria-hidden="true"><ThumbnailIcon strokeWidth={1} /></div>
-        )}
+        <DatabaseImage src={course.image} alt="" fill loading="lazy" sizes="(max-width: 600px) 95vw, (max-width: 1000px) 46vw, 31vw" />
+        <span className="course-thumbnail-title">{course.title}</span>
         {!isActive && <span className="course-lock" aria-label="Course not available yet"><LockKeyhole size={23} /></span>}
       </div>
       <div className="course-content">

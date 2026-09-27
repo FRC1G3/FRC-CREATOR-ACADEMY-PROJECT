@@ -1,7 +1,7 @@
 "use client";
 import { ArrowLeft, ArrowRight, Check, Lightbulb } from "lucide-react";
 import { submitQuiz } from "@/actions/learning";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
 import type { PublicQuiz } from "@/types/learning";
 
@@ -12,18 +12,22 @@ export default function QuizQuestion({ quiz }: { quiz: PublicQuiz }) {
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+  const submitting = useRef(false);
   const question = quiz.questions[index];
   if (!question) return <section className="quiz-question app-card"><p>No questions are available yet.</p></section>;
   const quizPreview = { currentQuestion: index + 1, totalQuestions: quiz.questions.length, progress: Math.round((index + 1) / quiz.questions.length * 100), question: question.text, options: question.options.map((o, i) => ({ ...o, letter: String.fromCharCode(65 + i) })), selectedOption: answers[question.id], hint: "Choose the answer that best matches what you learned." };
   function submit() {
+    if (submitting.current) return;
+    submitting.current = true;
+    setError("");
     const token = requestId || crypto.randomUUID();
     setRequestId(token);
     startTransition(async () => {
       try {
         const result = await submitQuiz({ quizId: quiz.id, requestId: token, answers: quiz.questions.map(q => ({ questionId: q.id, optionId: answers[q.id] })) });
         if (result.url) router.push(result.url);
-        else setError(result.error ?? "Please try again.");
-      } catch { setError("Unable to submit. Please try again."); }
+        else { submitting.current = false; setError(result.error ?? "Please try again."); }
+      } catch { submitting.current = false; setError("Unable to submit. Please try again."); }
     });
   }
   return (

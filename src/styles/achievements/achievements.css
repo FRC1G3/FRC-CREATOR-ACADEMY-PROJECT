@@ -2,7 +2,7 @@
 .achievements-container { width: 95%; max-width: 1440px; margin: 0 auto; padding: 28px 0 44px; }
 .achievements-heading {
   padding: 12px 0 26px;
-  background: linear-gradient(90deg, #03080c 35%, #03080c65), url("/images/dashboard/dashboardbottom.png") right 48% / auto 240px no-repeat;
+  background: linear-gradient(90deg, #03080c 35%, #03080c65), url("/images/dashboard/dashboardbottom.webp") right 48% / auto 240px no-repeat;
   > span { color: var(--color-red); letter-spacing: 0.28em; font-size: 12px; font-weight: 700; }
   h1 { font-family: var(--font-manrope), sans-serif; font-size: clamp(36px, 4.6vw, 56px); font-weight: 800; line-height: 1.15; letter-spacing: -0.035em; margin: 7px 0 4px; }
   p { font-size: 16px; color: var(--color-text-secondary); line-height: 1.6; }

@@ -31,7 +31,7 @@ export default function ContinueLearning({ course, title, detail, progress, href
             Continue Learning
             <MoveRight />{" "}
           </Link>{" "}
-          <button type="button" className="continue-bookmark" disabled aria-label="Save lesson"><Bookmark /></button>
+          <button type="button" className="continue-bookmark" disabled title="Unavailable in this university demo" aria-label="Save lesson"><Bookmark /></button>
         </div>
         </div>
       </div>

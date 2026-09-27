@@ -51,3 +51,5 @@
   .roadmap-node-text { h2 { font-size: 12px; overflow-wrap: anywhere; } p { font-size: 10px; gap: 3px; } }
   .roadmap-step.current .roadmap-node-text { padding: 7px; }
 }
+
+.roadmap-node-icon:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }

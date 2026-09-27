@@ -1,93 +1,75 @@
 # F.R.C Creator Academy
 
-A learning platform for content creators. The existing dark/red student UI now calls database-backed services for courses, enrollment, lessons, progress, quizzes, roadmap progression and badges.
+An online learning platform for content creators, with a dark/red UI, real student learning progress and database-backed Admin content management. The university MVP starts with YouTube Creator Mastery and supports additional courses.
 
-**Current verification:** The configured Neon database has been migrated and seeded twice successfully. Student/admin login, server-side authorization and the student learning flow have been exercised through the running application's HTTP endpoints and Server Actions. See [live verification](docs/STUDENT_FLOW_VERIFICATION.md) for evidence and remaining limits. There is no mock fallback for student data. Admin management screens still use mock data behind server-side ADMIN authorization.
+## Core journey
+
+Register -> log in -> browse/search published courses -> enroll -> watch lessons -> mark progress -> pass quiz checkpoints -> unlock the next linear roadmap stage -> earn badges and review your profile/dashboard.
+
+Seed checkpoints require **80% or higher**. The server calculates scores; retry history remains intact and a later failure does not cancel an earlier pass. Course completion requires all published lessons and quizzes. If an admin changes those requirements, current completion is recalculated without deleting history.
+
+Admins manage courses, modules, lessons, quizzes, roadmap nodes and badges, and inspect student progress. Every Admin route and mutation is server-authorized. Public registration cannot select ADMIN.
 
 ## Stack
 
-- Next.js 16.3.4 App Router, React 19, TypeScript
-- Tailwind CSS, existing plain CSS and Lucide icons
-- PostgreSQL, Prisma/client/adapter-pg 7.10.0, pg 8.23.0
-- Better Auth 1.7.6 with database sessions; bcryptjs 3.0.3 with cost 12
-- Zod 4.6.5 validation, Vitest 4.1.11 tests
+Next.js 16 App Router, React 19, TypeScript, plain CSS/Tailwind, Lucide, Better Auth database sessions, Zod, Prisma 7.10.0 with PostgreSQL adapter, Neon PostgreSQL and Vitest.
 
-## Local setup
+## Setup
 
-```bash
-npm install
-```
-
-Copy `.env.example` to `.env` and set:
+1. Run npm install.
+2. Copy .env.example to .env and set the private values below.
+3. Apply the committed migrations to your own database, generate the client and seed development data.
 
 | Variable | Purpose |
 | --- | --- |
-| `DATABASE_URL` | Your actual PostgreSQL connection URL; replace every example placeholder |
-| `BETTER_AUTH_SECRET` | A private random secret, at least 32 characters |
-| `BETTER_AUTH_URL` | App origin, normally `http://localhost:3000` locally |
-| `SEED_PASSWORD` | Development-only password you choose for both seeded accounts; 10–72 characters and at most 72 UTF-8 bytes |
+| DATABASE_URL | Your PostgreSQL connection URL |
+| BETTER_AUTH_SECRET | Private random secret, at least 32 characters |
+| BETTER_AUTH_URL | App origin; http://localhost:3000 locally |
+| SEED_PASSWORD | Your development seed password; 10-72 characters, at most 72 UTF-8 bytes |
 
-Generate a secret locally:
+Never commit .env or real credentials.
 
-```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
-npm run db:generate
-npm run db:validate
-npm run db:migrate -- --name init
+~~~bash
+npm install
+npx prisma generate
+npx prisma validate
+npx prisma migrate deploy
 npm run db:seed
 npm run dev
-```
+~~~
 
-The current Neon development database already has the initial migration applied. `db:migrate` creates the initial migration for a new development database; review the resulting migration. For an existing database, inspect `npx prisma migrate status` and its migration history first. Do not reset a database to resolve drift. Prisma's development migration requires shadow-database permissions. See [Database setup](docs/DATABASE.md).
+Use migrate deploy to apply existing checked-in migrations. Only when developing a schema change, use npx prisma migrate dev --name descriptive_change; it needs shadow database permissions. Do not reset an existing database. See [database setup](docs/DATABASE.md).
 
-`npm install` and `npm run build` generate the Prisma client automatically. Never commit `.env` or real credentials. With configuration absent, public course pages explain that setup is pending and authentication returns a safe setup message; real connection failures are not replaced with demo records.
+The development seed is idempotent and refuses production mode. It defines admin@frc.academy (ADMIN) and student@frc.academy (STUDENT), using your private SEED_PASSWORD. Existing passwords and edited lesson videos survive seed reruns. Registration accepts passwords of at least 8 characters; uppercase/special characters are not required. Successful registration leads to login.
 
-## Development seed accounts
+## Routes and content
 
-The seed defines these accounts, but they **do not exist in a database until the seed succeeds**:
+Public: /, /login, /register, /courses, /courses/[slug].
 
-- `admin@frc.academy` — ADMIN
-- `student@frc.academy` — STUDENT
+Authenticated: /dashboard, /roadmap, /learn/[slug], /quizzes/[slug], quiz results, /achievements, /profile. Admin-only management lives under /admin.
 
-Their initial password comes from your local `SEED_PASSWORD`; no shared hardcoded password is provided. The seed stores bcrypt hashes in Better Auth's `Account.password`, never plaintext. Existing accounts/passwords are preserved on rerun, so changing `SEED_PASSWORD` does not reset an existing password. Legacy `User.passwordHash` remains nullable and unused.
+Course search matches titles/descriptions and combines with Beginner/Intermediate/Advanced filters. Data still comes from PostgreSQL. Outcomes use the course's real module descriptions/titles.
 
-The seed creates YouTube Creator Mastery, six modules with three lessons and one quiz each, questions/options, roadmap nodes, badges and example student history. Seed video URLs are placeholders; replace them with playable video sources before testing playback. The seed refuses `NODE_ENV=production`.
+Lesson.videoUrl supports YouTube embeds and native MP4/WebM/OGV playback. The current temporary shared video is stored in the database; admin edits remain respected. This is **embedded lesson video support**, not YouTube account OAuth/API or analytics sync. Database images support local /images/ assets and browser-loaded HTTPS sources, with safe local fallbacks and no unrestricted remote image optimizer.
 
-## Authentication and learning journey
+The roadmap is linear. Add a roadmap node after publishing a new lesson/quiz; direct access to unconfigured learning content stays locked. Attempted quiz questions/options/pass thresholds cannot be rewritten. History-bearing deletion is blocked; use Draft/Inactive. Enrollment.completedAt reflects current requirements and is reconciled during curriculum edits and student progress writes. No course versioning is implemented.
 
-Register creates a STUDENT, then the user logs in. Users cannot choose ADMIN. Login defaults to `/dashboard` for students and `/admin` for admins, respecting a validated local callback. Better Auth manages session cookies and logout. Server helpers reload the current database role before authorizing admin access.
+## Checks
 
-Public: `/`, `/login`, `/register`, published `/courses` and `/courses/[slug]`.
-
-Protected: `/dashboard`, `/roadmap`, `/learn/[slug]`, `/quizzes/[slug]`, quiz results, `/achievements`, `/profile`. All `/admin/*` pages require ADMIN on the server.
-
-The learning flow is:
-
-1. Enroll in a published course.
-2. Follow the linear roadmap; opening an accessible lesson records in-progress state.
-3. Mark lessons complete. Reopening never downgrades a completed lesson.
-4. Complete the checkpoint. The server validates questions/options and calculates the score using the quiz's pass requirement (seeded at 80%).
-5. A passing attempt unlocks the next required step. Retrying preserves history, and a later failure does not invalidate an earlier pass.
-6. Badge conditions and course completion are evaluated after learning mutations. Awards are unique per user/badge.
-
-Lesson progress percentage counts completed published lessons. Module/course completion also requires all applicable published checkpoint quizzes. Streaks count distinct UTC activity days through today or yesterday. Correct answers and explanations are shown only for the current user's completed attempt. Quiz elapsed time is not tracked: attempts are created on submission.
-
-The existing Login/Register sliding panels, page layouts, classes, images and theme are retained. Profile editing supports name, bio and avatar URL; email/role/password editing and uploads are not part of this implementation. Without a stored YouTube connection the profile displays Not Connected.
-
-## Validation
-
-```bash
-npm run db:format
-npm run db:validate
-npm run db:generate
+~~~bash
+npx prisma format
+npx prisma validate
+npx prisma generate
 npx tsc --noEmit
 npm run lint
 npm test
 npm run build
-```
+~~~
 
-Tests cover progress, quiz grading and input security, retries, linear prerequisites, badge conditions, role authorization, safe callbacks, account registration boundaries and password hashing. Database calls are mocked in service/action tests; these are not PostgreSQL integration tests. `next/font` can require network access during a fresh build.
+A fresh build may need network access for next/font. See [architecture](docs/ARCHITECTURE.md), [implementation status](docs/IMPLEMENTATION_STATUS.md), [university stabilization](docs/UNIVERSITY_STABILIZATION.md), [student verification](docs/STUDENT_FLOW_VERIFICATION.md) and [Admin verification](docs/ADMIN_CRUD_VERIFICATION.md) for evidence and limitations. Service/action unit tests mock database I/O; HTTP checks are separate and do not prove actual browser video playback.
 
-For opt-in live verification, first build and run the local app on port 3000 (`npm run build`, then `npm run start`). With the matching local `BETTER_AUTH_URL`, private `BETTER_AUTH_SECRET` and existing demo `SEED_PASSWORD`, run `npx tsx prisma/verify-student-flow.ts --allow-progress`. This completes demo lessons and creates real quiz attempts/badges; it never resets or deletes history. A rerun preserves earlier records but intentionally creates new retry attempts. Use `npx tsx prisma/verify-student-flow.ts --inspect` for read-only database counts and derived roadmap states. The tool reads the current build's action manifest; rebuild after changing application code. Keep the real secret only in ignored `.env`, never in `.env.example`.
+See also the [P0 interaction/performance audit](docs/INTERACTION_PERFORMANCE_AUDIT.md) for the control inventory, asset sizes, measured route timings and verification limits, and the [manual smoke checklist](docs/MANUAL_SMOKE_TEST.md) for browser checks still required.
 
-Full Admin CRUD, YouTube OAuth/API, Google sign-in, password recovery/email verification flows, payments, community and uploads remain outside scope. Admin's existing forms do not persist changes. Review the [implementation status](docs/IMPLEMENTATION_STATUS.md), [architecture](docs/ARCHITECTURE.md) and [continuation audit](docs/CORE_PLATFORM_AUDIT.md) before starting the next task.
+## Future / post-university
+
+YouTube OAuth/API, branching roadmap, production deployment hardening, password recovery/email verification, large-scale pagination, course versioning, community, payments, AI and certificates are outside this submission's implementation scope.

@@ -15,9 +15,8 @@ import "@/styles/profile/profile.css";
 
 export default async function ProfilePage() {
   const user = await requireUser("/profile");
-  const overview = await studentOverview(user.id);
+  const [overview, channel] = await Promise.all([studentOverview(user.id), getPrisma().youTubeConnection.findUnique({ where: { userId: user.id }, select: { channelTitle: true, subscriberCount: true, videoCount: true, viewCount: true } })]);
   const achievementBadges = badgeViews(overview.badges);
-  const channel = await getPrisma().youTubeConnection.findUnique({ where: { userId: user.id }, select: { channelTitle: true, subscriberCount: true, videoCount: true, viewCount: true } });
   const profile: ProfileView = { name: user.name, email: user.email, role: user.role === "ADMIN" ? "Administrator" : "Creator Member", joined: dateLabel(user.createdAt), avatar: user.avatarUrl ?? "/images/profiles/frc.PNG", bio: user.bio ?? "", progress: overview.percentage, completed: overview.completed, total: overview.total, quizAverage: overview.attempts.length ? Math.round(overview.attempts.reduce((n,a) => n+(a.score ?? 0),0)/overview.attempts.length) : 0, streak: overview.streak.days, badges: achievementBadges.filter(b => b.status === "earned").length, connected: Boolean(channel), channel: channel?.channelTitle ?? "Not Connected", subscribers: channel?.subscriberCount?.toString() ?? "0", videos: channel?.videoCount?.toString() ?? "0", views: channel?.viewCount?.toString() ?? "0" };
   const activity: ActivityView[] = overview.progress.filter(p => p.completedAt).sort((a,b) => b.completedAt!.getTime()-a.completedAt!.getTime()).slice(0,5).map(p => ({ title: "Completed lesson", detail: p.lesson.title, time: dateLabel(p.completedAt!), kind: "completed" }));
   return (

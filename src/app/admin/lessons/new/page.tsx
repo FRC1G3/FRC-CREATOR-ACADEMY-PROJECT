@@ -1,6 +1,4 @@
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import LessonForm from "@/components/admin/LessonForm";
-
-export default function NewLessonFormPage() {
-  return <><AdminPageHeader eyebrow="lessons Management" title="New Lesson" description="Add a lesson to your course and module." /><LessonForm /></>;
-}
+import { adminCatalog } from "@/services/admin-queries";
+export default async function Page() {return <><AdminPageHeader eyebrow="Lesson Management" title="New Lesson" description="Create academy content." /><LessonForm catalog={await adminCatalog()} /></>; }

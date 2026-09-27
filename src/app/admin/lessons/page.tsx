@@ -1,5 +1,3 @@
 import LessonsManagement from "@/components/admin/LessonsManagement";
-
-export default function LessonsManagementPage() {
-  return <LessonsManagement />;
-}
+import { adminLessons } from "@/services/admin-queries";
+export default async function Page() { return <LessonsManagement rows={await adminLessons()} />; }

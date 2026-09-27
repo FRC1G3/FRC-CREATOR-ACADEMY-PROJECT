@@ -15,7 +15,7 @@ export default function CourseDetailHero({ title, description, lessons, modules,
         <p className="course-detail-instructor">Instructor <strong>{instructor}</strong></p>
         <div className="course-detail-actions">
           {children}
-          <button type="button" className="course-detail-bookmark" disabled aria-label="Bookmark course"><Bookmark size={20} /></button>
+          <button type="button" className="course-detail-bookmark" disabled title="Unavailable in this university demo" aria-label="Bookmark course"><Bookmark size={20} /></button>
         </div>
       </div>
     </section>

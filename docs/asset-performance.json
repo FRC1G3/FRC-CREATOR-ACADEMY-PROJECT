@@ -1,0 +1,74 @@
+[
+  {
+    "source": "hero.png",
+    "output": "/images/hero.webp",
+    "before": 1428183,
+    "after": 68882,
+    "width": 1836,
+    "height": 856
+  },
+  {
+    "source": "auth/auth-background.png",
+    "output": "/images/auth/auth-background.webp",
+    "before": 1612640,
+    "after": 70076,
+    "width": 941,
+    "height": 1672
+  },
+  {
+    "source": "dashboard/dashboardbottom.png",
+    "output": "/images/dashboard/dashboardbottom.webp",
+    "before": 1602220,
+    "after": 59520,
+    "width": 1916,
+    "height": 821
+  },
+  {
+    "source": "dashboard/dashboard-hero.png",
+    "output": "/images/dashboard/dashboard-hero.webp",
+    "before": 376845,
+    "after": 27376,
+    "width": 986,
+    "height": 325
+  },
+  {
+    "source": "sectionBackgrounds/section2.png",
+    "output": "/images/sectionBackgrounds/section2.webp",
+    "before": 1344383,
+    "after": 30746,
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "source": "sectionBackgrounds/section3.png",
+    "output": "/images/sectionBackgrounds/section3.webp",
+    "before": 1294010,
+    "after": 60462,
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "source": "sectionBackgrounds/section4.png",
+    "output": "/images/sectionBackgrounds/section4.webp",
+    "before": 1230347,
+    "after": 24434,
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "source": "sectionBackgrounds/section5.png",
+    "output": "/images/sectionBackgrounds/section5.webp",
+    "before": 1242915,
+    "after": 27540,
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "source": "footer-background.png",
+    "output": "/images/footer-background.webp",
+    "before": 906679,
+    "after": 11460,
+    "width": 2172,
+    "height": 724
+  }
+]

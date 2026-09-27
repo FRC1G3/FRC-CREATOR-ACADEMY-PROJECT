@@ -1,5 +1,5 @@
 import { requireUser } from "@/lib/current-user";
-import { studentOverview } from "@/services/learning";
+import { studentBadges } from "@/services/learning";
 import { badgeViews } from "@/services/presentation";
 import { percentage } from "@/lib/learning-rules";
 import AchievementSummary from "@/components/achievements/AchievementSummary";
@@ -8,7 +8,7 @@ import "@/styles/achievements/achievements.css";
 
 export default async function AchievementsPage() {
   const user = await requireUser("/achievements");
-  const badges = badgeViews((await studentOverview(user.id)).badges);
+  const badges = badgeViews(await studentBadges(user.id));
   const earned = badges.filter(b => b.status === "earned").length;
   return (
     <main className="achievements-page">

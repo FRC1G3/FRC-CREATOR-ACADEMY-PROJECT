@@ -10,7 +10,7 @@ function fixture() {
     lessonProgress:{findMany:vi.fn().mockResolvedValue([])},
     quizAttempt:{findMany:vi.fn().mockResolvedValue([])},
     userBadge:{findMany:vi.fn().mockResolvedValue([]),createMany:vi.fn()},
-    badge:{findMany:vi.fn().mockResolvedValue([{id:"badge",conditionType:"FIRST_SECTION_COMPLETE",conditionValue:1,users:[]}])},
+    badge:{findMany:vi.fn().mockResolvedValue([{id:"badge",status:"ACTIVE",conditionType:"FIRST_SECTION_COMPLETE",conditionValue:1,users:[]}])},
   };
   return {course,model,db:model as unknown as Database};
 }
@@ -23,6 +23,7 @@ describe("course/module progress and access", () => {
   it("does not query progress for a public visitor", async () => { const {db,model}=fixture(); await courseState(null,"youtube",db); expect(model.lessonProgress.findMany).not.toHaveBeenCalled(); });
 });
 describe("badge awards", () => {
+  it("keeps inactive earned badge history but never awards inactive badges again", async () => { const {db,model}=fixture(); model.badge.findMany.mockResolvedValue([{id:"badge",status:"INACTIVE",conditionType:"FIRST_SECTION_COMPLETE",conditionValue:1,users:[{earnedAt:new Date()}]}]); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]); model.quizAttempt.findMany.mockResolvedValue([{quizId:"q",passed:true}]); await evaluateBadgesForUser("u",db); expect(model.userBadge.createMany).toHaveBeenCalledWith({data:[],skipDuplicates:true}); });
   it("does not award an unmet milestone", async () => { const {db,model}=fixture(); await evaluateBadgesForUser("u",db); expect(model.userBadge.createMany).toHaveBeenCalledWith({data:[],skipDuplicates:true}); });
   it("awards once and requests DB duplicate protection on rerun", async () => {
     const {db,model}=fixture();
