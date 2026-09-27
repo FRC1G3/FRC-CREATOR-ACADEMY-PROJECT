@@ -5,9 +5,11 @@ import { getPrisma } from "@/lib/prisma";
 import { connection } from "next/server";
 import { getCurrentUser } from "@/lib/current-user";
 import { percentage } from "@/lib/learning-rules";
+import DatabaseUnavailable from "@/components/learning/DatabaseUnavailable";
 
 export default async function CoursesPage() {
   await connection();
+  if (!process.env.DATABASE_URL) return <main className="courses-page"><div className="courses-container"><DatabaseUnavailable /></div></main>;
   const user = await getCurrentUser();
   const [enrollments, completed] = user ? await Promise.all([getPrisma().enrollment.findMany({ where: { userId: user.id }, select: { course: { select: { slug: true } } } }), getPrisma().lessonProgress.findMany({ where: { userId: user.id, status: "COMPLETED", lesson: { status: "PUBLISHED" } }, select: { lesson: { select: { module: { select: { course: { select: { slug: true } } } } } } } })]) : [[], []];
   const records = await getPrisma().course.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, title: true, shortDescription: true, thumbnailUrl: true, level: true, estimatedDuration: true, modules: { select: { _count: { select: { lessons: { where: { status: "PUBLISHED" } } } } } } } });

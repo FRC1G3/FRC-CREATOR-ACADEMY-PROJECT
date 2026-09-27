@@ -10,12 +10,14 @@ import AuthInput from "./AuthInput";
 import "@/styles/auth/auth.css";
 
 export default function AuthForm() {
-  const [state, submit, pending] = useActionState(authenticate, {});
+  const [result, submit, pending] = useActionState(authenticate, {});
+  const [submittedMode, setSubmittedMode] = useState("");
   const callbackUrl = useSearchParams().get("callbackUrl") ?? "";
   const pathname = usePathname();
   const mode = pathname === "/register" ? "register" : "login";
   const [contentMode, setContentMode] = useState(mode);
   const isLogin = contentMode === "login";
+  const state = submittedMode === contentMode ? result : {};
 
   useEffect(() => {
     // Swap the content halfway through the 700ms panel slide.
@@ -39,13 +41,14 @@ export default function AuthForm() {
             ? "Continue your creator journey and pick up where you left off."
             : "Start your creator journey today and gain access to all courses."}</p>
         </header>
-        <form className="auth-form" action={submit}>
+        <form key={contentMode} className="auth-form" action={submit} onSubmit={() => setSubmittedMode(contentMode)} noValidate>
           <input type="hidden" name="mode" value={contentMode} /><input type="hidden" name="callbackUrl" value={callbackUrl} />
-          {!isLogin && <AuthInput id="full-name" label="Full Name" type="text" placeholder="Your full name" autoComplete="name" />}
-          <AuthInput id="email" label="Email" type="email" placeholder="you@example.com" autoComplete="email" />
+          {!isLogin && <AuthInput id="full-name" label="Full Name" type="text" placeholder="Your full name" autoComplete="name" error={state.fieldErrors?.name} />}
+          <AuthInput id="email" label="Email" type="email" placeholder="you@example.com" autoComplete="email" error={state.fieldErrors?.email} />
           <AuthInput id="password" label="Password" type="password" placeholder={isLogin ? "Your password" : "Create a password"}
-            autoComplete={isLogin ? "current-password" : "new-password"} />
-          {!isLogin && <AuthInput id="confirm-password" label="Confirm Password" type="password" placeholder="Confirm your password" autoComplete="new-password" />}
+            autoComplete={isLogin ? "current-password" : "new-password"} error={state.fieldErrors?.password}
+            hint={!isLogin ? "At least 8 characters. Letters or numbers alone are enough; no uppercase or special character required." : undefined} />
+          {!isLogin && <AuthInput id="confirm-password" label="Confirm Password" type="password" placeholder="Confirm your password" autoComplete="new-password" error={state.fieldErrors?.confirmPassword} />}
           {isLogin && (
             <div className="auth-options">
               <label className="auth-remember"><input type="checkbox" name="remember" defaultChecked /> Keep me signed in</label>

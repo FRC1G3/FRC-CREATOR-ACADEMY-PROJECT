@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "../styles/learning.css";
 
 body > main {
   flex: 1;

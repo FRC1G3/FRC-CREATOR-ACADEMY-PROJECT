@@ -1,75 +1,59 @@
-# Phase 2 / Step 1: Database Foundation
+# Database setup and decisions
 
-The database code is implemented; provisioning, migration and seed execution are pending. No DATABASE_URL was configured during this task. The UI continues to use existing mock data; no routes, authentication, CRUD, scoring, unlocking or integrations are implemented here.
+PostgreSQL with Prisma/client/adapter-pg 7.10.0 is preserved. The lazy client in `src/lib/prisma.ts` uses PrismaPg and a global singleton. Services are server-only. The generator writes `src/generated/prisma`, ignored by Git and ESLint; install/build regenerate it.
 
-## Setup
+## Configuration and migrations
 
-Use Node compatible with the existing Next.js and Prisma 7 installation (validated with Node 24.13.0). Packages: prisma, @prisma/client and @prisma/adapter-pg **7.10.0**; pg **8.23.0**; @types/pg **8.23.1**; tsx **4.23.15**; dotenv **18.0.4** installed. Prisma 8 was not installed.
-
-1. Run `npm install` (generates the ignored Prisma client).
-2. Copy `.env.example` to `.env` and replace every placeholder with your PostgreSQL connection details. Never commit credentials. CLI config loads `.env` with dotenv; Next.js loads environment variables itself. Do not use a NEXT_PUBLIC variable for credentials.
-3. Use a development database. Prisma migrate dev needs permission to create/use its shadow database.
-4. Run these commands from the repository root:
+Copy `.env.example` to `.env`; provide your own `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` and development `SEED_PASSWORD`. Credentials are never committed. Prisma CLI reads `.env` through dotenv; Next.js loads its own environment.
 
 ```bash
+npm install
 npm run db:format
 npm run db:validate
 npm run db:generate
+npx prisma migrate status
 npm run db:migrate -- --name init
 npm run db:seed
-npm run db:studio
 ```
 
-The migration command creates the initial SQL migration under `prisma/migrations`; review and commit it when a database is configured. No migration file or successful database execution is claimed yet. Prisma 7 seeding is explicit. Never run the development seed on production; it rejects NODE_ENV=production. Back up any nonempty database before using demo fixtures.
+The current development database is Neon; the initial migration has already been applied. For an existing database, inspect its migration history before creating further migrations and do not accept a destructive reset. Review and commit generated SQL. `migrate dev` needs shadow-database permissions.
 
-`postinstall` and `prebuild` generate the client without a database connection. Schema validation and generation also work without DATABASE_URL. Database operations require a real URL. Client generation targets `src/generated/prisma`; that directory is ignored by Git and ESLint. `src/lib/prisma.ts` exports lazy `getPrisma()` using PrismaPg and a global singleton, avoiding hot-reload client duplication. It is for server-side callers only and is not imported by UI components.
-
-Configuration follows [Prisma 7 configuration conventions](https://www.prisma.io/docs/orm/v7/reference/prisma-config-reference).
+Prisma formatting, validation and generation do not require a live connection in this configuration. A successful build does not prove database connectivity.
 
 ## Schema
 
-Models: User, Course, Module, Lesson, Enrollment, LessonProgress, Quiz, Question, AnswerOption, QuizAttempt, QuizAnswer, Badge, UserBadge, RoadmapNode, YouTubeConnection.
+Learning models: User, Course, Module, Lesson, Enrollment, LessonProgress, Quiz, Question, AnswerOption, QuizAttempt, QuizAnswer, Badge, UserBadge, RoadmapNode, YouTubeConnection.
+
+Authentication adds Session, Account, Verification and AuthThrottle (19 models total), plus User.emailVerified. Better Auth maps its image field to User.avatarUrl. Credential bcrypt hashes are stored in Account.password. The earlier nullable User.passwordHash is unused and never selected for client UI. Verification is part of the auth provider schema; no email-verification delivery flow is enabled.
 
 Enums: UserRole, CourseLevel, CourseStatus, LessonStatus, LessonProgressStatus, QuizStatus, BadgeStatus, RoadmapNodeType.
 
-- Course owns modules, lessons belong to modules. Quizzes always belong to a course and optionally to a module. Questions and options are ordered.
-- Users enroll in courses, track individual lessons, make repeatable quiz attempts, and earn badges. Quiz answers link an attempt, question and chosen option.
-- RoadmapNode is an ordered course node with LESSON, QUIZ or REWARD type and optional target relations. No RoadmapEdge, branching or persisted current/completed/locked flags exist.
-- YouTubeConnection is optional and unique per user. Counts use BigInt; future APIs must serialize them explicitly. Token fields are reserved for encrypted values; no encryption, OAuth, API requests or seeded tokens exist.
-- Unique email and slugs prevent identity/content duplicates. Composite uniqueness covers module/course order, lesson/module order, question/quiz order, option/question order, roadmap/course order, user/course enrollment, user/lesson progress, user/badge awards and attempt/question answers. Attempts deliberately allow retries. Foreign-key indexes support reverse lookups; composite unique indexes cover their leading foreign key.
-- Mutable entities have createdAt/updatedAt where appropriate. Progress, enrollment, attempts and awards use their specific started/completed/enrolled/earned timestamps. Course duration is minutes; lesson duration is seconds. Unfinished attempt score/passed/completedAt are nullable.
+Course → ordered modules → ordered published lessons. Quizzes belong to a course and optionally a module. Questions/options are ordered. Roadmap nodes target lessons, quizzes or rewards; no RoadmapEdge exists.
 
-## Deletion and validation decisions
+Uniqueness protects email/slugs, module/course order, lesson/module order, question/quiz order, option/question order, roadmap/course order, enrollment, lesson progress, earned badges and one answer per attempt/question. Quiz attempts permit retries. Account provider/account identity and session token are unique. Foreign-key/composite indexes support related lookups.
 
-Enrollment, lesson progress, quiz attempts, quiz answers and earned badges use Restrict on their referenced records to preserve history. Content ownership uses Cascade where appropriate; module deletion sets an optional quiz module to null. Roadmap targets use Restrict. A content cascade can therefore be blocked by history or roadmap references; this is intentional. User deletion also removes the optional YouTube connection, but learning history can block the overall deletion. No automatic history purge exists.
+Learning history relations use Restrict, including enrollment, progress, attempts, answers and earned badges. Ownership uses Cascade for content where appropriate. Optional quiz/module uses SetNull. Roadmap target references use Restrict. A cascade can be blocked by existing history/roadmap references intentionally. User-owned auth sessions/accounts and YouTube connection cascade on deletion, but learning history can block user deletion.
 
-Foreign keys do not enforce every business invariant. Before real writes are introduced, enforce exactly one matching roadmap target, course consistency between nodes/lessons/quizzes/modules, answer-to-question and question-to-attempt consistency, one correct option per single-choice question, score/passScore ranges, positive order/duration and consistent completion timestamps. Decide content versioning before editing questions used by historical attempts. These are documented future service/constraint requirements, not implemented functionality.
+Future content editing must preserve historical quiz meaning (versioning/snapshots before Admin CRUD). Future admin validators must enforce one matching target per roadmap node, valid same-course references, positive order/duration, valid score ranges and single-choice questions with exactly one correct option. Current student mutations enforce their own access and answer consistency; the schema is not a generic content validation engine.
 
-## Development seed
+## Seed
 
-`prisma/seed-data.ts` stores fixtures separately from the executable `prisma/seed.ts`. A transaction uses upserts with stable keys and empty updates: reruns avoid duplicates without overwriting existing content/history. This is an initial demo fixture, not a synchronization tool for an edited database.
+Run only on a development database. `SEED_PASSWORD` is required and must fit bcrypt's 72-byte limit. The seed hashes it with the same cost-12 helper used by registration; no plaintext is stored. It creates credential accounts for admin@frc.academy and student@frc.academy. Existing credentials/users/history are preserved by upserts; rerunning does not reset passwords or promote an existing student to admin. No automatic reset/purge is provided.
 
-On a fresh database the seed creates:
+Fresh database fixtures: 2 users and credential accounts, 1 YouTube Creator Mastery course, 6 modules, 18 lessons, 6 checkpoint quizzes (passScore 80), 18 questions, 72 options, 26 ordered roadmap nodes, 4 badges, 1 enrollment, 4 progress rows, 1 completed quiz attempt with 3 answers and 1 earned badge. No YouTube connections/tokens are seeded. Fixed seed learning history is demo content; video URLs at example.com are placeholders.
 
-| Records | Count |
-| --- | ---: |
-| Users: admin@frc.academy / student@frc.academy | 2 |
-| YouTube Creator Mastery course (slug youtube) | 1 |
-| Modules | 6 |
-| Lessons | 18 |
-| Quizzes, each with passScore 80 | 6 |
-| Questions / answer options | 18 / 72 |
-| Ordered roadmap nodes: 18 lessons, 6 quizzes, 2 rewards | 26 |
-| Badge definitions | 4 |
-| Enrollment | 1 |
-| Lesson progress: 3 completed, 1 in progress | 4 |
-| Completed quiz attempt / answers | 1 / 3 |
-| Earned user badge | 1 |
+Remote seeding uses independently committed upserts, not a single interactive transaction. The previous transaction exceeded its 60-second lifetime on Neon. Only the fixed quiz attempt and its three answers share a short transaction, after their referenced content exists. A failed run may leave completed seed steps committed; rerunning resumes safely using stable identities and empty updates. Errors report the current stage and safe Prisma codes without raw connection details.
 
-Modules: YouTube Basics, Audience & Niche, Content Strategy, Video Production, Analytics & Growth, Monetization. Each has three lessons then a checkpoint. The seeded score of 100 is a fixture, not computed scoring logic. Password hashes are null; these users cannot authenticate. Video URLs at example.com are placeholders, not playable lessons. No YouTube connections are seeded. Seed values do not replace current UI statistics.
+To verify fixtures and compare two runs, use `npx tsx prisma/verify-seed.ts --snapshot`, rerun the seed, then use `npx tsx prisma/verify-seed.ts --compare`. The temporary `.seed-verification.json` contains only counts and a content fingerprint; remove it after comparison. Password hashes are not queried or printed. Run this comparison without concurrent application writes.
 
-## Verification and remaining work
+The PostgreSQL driver currently warns about future `sslmode=require` semantics. This warning did not cause the seed timeout. The driver recommends explicit `sslmode=verify-full` to retain its current certificate-verification behavior across the future major upgrade. The working connection string was left unchanged; any SSL-mode change should be tested separately.
 
-Prisma format, validate and generate passed without credentials. Application lint, production build and TypeScript checks passed, including seed code type checking. Database migration, foreign-key behavior in a running database, transactional seed execution and rerun behavior still need verification against PostgreSQL. Configure DATABASE_URL and run migration/seed before Phase 2 Step 2. Authentication and UI data integration require separate tasks.
+Verified on the configured Neon database on 2026-09-27: both seed runs succeeded. The comparison confirmed unchanged fixture counts, IDs, content and student history. Counts matched all fixtures listed above, including both credential accounts. Prisma format/validate/generate, TypeScript, ESLint and the production build passed. No reset or migration change was needed. This verifies seeding, not the unrelated runtime learning flows.
 
-Dependency audit reports four high-severity entries in the Prisma CLI development dependency tree (prisma, @prisma/config, deepmerge-ts and mysql2). npm proposes a Prisma downgrade, conflicting with the requested 7.10.0 version. No forced fixes, unrelated upgrades or unverified overrides were applied. Review upstream fixes before deployment; this application uses PostgreSQL, not MySQL.
+AuthThrottle atomically counts normalized-email hashes in PostgreSQL: at most 10 authentication attempts per account per 15-minute window. It applies through provider hooks to both Server Actions and auth HTTP endpoints. Better Auth additionally enables its HTTP limiter. Old throttle entries can be pruned operationally; no scheduler is implemented.
+
+Lesson completion and quiz submission lock the current user row inside a transaction, then persist progress/results, evaluate badges and set completion. This serializes competing learning mutations for that user. Runtime locking/rollback/constraints remain to be verified with PostgreSQL.
+
+## Dependency note
+
+The existing audit reported four high-severity entries in the pinned Prisma CLI dependency tree (prisma, @prisma/config, deepmerge-ts, mysql2). Its proposed Prisma downgrade conflicts with the required 7.10.0 version. No forced fix or unverified override was applied. Review upstream updates before deployment; this project uses PostgreSQL, not MySQL.

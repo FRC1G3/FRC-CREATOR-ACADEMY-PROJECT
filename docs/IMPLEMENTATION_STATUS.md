@@ -1,80 +1,40 @@
 # Implementation Status
 
-## PHASE 1 — COMPLETE
+Phase 1's UI is retained. Phase 2 core student functionality has now been exercised against Neon through real HTTP requests and Server Actions. See [2026-09-27 live verification](STUDENT_FLOW_VERIFICATION.md) for the current results, retained records and test boundaries. The table below preserves the earlier pre-runtime implementation snapshot; its "pending DB" notes have been superseded by that report. This does not imply browser interaction, video playback or concurrency fault-injection testing is complete.
 
-The UI prototype is complete. All learning, profile and admin records are mock/static. All routes are public, including Admin. No authentication, persistence or backend service is implemented.
+| Area | Status | Actual repository state |
+| --- | --- | --- |
+| Database Foundation | Partial | PostgreSQL/Prisma 7.10.0, 19 models, 8 enums, generated client and seed; migration/seed execution pending |
+| Authentication | Partial | Better Auth, bcrypt credentials, registration/login/logout, database sessions, safe callbacks; live session flow pending DB |
+| Authorization | Partial | Server guards protect student pages and all admin pages; helpers tested and unauthenticated redirects checked; live STUDENT/ADMIN sessions pending |
+| Courses | Partial | Published catalog/detail from Prisma, real counts and enrollment progress; runtime DB reads pending |
+| Enrollment | Partial | Session-owned upsert with compound uniqueness and publication check |
+| Lessons | Partial | Published, enrolled, prerequisite-checked lesson lookup and navigation; native video playback for real URLs, seed videos are placeholders |
+| Lesson Progress | Partial | In-progress/completed persistence, no automatic downgrade, transactional completion and revalidation |
+| Dashboard | Partial | Real user, course progress, current learning step, streak, roadmap, badges and latest quiz; empty state without enrollment |
+| Profile | Partial | Real identity/stats, edit name/bio/avatar, real completed-lesson activity; no fabricated YouTube data |
+| Quiz Engine | Partial | Server validation/scoring, publication and prerequisite checks; no pre-submission answer leakage |
+| Quiz Attempts | Partial | Transactional answers/result, retries/history, owned results, idempotency key and answer review; elapsed time not tracked |
+| Roadmap | Partial | Ordered database nodes, derived linear states; previous successful attempt remains sufficient |
+| Badges | Partial | Seeded conditions evaluated after mutations; unique awards and course completion; SQL execution pending |
+| Achievements | Partial | Active badge definitions with real earned/locked state and earned dates |
+| Unit/service/action tests | Complete | Core behavior covered; see audit for final count/results; database operations mocked |
+| Admin UI | Complete | Existing mock management screens remain, now guarded by ADMIN authorization |
+| Admin CRUD | Pending | No real admin create/edit/delete/publish mutations or database lists added |
+| YouTube Integration | Pending | Schema and stored-data display only; no OAuth or API synchronization |
 
-### Public and student UI
+## Routes
 
-| Route | UI |
-| --- | --- |
-| `/` | Landing sections, section scroll indicator and shared footer |
-| `/login` | Login form, password visibility and sliding auth panel |
-| `/register` | Registration form sharing the persistent auth layout |
-| `/dashboard` | Continue learning, progress, streak, roadmap and achievements |
-| `/courses` | Course catalog; unavailable courses remain disabled |
-| `/courses/youtube` | YouTube Creator Mastery curriculum and progress preview |
-| `/roadmap` | Long, centered vertical zig-zag learning path |
-| `/learn/thumbnail-psychology` | Lesson metadata, player preview and module list |
-| `/quizzes/content-strategy` | Static selected-answer checkpoint preview |
-| `/quizzes/content-strategy/result` | Passed result preview |
-| `/quizzes/content-strategy/result?preview=failed` | Failed result preview |
-| `/achievements` | Earned and locked badge previews |
-| `/profile` | Identity, progress, badges, activity and YouTube connection preview |
+Public: `/`, `/login`, `/register`, `/courses`, `/courses/[courseId]` (course slug).
 
-Only the listed student dynamic IDs have implemented detail previews. Unknown IDs show the standard not-found UI. Auth leaf pages intentionally return null: their shared layout owns the form so Login/Register transitions preserve the panels.
+Authenticated: `/dashboard`, `/roadmap?course=<slug>`, `/learn/[lessonId]` (lesson slug), `/quizzes/[quizId]` (quiz slug), `/quizzes/[quizId]/result?attempt=<id>`, `/achievements`, `/profile`.
 
-### Admin UI
+ADMIN only: `/admin` and all existing `/admin/*` screens, including direct URLs to create/edit pages. There are no admin mutations to authorize yet. Future admin Server Actions must call `requireAdmin()` themselves; a layout is not mutation authorization.
 
-| Route | UI |
-| --- | --- |
-| `/admin` | Overview, summary cards, quick actions, courses and activity |
-| `/admin/courses` | Searchable/filterable mock course table |
-| `/admin/courses/new` | Course form |
-| `/admin/courses/[courseId]/edit` | Shared course form, mock IDs 1 through 5 |
-| `/admin/lessons` | Mock lessons, course/module filters |
-| `/admin/lessons/new` | Lesson form with a video URL field |
-| `/admin/quizzes` | Mock quiz list and filters |
-| `/admin/quizzes/new` | Quiz builder with local additional question fields |
-| `/admin/roadmap` | Ordered node management preview |
-| `/admin/badges` | Badge cards and create/edit form dialog |
-| `/admin/students` | Demo learners, search and filters |
+Login/Register leaf pages intentionally return null because their persistent shared layout owns the animated form. `StartLesson` also intentionally renders nothing. Unknown database-backed records use notFound when DB lookup is possible; unmet prerequisites show a locked/empty state. Missing DB configuration displays a setup message on course pages, not mock content.
 
-Admin uses one layout and one toggleable sidebar with route-aware active links. Forms, dialogs and filters are presentation only. Save/publish/move/delete operations do not change data. Lesson playback, scoring, progress changes and actual YouTube connections are not available.
+## Required next work
 
-### Final audit
+Neon migration, two successful idempotent seed runs, local auth setup and the two-role HTTP/Server Action learning journey are now verified. Remaining validation includes browser interactions, transaction rollback fault injection and concurrency. Supply actual video URLs. Full Admin CRUD requires a separate explicit task.
 
-- Reviewed route/component/style structure, imports, assets, forms and event cleanup.
-- Removed unused empty scaffolding and obsolete Geist theme references; consolidated root variables without changing theme values.
-- Guarded student dynamic preview routes against unsupported IDs.
-- Preserved Login/Register sliding design and midpoint content switch; short viewports can scroll inside the form to reach every field.
-- Added keyboard entry/Escape handling to student navigation and focus containment to the admin drawer.
-- Corrected the admin header backdrop overlap and the catalog hero image loading warning.
-- No mock statistics were changed and no Phase 2 functionality was added.
-
-## PHASE 2 — FUNCTIONALITY
-
-### Step 1: Database Foundation implemented and schema validated
-
-PostgreSQL schema (15 models, 8 enums), Prisma 7.10.0 PostgreSQL adapter/client, environment template, scripts and repeatable demo seed are implemented. Prisma format, validate and client generation succeeded. No DATABASE_URL is configured, so no migration has been applied and the seed has not run against PostgreSQL. See [Database setup](DATABASE.md).
-
-UI components and mock data remain unchanged. No database queries, authentication or business logic were added to the application.
-
-Remaining, requiring separate implementation tasks:
-
-- Configure PostgreSQL, create/apply the initial migration and execute the prepared seed
-- Authentication, sessions, protected routes and admin authorization
-- Real courses, modules, lessons and enrollment
-- Lesson completion persistence and progress calculation
-- Quiz attempts/scoring and the 80% pass rule
-- Roadmap unlocking and badge persistence
-- Admin CRUD and publishing
-- YouTube integration
-
-## OPTIONAL / FUTURE
-
-- Community
-- AI assistant
-- Payments
-- Certificates
-- Deeper YouTube analytics
+Google sign-in, password recovery, email verification, avatar uploads, YouTube OAuth/API, payments, community, certificates and roadmap branching are not implemented. Profile sharing/bookmark/notes controls and catalog search filters remain their existing disabled/UI-only controls.

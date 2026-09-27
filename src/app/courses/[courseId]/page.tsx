@@ -9,10 +9,12 @@ import { moduleViews } from "@/services/presentation";
 import { getCurrentUser } from "@/lib/current-user";
 import ActionForm from "@/components/learning/ActionForm";
 import { enroll } from "@/actions/learning";
+import DatabaseUnavailable from "@/components/learning/DatabaseUnavailable";
 import "@/styles/courses/course-detail.css";
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ courseId: string }> }) {
   const { courseId } = await params;
+  if (!process.env.DATABASE_URL) return <main className="course-detail-page"><div className="course-detail-container"><DatabaseUnavailable /></div></main>;
   const user = await getCurrentUser();
   const state = await courseState(user?.id ?? null, courseId);
   if (!state) notFound();

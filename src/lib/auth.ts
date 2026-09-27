@@ -14,7 +14,7 @@ function createAuth() {
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL,
     database: prismaAdapter(getPrisma(), { provider: "postgresql", transaction: true }),
-    emailAndPassword: { enabled: true, minPasswordLength: 10, maxPasswordLength: 72, autoSignIn: false, password: { hash: hashPassword, verify: verifyPassword } },
+    emailAndPassword: { enabled: true, minPasswordLength: 8, maxPasswordLength: 72, autoSignIn: false, password: { hash: hashPassword, verify: verifyPassword } },
     user: { fields: { image: "avatarUrl" }, additionalFields: { role: { type: ["STUDENT", "ADMIN"], defaultValue: "STUDENT", input: false } } },
     databaseHooks: { user: { create: { before: async user => ({ data: { ...user, role: "STUDENT" as const } }) } } },
     session: { expiresIn: 60 * 60 * 24 * 7, updateAge: 60 * 60 * 24 },

@@ -177,3 +177,13 @@ body > main.auth-page {
 @media (prefers-reduced-motion: reduce) {
   .auth-visual, .auth-card { transition: none; }
 }
+.auth-field small {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #a8b7c4;
+}
+
+.auth-field small[role="alert"] {
+  color: #ff6b79;
+}
+
