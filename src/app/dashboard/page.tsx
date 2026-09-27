@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import { requireUser } from "@/lib/current-user";
 import { studentOverview, nodeHref } from "@/services/learning";
 import { badgeViews } from "@/services/presentation";
@@ -11,7 +12,7 @@ import RoadmapProgress from "@/components/dashboard/RoadmapProgress";
 import RecentAchievements from "@/components/dashboard/RecentAchievements";
 import DashboardPromo from "@/components/dashboard/DashboardPromo";
 import "@/styles/dashboard/dashboard.css";
-export default async function DashboardPage() {
+async function DashboardPage() {
   const user = await requireUser("/dashboard");
   const overview = await studentOverview(user.id);
   const state = overview.active;
@@ -36,4 +37,8 @@ export default async function DashboardPage() {
       </section>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof DashboardPage>) {
+  return timed("route.dashboard", () => DashboardPage(...args));
 }

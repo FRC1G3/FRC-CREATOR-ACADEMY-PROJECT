@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "@/styles/learning.css";
 import "./globals.css";
+import "@/styles/interactions.css";
 import AccountNavigation from "@/components/layout/AccountNavigation";
 import { Suspense } from "react";
 import Footer from "@/components/layout/Footer";

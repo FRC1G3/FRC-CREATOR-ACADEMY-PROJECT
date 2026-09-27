@@ -70,6 +70,8 @@ A fresh build may need network access for next/font. See [architecture](docs/ARC
 
 See also the [P0 interaction/performance audit](docs/INTERACTION_PERFORMANCE_AUDIT.md) for the control inventory, asset sizes, measured route timings and verification limits, and the [manual smoke checklist](docs/MANUAL_SMOKE_TEST.md) for browser checks still required.
 
+The [real latency audit](docs/REAL_LATENCY_AUDIT.md) supersedes earlier performance estimates with instrumented production completion timings, SQL counts, region/idle findings and explicit target limitations. Profiling is opt-in with `PROFILE_PERFORMANCE=1`; ordinary runs do not emit timing/query logs.
+
 ## Future / post-university
 
 YouTube OAuth/API, branching roadmap, production deployment hardening, password recovery/email verification, large-scale pagination, course versioning, community, payments, AI and certificates are outside this submission's implementation scope.

@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import Link from "next/link";
 import RoadmapSummary from "@/components/roadmap/RoadmapSummary";
 import RoadmapNode from "@/components/roadmap/RoadmapNode";
@@ -6,7 +7,7 @@ import { courseState, studentOverview, nodeHref } from "@/services/learning";
 import EmptyState from "@/components/learning/EmptyState";
 import "@/styles/roadmap/roadmap.css";
 
-export default async function RoadmapPage({ searchParams }: { searchParams: Promise<{ course?: string }> }) {
+async function RoadmapPage({ searchParams }: { searchParams: Promise<{ course?: string }> }) {
   const user = await requireUser("/roadmap");
   const { course } = await searchParams;
   const state = course ? await courseState(user.id, course) : (await studentOverview(user.id)).active;
@@ -27,4 +28,8 @@ export default async function RoadmapPage({ searchParams }: { searchParams: Prom
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof RoadmapPage>) {
+  return timed("route.roadmap", () => RoadmapPage(...args));
 }

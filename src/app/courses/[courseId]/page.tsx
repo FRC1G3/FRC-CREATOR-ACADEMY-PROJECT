@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import { ArrowRight, Quote } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,7 +13,7 @@ import { enroll } from "@/actions/learning";
 import DatabaseUnavailable from "@/components/learning/DatabaseUnavailable";
 import "@/styles/courses/course-detail.css";
 
-export default async function CourseDetailPage({ params }: { params: Promise<{ courseId: string }> }) {
+async function CourseDetailPage({ params }: { params: Promise<{ courseId: string }> }) {
   const { courseId } = await params;
   if (!process.env.DATABASE_URL) return <main className="course-detail-page"><div className="course-detail-container"><DatabaseUnavailable /></div></main>;
   const user = await getCurrentUser();
@@ -44,4 +45,8 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ c
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof CourseDetailPage>) {
+  return timed("route.course", () => CourseDetailPage(...args));
 }

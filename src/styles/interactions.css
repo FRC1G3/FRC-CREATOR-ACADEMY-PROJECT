@@ -1,0 +1,90 @@
+/* Shared interaction motion. Existing section styles keep their visual design. */
+:root { --interaction-duration: 260ms; --interaction-ease: cubic-bezier(.22, 1, .36, 1); }
+
+.course-module-header > svg,
+.lesson-module-heading > svg {
+  transition: transform var(--interaction-duration) var(--interaction-ease);
+}
+.course-module-header[aria-expanded="true"] > svg { transform: rotate(180deg); }
+.lesson-module-heading { transition: padding-bottom var(--interaction-duration) ease; }
+
+/* Keep closed content in the DOM for exit transitions, but hidden and inert. */
+.course-lesson-list, .profile-edit {
+  opacity: 1;
+  transition: opacity 180ms ease, display var(--interaction-duration) allow-discrete;
+}
+.course-lesson-list[hidden], .profile-edit[hidden] { display: none; opacity: 0; }
+
+@supports (interpolate-size: allow-keywords) {
+  .course-lesson-list, .profile-edit {
+    interpolate-size: allow-keywords;
+    height: auto;
+    overflow: clip;
+    transition: height var(--interaction-duration) var(--interaction-ease), opacity 180ms ease,
+      padding-bottom var(--interaction-duration) ease, display var(--interaction-duration) allow-discrete;
+  }
+  .course-lesson-list[hidden], .profile-edit[hidden] { height: 0; padding-bottom: 0; }
+  .lesson-module::details-content {
+    interpolate-size: allow-keywords;
+    height: 0;
+    opacity: 0;
+    overflow: clip;
+    transition: height var(--interaction-duration) var(--interaction-ease), opacity 180ms ease,
+      content-visibility var(--interaction-duration) allow-discrete;
+  }
+  .lesson-module[open]::details-content { height: auto; opacity: 1; }
+  @starting-style {
+    .course-lesson-list:not([hidden]), .profile-edit:not([hidden]) { height: 0; padding-bottom: 0; }
+  }
+}
+
+.admin-dialog {
+  opacity: 0;
+  transform: translateY(12px) scale(.98);
+  transition: opacity 180ms ease, transform var(--interaction-duration) var(--interaction-ease),
+    display var(--interaction-duration) allow-discrete, overlay var(--interaction-duration) allow-discrete;
+}
+.admin-dialog[open] { opacity: 1; transform: translateY(0) scale(1); }
+.admin-dialog::backdrop {
+  opacity: 0;
+  transition: opacity var(--interaction-duration) ease,
+    display var(--interaction-duration) allow-discrete, overlay var(--interaction-duration) allow-discrete;
+}
+.admin-dialog[open]::backdrop { opacity: 1; }
+.admin-menu-backdrop {
+  opacity: 1;
+  transition: opacity var(--interaction-duration) ease, display var(--interaction-duration) allow-discrete;
+}
+.admin-menu-backdrop[hidden] { display: none; opacity: 0; pointer-events: none; }
+@starting-style {
+  .course-lesson-list:not([hidden]), .profile-edit:not([hidden]),
+  .admin-menu-backdrop:not([hidden]), .admin-dialog[open]::backdrop { opacity: 0; }
+  .admin-dialog[open] { opacity: 0; transform: translateY(12px) scale(.98); }
+}
+
+/* Subtle feedback without moving layout or affecting disabled controls. */
+body :where(button, a[href], input, textarea, select) {
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+.menu, .admin-sidebar { transition: transform 300ms var(--interaction-ease); }
+.roadmap-node-icon { transition: border-color 180ms ease, box-shadow 180ms ease, scale 180ms ease; }
+a.roadmap-node-icon:hover { scale: 1.04; }
+.quiz-question > h2, .quiz-option-check, .courses-grid > article,
+.admin-form-footer [role="alert"], .profile-edit [role="alert"], .profile-edit [role="status"] {
+  animation: interaction-appear 200ms ease both;
+}
+progress::-webkit-progress-value { transition: width 260ms ease; }
+@keyframes interaction-appear {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect the user's OS accessibility preference, including existing motion. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after, ::details-content, ::backdrop {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

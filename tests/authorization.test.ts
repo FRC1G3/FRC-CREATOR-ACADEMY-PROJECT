@@ -9,6 +9,12 @@ import { requireUser, requireAdmin } from "../src/lib/current-user";
 beforeEach(() => { vi.clearAllMocks(); mock.cookie="better-auth.session_token=test"; vi.stubEnv("DATABASE_URL","test"); vi.stubEnv("BETTER_AUTH_SECRET","test"); });
 it("blocks unauthenticated users", async () => { mock.cookie=""; await expect(requireUser()).rejects.toThrow("redirect:/login"); });
 it("does not accept a forged cookie without a valid session", async () => { mock.session.mockResolvedValue(null); await expect(requireUser()).rejects.toThrow("redirect:/login"); });
-it("blocks student from admin using current database role", async () => { mock.session.mockResolvedValue({user:{id:"u",role:"ADMIN"}}); mock.user.mockResolvedValue({id:"u",role:"STUDENT"}); await expect(requireAdmin()).rejects.toThrow("redirect:/dashboard"); });
-it("permits current admin", async () => { mock.session.mockResolvedValue({user:{id:"u"}}); mock.user.mockResolvedValue({id:"u",role:"ADMIN"}); await expect(requireAdmin()).resolves.toMatchObject({role:"ADMIN"}); });
-it("selects no password fields", async () => { mock.session.mockResolvedValue({user:{id:"u"}}); mock.user.mockResolvedValue({id:"u",role:"STUDENT"}); await requireUser(); expect(mock.user.mock.calls[0][0].select).not.toHaveProperty("passwordHash"); });
+it("blocks student from admin using current database role", async () => { mock.session.mockResolvedValue({user:{id:"u",role:"STUDENT"}}); await expect(requireAdmin()).rejects.toThrow("redirect:/dashboard"); });
+it("permits current admin", async () => { mock.session.mockResolvedValue({user:{id:"u",role:"ADMIN"}}); await expect(requireAdmin()).resolves.toMatchObject({role:"ADMIN"}); });
+it("forces a live session/user lookup and returns only safe fields", async () => {
+ mock.session.mockResolvedValue({user:{id:"u",role:"STUDENT",passwordHash:"never-return",image:"/images/avatar.png"}});
+ const user=await requireUser();expect(user).not.toHaveProperty("passwordHash");
+ expect(user.avatarUrl).toBe("/images/avatar.png");
+ expect(mock.session).toHaveBeenCalledWith(expect.objectContaining({query:{disableCookieCache:true}}));
+ expect(mock.user).not.toHaveBeenCalled();
+});

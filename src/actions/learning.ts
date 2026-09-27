@@ -1,9 +1,10 @@
 "use server";
+import { timed } from "@/lib/performance";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/current-user";
 import { getPrisma } from "@/lib/prisma";
 import { idSchema, profileSchema, quizSubmissionSchema, type ActionState } from "@/lib/validation";
-import { accessible, courseState, syncEnrollmentCompletion, evaluateBadgesForUser, LearningError, lockLearningUser } from "@/services/learning";
+import { studentOverview, overviewWithCompletedLesson, accessible, courseState, syncEnrollmentCompletion, evaluateBadgesForUser, LearningError, lockLearningUser } from "@/services/learning";
 import { scoreAnswers } from "@/lib/learning-rules";
 import { redirect } from "next/navigation";
 
@@ -38,29 +39,49 @@ export async function startLesson(slug: string) {
   await getPrisma().lessonProgress.updateMany({ where: { userId: user.id, lessonId: access.id, status: "NOT_STARTED" }, data: { status: "IN_PROGRESS", startedAt: new Date() } });
 }
 export async function completeLesson(_: ActionState, data: FormData): Promise<ActionState> {
-  const user = await requireUser();
+  return timed("complete.total", () => completeLessonMeasured(_, data));
+}
+async function completeLessonMeasured(_: ActionState, data: FormData): Promise<ActionState> {
+  const user = await timed("complete.auth", () => requireUser());
   const slug = idSchema.safeParse(data.get("slug"));
   if (!slug.success) return { error: "Invalid lesson." };
   try {
     await getPrisma().$transaction(async db => {
-      await lockLearningUser(db, user.id);
-      const access = await accessible(user.id, "LESSON", slug.data, db);
-      if (!access) throw new LearningError("Lesson unavailable.");
-      await db.lessonProgress.upsert({ where: { userId_lessonId: { userId: user.id, lessonId: access.id } }, create: { userId: user.id, lessonId: access.id, status: "COMPLETED", startedAt: new Date(), completedAt: new Date() }, update: {} });
-      await db.lessonProgress.updateMany({ where: { userId: user.id, lessonId: access.id, status: { not: "COMPLETED" } }, data: { status: "COMPLETED", completedAt: new Date() } });
-      await evaluateBadgesForUser(user.id, db);
+      await timed("complete.locks", () => lockLearningUser(db, user.id));
+      let overview = await timed("complete.snapshot", () => studentOverview(user.id, db));
+      const access = await timed("complete.access", () => {
+        const state = overview.states.find(s => s.lessons.some(l => l.slug === slug.data));
+        const lesson = state?.lessons.find(l => l.slug === slug.data);
+        if (!state || !lesson) throw new LearningError("Lesson unavailable.");
+        const node = state.nodes.find(n => n.lessonId === lesson.id);
+        if (!state.enrollment || !node || node.status === "locked") throw new LearningError("Enroll and complete earlier roadmap steps first.");
+        return { state, lesson };
+      });
+      if (!access.state.completed.has(access.lesson.id)) {
+        const now = new Date();
+        const row = await timed("complete.write", () => db.lessonProgress.upsert({
+          where: { userId_lessonId: { userId: user.id, lessonId: access.lesson.id } },
+          create: { userId: user.id, lessonId: access.lesson.id, status: "COMPLETED", startedAt: now, completedAt: now },
+          update: { status: "COMPLETED", completedAt: now },
+        }));
+        overview = await timed("complete.derive", () => overviewWithCompletedLesson(overview, row, access.lesson.title));
+      }
+      await timed("complete.badges", () => evaluateBadgesForUser(user.id, db, overview));
     }, { timeout: 30000 });
-    refresh(); return { success: "Lesson completed." };
+    await timed("complete.revalidation", () => refresh()); return { success: "Lesson completed." };
   } catch (error) { return { error: error instanceof LearningError ? error.message : "Unable to save progress. Please try again." }; }
 }
 export async function saveProfile(_: ActionState, data: FormData): Promise<ActionState> {
   const user = await requireUser();
   const parsed = profileSchema.safeParse(Object.fromEntries(data));
   if (!parsed.success) return { error: "Check your name, bio and avatar URL." };
-  try { await getPrisma().user.update({ where: { id: user.id }, data: { ...parsed.data, avatarUrl: parsed.data.avatarUrl || null } }); refresh(); return { success: "Profile saved." }; }
+  try { await getPrisma().user.update({ where: { id: user.id }, data: { ...parsed.data, avatarUrl: parsed.data.avatarUrl || null } }); revalidatePath("/profile"); revalidatePath("/dashboard"); return { success: "Profile saved." }; }
   catch { return { error: "Unable to save profile." }; }
 }
 export async function submitQuiz(input: unknown): Promise<{ error?: string; url?: string }> {
+  return timed("quiz.total", () => submitQuizMeasured(input));
+}
+async function submitQuizMeasured(input: unknown): Promise<{ error?: string; url?: string }> {
   const user = await requireUser();
   const parsed = quizSubmissionSchema.safeParse(input);
   if (!parsed.success) return { error: "Answer every question before submitting." };

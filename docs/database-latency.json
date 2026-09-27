@@ -1,0 +1,40 @@
+{
+  "pooled": false,
+  "region": "us-east-2",
+  "sslmode": "verify-full",
+  "note": "Read-only SELECT 1. Idle applies to this audit, not proof of provider scale-to-zero; another development client may remain active.",
+  "samples": [
+    {
+      "label": "fresh connection (not proven compute-cold)",
+      "ms": 1397
+    },
+    {
+      "label": "hot 1",
+      "ms": 185
+    },
+    {
+      "label": "hot 2",
+      "ms": 185
+    },
+    {
+      "label": "hot 3",
+      "ms": 188
+    },
+    {
+      "label": "first after 330s audit idle",
+      "ms": 1988
+    },
+    {
+      "label": "post-idle hot 1",
+      "ms": 190
+    },
+    {
+      "label": "post-idle hot 2",
+      "ms": 191
+    },
+    {
+      "label": "post-idle hot 3",
+      "ms": 194
+    }
+  ]
+}

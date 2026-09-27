@@ -36,7 +36,7 @@ export default function QuizQuestion({ quiz }: { quiz: PublicQuiz }) {
         <div><span>Question {quizPreview.currentQuestion} of {quizPreview.totalQuestions}</span><span>{quizPreview.progress}%</span></div>
         <progress value={quizPreview.progress} max={100} aria-label="Question progress" />
       </div>
-      <h2 id="quiz-question-title">{quizPreview.question}</h2>
+      <h2 key={question.id} id="quiz-question-title">{quizPreview.question}</h2>
       <div className="quiz-options" role="group" aria-labelledby="quiz-question-title">
         {quizPreview.options.map((option) => {
           const selected = option.id === quizPreview.selectedOption;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronDown, ChevronUp, FileText, LockKeyhole, Play, TvMinimalPlay } from "lucide-react";
+import { Check, ChevronDown, FileText, LockKeyhole, Play, TvMinimalPlay } from "lucide-react";
 import Link from "next/link";
 import type { ModuleView } from "@/types/learning";
 
@@ -17,9 +17,9 @@ export default function CourseModule({ module, isExpanded, onToggle }: CourseMod
           <span>{module.lessonCount} lessons</span>
         </span>
         <span className={`course-module-percent ${module.progress === 100 ? "completed" : ""}`}>{module.progress}%</span>
-        {isExpanded ? <ChevronUp size={18} aria-hidden="true" /> : <ChevronDown size={18} aria-hidden="true" />}
+        <ChevronDown size={18} aria-hidden="true" />
       </button></h3>
-        <ul className="course-lesson-list" id={panelId} hidden={!isExpanded}>
+        <ul className="course-lesson-list" id={panelId} hidden={!isExpanded} inert={!isExpanded}>
           {module.lessons.map((lesson) => (
             <li key={lesson.title} className={`course-lesson-row ${lesson.status}`} aria-current={lesson.status === "current" ? "step" : undefined}>
               <span className="course-lesson-status" aria-label={lesson.status}>

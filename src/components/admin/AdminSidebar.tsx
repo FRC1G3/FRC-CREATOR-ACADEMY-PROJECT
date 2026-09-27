@@ -22,7 +22,7 @@ export default function AdminSidebar({ user }: { user: { name: string; avatarUrl
   return (
     <>
       <button className="admin-menu-toggle" type="button" aria-label="Open admin navigation" aria-controls="admin-sidebar" aria-expanded={isOpen} onClick={() => setIsOpen(true)}><Menu size={22} /></button>
-      {isOpen && <button className="admin-menu-backdrop" type="button" aria-label="Close admin navigation" onClick={() => setIsOpen(false)} />}
+      <button hidden={!isOpen} inert={!isOpen} className="admin-menu-backdrop" type="button" aria-label="Close admin navigation" onClick={() => setIsOpen(false)} />
       <aside ref={panelRef} id="admin-sidebar" role="dialog" aria-modal={isOpen ? true : undefined} aria-label="Admin navigation" className={`admin-sidebar ${isOpen ? "is-open" : ""}`} inert={!isOpen} onKeyDown={(event) => {
         if (event.key === "Escape") setIsOpen(false);
         if (event.key !== "Tab") return;

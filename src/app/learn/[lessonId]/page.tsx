@@ -43,10 +43,10 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
         </div>
         <div className="lesson-layout">
           <div className="lesson-main">
-            <StartLesson slug={lesson.slug} />
+            {!state.progress.some(p => p.lessonId === lesson.id && p.status !== "NOT_STARTED") && <StartLesson slug={lesson.slug} />}
             <LessonPlayer lessonPreview={lessonPreview} />
             <LessonHeader lessonPreview={lessonPreview}>
-              <ActionForm action={completeLesson} slug={lesson.slug} label={state.completed.has(lesson.id) ? "Completed" : "Mark as Complete"} className="lesson-complete" disabled={state.completed.has(lesson.id)} />
+              <ActionForm action={completeLesson} slug={lesson.slug} label={state.completed.has(lesson.id) ? "Completed" : "Mark as Complete"} optimisticLabel="Completed" className="lesson-complete" disabled={state.completed.has(lesson.id)} />
               {next && next.status !== "locked" ? <Link href={nodeHref(state, next)}>{next.type === "QUIZ" ? "Next Checkpoint" : "Next Lesson"} →</Link> : <button disabled type="button">{next ? "Complete lesson to continue" : "Final lesson"}</button>}
             </LessonHeader>
             {previous && <Link href={nodeHref(state, previous)}>← Previous step</Link>}

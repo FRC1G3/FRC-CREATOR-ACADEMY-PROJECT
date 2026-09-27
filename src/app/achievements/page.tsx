@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import { requireUser } from "@/lib/current-user";
 import { studentBadges } from "@/services/learning";
 import { badgeViews } from "@/services/presentation";
@@ -6,7 +7,7 @@ import AchievementSummary from "@/components/achievements/AchievementSummary";
 import AchievementSection from "@/components/achievements/AchievementSection";
 import "@/styles/achievements/achievements.css";
 
-export default async function AchievementsPage() {
+async function AchievementsPage() {
   const user = await requireUser("/achievements");
   const badges = badgeViews(await studentBadges(user.id));
   const earned = badges.filter(b => b.status === "earned").length;
@@ -24,4 +25,8 @@ export default async function AchievementsPage() {
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof AchievementsPage>) {
+  return timed("route.achievements", () => AchievementsPage(...args));
 }

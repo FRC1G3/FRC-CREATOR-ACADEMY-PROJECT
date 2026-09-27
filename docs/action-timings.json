@@ -1,0 +1,1537 @@
+{
+  "note": "SQL event counts from a single isolated production HTTP client. Durations include driver/network time; nested spans overlap. Concurrent queries can be counted inside overlapping spans. No SQL/parameters recorded.",
+  "before": [
+    {
+      "label": "auth.resolve",
+      "ms": 549,
+      "queries": 3,
+      "queryMs": 536.7851999999984
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 1824,
+      "queries": 12,
+      "queryMs": 5464.868100000007
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 539,
+      "queries": 3,
+      "queryMs": 536.997600000017
+    },
+    {
+      "label": "complete.auth",
+      "ms": 540,
+      "queries": 3,
+      "queryMs": 536.997600000017
+    },
+    {
+      "label": "complete.locks",
+      "ms": 357,
+      "queries": 2,
+      "queryMs": 356.1866000000009
+    },
+    {
+      "label": "service.courseState",
+      "ms": 1761,
+      "queries": 9,
+      "queryMs": 2910.7517000000225
+    },
+    {
+      "label": "service.accessible",
+      "ms": 2365,
+      "queries": 12,
+      "queryMs": 3512.8759000000136
+    },
+    {
+      "label": "complete.access",
+      "ms": 2365,
+      "queries": 12,
+      "queryMs": 3512.8759000000136
+    },
+    {
+      "label": "complete.upsert",
+      "ms": 604,
+      "queries": 3,
+      "queryMs": 599.4161000000167
+    },
+    {
+      "label": "complete.update",
+      "ms": 203,
+      "queries": 1,
+      "queryMs": 201.47909999999683
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 2495,
+      "queries": 12,
+      "queryMs": 3590.1440000000293
+    },
+    {
+      "label": "service.syncEnrollmentCompletion",
+      "ms": 187,
+      "queries": 1,
+      "queryMs": 186.47469999999157
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 2684,
+      "queries": 13,
+      "queryMs": 3776.618700000021
+    },
+    {
+      "label": "complete.badges",
+      "ms": 2684,
+      "queries": 13,
+      "queryMs": 3776.618700000021
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 1,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 7118,
+      "queries": 35,
+      "queryMs": 9167.617000000071
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 557,
+      "queries": 3,
+      "queryMs": 552.7768999999971
+    },
+    {
+      "label": "service.courseState",
+      "ms": 743,
+      "queries": 9,
+      "queryMs": 1677.4931000000215
+    },
+    {
+      "label": "service.accessible",
+      "ms": 1296,
+      "queries": 12,
+      "queryMs": 2229.7125000000233
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 555,
+      "queries": 3,
+      "queryMs": 552.3256999999867
+    },
+    {
+      "label": "complete.auth",
+      "ms": 555,
+      "queries": 3,
+      "queryMs": 552.3256999999867
+    },
+    {
+      "label": "complete.locks",
+      "ms": 368,
+      "queries": 2,
+      "queryMs": 366.98219999999856
+    },
+    {
+      "label": "service.courseState",
+      "ms": 1667,
+      "queries": 9,
+      "queryMs": 2783.5523000000103
+    },
+    {
+      "label": "service.accessible",
+      "ms": 2225,
+      "queries": 12,
+      "queryMs": 3341.575199999992
+    },
+    {
+      "label": "complete.access",
+      "ms": 2225,
+      "queries": 12,
+      "queryMs": 3341.575199999992
+    },
+    {
+      "label": "complete.upsert",
+      "ms": 565,
+      "queries": 3,
+      "queryMs": 563.890699999989
+    },
+    {
+      "label": "complete.update",
+      "ms": 186,
+      "queries": 1,
+      "queryMs": 185.70919999998296
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 3978,
+      "queries": 12,
+      "queryMs": 5494.280500000023
+    },
+    {
+      "label": "service.syncEnrollmentCompletion",
+      "ms": 457,
+      "queries": 1,
+      "queryMs": 456.7699999999895
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 4435,
+      "queries": 13,
+      "queryMs": 5951.050500000012
+    },
+    {
+      "label": "complete.badges",
+      "ms": 4435,
+      "queries": 13,
+      "queryMs": 5951.050500000012
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 8975,
+      "queries": 35,
+      "queryMs": 11414.96669999996
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 1125,
+      "queries": 3,
+      "queryMs": 1121.1733999999997
+    },
+    {
+      "label": "service.courseState",
+      "ms": 2862,
+      "queries": 9,
+      "queryMs": 5102.303500000009
+    },
+    {
+      "label": "service.accessible",
+      "ms": 3501,
+      "queries": 12,
+      "queryMs": 5740.398799999995
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 663,
+      "queries": 3,
+      "queryMs": 660.8384000000078
+    },
+    {
+      "label": "complete.auth",
+      "ms": 663,
+      "queries": 3,
+      "queryMs": 660.8384000000078
+    },
+    {
+      "label": "complete.locks",
+      "ms": 406,
+      "queries": 2,
+      "queryMs": 405.08129999999073
+    },
+    {
+      "label": "service.courseState",
+      "ms": 2041,
+      "queries": 9,
+      "queryMs": 3355.0614999999816
+    },
+    {
+      "label": "service.accessible",
+      "ms": 2655,
+      "queries": 12,
+      "queryMs": 3969.2092999999877
+    },
+    {
+      "label": "complete.access",
+      "ms": 2655,
+      "queries": 12,
+      "queryMs": 3969.2092999999877
+    },
+    {
+      "label": "complete.upsert",
+      "ms": 562,
+      "queries": 3,
+      "queryMs": 561.3421999999846
+    },
+    {
+      "label": "complete.update",
+      "ms": 188,
+      "queries": 1,
+      "queryMs": 187.53469999998924
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 2268,
+      "queries": 12,
+      "queryMs": 3203.5807000000204
+    },
+    {
+      "label": "service.syncEnrollmentCompletion",
+      "ms": 185,
+      "queries": 1,
+      "queryMs": 185.0679999999993
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 2453,
+      "queries": 13,
+      "queryMs": 3388.6487000000197
+    },
+    {
+      "label": "complete.badges",
+      "ms": 2453,
+      "queries": 13,
+      "queryMs": 3388.6487000000197
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 7317,
+      "queries": 35,
+      "queryMs": 9360.435199999978
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 565,
+      "queries": 3,
+      "queryMs": 560.8966000000073
+    },
+    {
+      "label": "service.courseState",
+      "ms": 2740,
+      "queries": 9,
+      "queryMs": 4891.174700000032
+    },
+    {
+      "label": "service.accessible",
+      "ms": 3301,
+      "queries": 12,
+      "queryMs": 5451.174800000008
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 576,
+      "queries": 3,
+      "queryMs": 573.6350000000093
+    },
+    {
+      "label": "complete.auth",
+      "ms": 576,
+      "queries": 3,
+      "queryMs": 573.6350000000093
+    },
+    {
+      "label": "complete.locks",
+      "ms": 384,
+      "queries": 2,
+      "queryMs": 383.4393000000273
+    },
+    {
+      "label": "service.courseState",
+      "ms": 1721,
+      "queries": 9,
+      "queryMs": 2844.3121000000974
+    },
+    {
+      "label": "service.accessible",
+      "ms": 2297,
+      "queries": 12,
+      "queryMs": 3420.082800000091
+    },
+    {
+      "label": "complete.access",
+      "ms": 2297,
+      "queries": 12,
+      "queryMs": 3420.082800000091
+    },
+    {
+      "label": "complete.upsert",
+      "ms": 559,
+      "queries": 3,
+      "queryMs": 558.2630000000063
+    },
+    {
+      "label": "complete.update",
+      "ms": 187,
+      "queries": 1,
+      "queryMs": 186.86149999999907
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 4771,
+      "queries": 12,
+      "queryMs": 6633.398699999954
+    },
+    {
+      "label": "service.syncEnrollmentCompletion",
+      "ms": 296,
+      "queries": 1,
+      "queryMs": 295.9365000000107
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 5067,
+      "queries": 13,
+      "queryMs": 6929.335199999965
+    },
+    {
+      "label": "complete.badges",
+      "ms": 5067,
+      "queries": 13,
+      "queryMs": 6929.335199999965
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 9519,
+      "queries": 35,
+      "queryMs": 12306.592600000084
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 601,
+      "queries": 3,
+      "queryMs": 597.8559999999998
+    },
+    {
+      "label": "service.courseState",
+      "ms": 2932,
+      "queries": 9,
+      "queryMs": 5273.6879999999655
+    },
+    {
+      "label": "service.accessible",
+      "ms": 3539,
+      "queries": 12,
+      "queryMs": 5879.938299999951
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 606,
+      "queries": 3,
+      "queryMs": 574.2766999999876
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 1661,
+      "queries": 12,
+      "queryMs": 4426.171200000012
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 554,
+      "queries": 3,
+      "queryMs": 548.5367999999726
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 736,
+      "queries": 12,
+      "queryMs": 2190.2598999999755
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 586,
+      "queries": 3,
+      "queryMs": 582.2833000000101
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 760,
+      "queries": 12,
+      "queryMs": 2236.496499999921
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 576,
+      "queries": 3,
+      "queryMs": 571.3147999999928
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 748,
+      "queries": 12,
+      "queryMs": 2234.8076999999466
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 590,
+      "queries": 5,
+      "queryMs": 966.0188000000198
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 552,
+      "queries": 5,
+      "queryMs": 916.2174999999697
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 552,
+      "queries": 5,
+      "queryMs": 913.0529000000097
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 1034,
+      "queries": 5,
+      "queryMs": 1658.8177000000142
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 1040,
+      "queries": 3,
+      "queryMs": 1035.1157999999705
+    },
+    {
+      "label": "service.courseState",
+      "ms": 1080,
+      "queries": 9,
+      "queryMs": 2513.1052999999374
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 949,
+      "queries": 3,
+      "queryMs": 945.2968999999866
+    },
+    {
+      "label": "service.courseState",
+      "ms": 884,
+      "queries": 9,
+      "queryMs": 1944.0518999999913
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 605,
+      "queries": 3,
+      "queryMs": 600.2492999999959
+    },
+    {
+      "label": "service.courseState",
+      "ms": 761,
+      "queries": 9,
+      "queryMs": 1678.310199999949
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 580,
+      "queries": 3,
+      "queryMs": 576.4322999999858
+    },
+    {
+      "label": "service.courseState",
+      "ms": 796,
+      "queries": 9,
+      "queryMs": 1756.8077999999805
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 586,
+      "queries": 3,
+      "queryMs": 582.0450999999885
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 738,
+      "queries": 12,
+      "queryMs": 2219.004499999952
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 571,
+      "queries": 3,
+      "queryMs": 567.1814000000013
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 1718,
+      "queries": 12,
+      "queryMs": 3385.2883999999904
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 567,
+      "queries": 3,
+      "queryMs": 562.8282000000472
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 740,
+      "queries": 12,
+      "queryMs": 2239.4714000000677
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 555,
+      "queries": 3,
+      "queryMs": 550.4995000000054
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 733,
+      "queries": 12,
+      "queryMs": 2210.409100000019
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 572,
+      "queries": 3,
+      "queryMs": 567.9219999999914
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 726,
+      "queries": 13,
+      "queryMs": 2375.7538999999815
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 612,
+      "queries": 3,
+      "queryMs": 607.1843999999983
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 753,
+      "queries": 13,
+      "queryMs": 2440.599500000011
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 584,
+      "queries": 3,
+      "queryMs": 579.3896999999997
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 1767,
+      "queries": 13,
+      "queryMs": 3612.3556999999855
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 995,
+      "queries": 3,
+      "queryMs": 987.4992000000202
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 1136,
+      "queries": 13,
+      "queryMs": 4233.0580999999365
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 721,
+      "queries": 3,
+      "queryMs": 716.7045000000217
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 575,
+      "queries": 3,
+      "queryMs": 571.477600000042
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 654,
+      "queries": 3,
+      "queryMs": 650.0926000000036
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 665,
+      "queries": 3,
+      "queryMs": 661.062900000019
+    }
+  ],
+  "after": [
+    {
+      "label": "auth.resolve",
+      "ms": 207,
+      "queries": 1,
+      "queryMs": 194.74750000000495
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 1518,
+      "queries": 2,
+      "queryMs": 1693.9017999999996
+    },
+    {
+      "label": "route.dashboard",
+      "ms": 1724,
+      "queries": 3,
+      "queryMs": 1888.6493000000046
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 188,
+      "queries": 1,
+      "queryMs": 186.15380000000005
+    },
+    {
+      "label": "complete.auth",
+      "ms": 188,
+      "queries": 1,
+      "queryMs": 186.15380000000005
+    },
+    {
+      "label": "complete.locks",
+      "ms": 372,
+      "queries": 2,
+      "queryMs": 370.86729999999807
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 556,
+      "queries": 2,
+      "queryMs": 737.059500000003
+    },
+    {
+      "label": "complete.snapshot",
+      "ms": 556,
+      "queries": 2,
+      "queryMs": 737.059500000003
+    },
+    {
+      "label": "complete.access",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.write",
+      "ms": 184,
+      "queries": 1,
+      "queryMs": 179.3454999999958
+    },
+    {
+      "label": "complete.derive",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.badges",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 1,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 1668,
+      "queries": 7,
+      "queryMs": 1657.017200000002
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 191,
+      "queries": 1,
+      "queryMs": 186.63739999999962
+    },
+    {
+      "label": "service.courseState",
+      "ms": 2775,
+      "queries": 5,
+      "queryMs": 5980.511600000005
+    },
+    {
+      "label": "service.accessible",
+      "ms": 2967,
+      "queries": 6,
+      "queryMs": 6171.709800000004
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 254,
+      "queries": 1,
+      "queryMs": 253.07160000000295
+    },
+    {
+      "label": "complete.auth",
+      "ms": 254,
+      "queries": 1,
+      "queryMs": 253.07160000000295
+    },
+    {
+      "label": "complete.locks",
+      "ms": 547,
+      "queries": 2,
+      "queryMs": 546.0021000000052
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 788,
+      "queries": 2,
+      "queryMs": 1042.8652000000075
+    },
+    {
+      "label": "complete.snapshot",
+      "ms": 788,
+      "queries": 2,
+      "queryMs": 1042.8652000000075
+    },
+    {
+      "label": "complete.access",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.write",
+      "ms": 236,
+      "queries": 1,
+      "queryMs": 235.7462000000014
+    },
+    {
+      "label": "complete.derive",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.badges",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 2300,
+      "queries": 7,
+      "queryMs": 2315.137700000021
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 232,
+      "queries": 1,
+      "queryMs": 228.97449999999662
+    },
+    {
+      "label": "service.courseState",
+      "ms": 392,
+      "queries": 5,
+      "queryMs": 958.0989000000045
+    },
+    {
+      "label": "service.accessible",
+      "ms": 586,
+      "queries": 6,
+      "queryMs": 1151.3162999999986
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 197,
+      "queries": 1,
+      "queryMs": 195.12370000000374
+    },
+    {
+      "label": "complete.auth",
+      "ms": 197,
+      "queries": 1,
+      "queryMs": 195.12370000000374
+    },
+    {
+      "label": "complete.locks",
+      "ms": 385,
+      "queries": 2,
+      "queryMs": 384.1533999999956
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 578,
+      "queries": 2,
+      "queryMs": 771.4328000000023
+    },
+    {
+      "label": "complete.snapshot",
+      "ms": 578,
+      "queries": 2,
+      "queryMs": 771.4328000000023
+    },
+    {
+      "label": "complete.access",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.write",
+      "ms": 196,
+      "queries": 1,
+      "queryMs": 195.15639999999985
+    },
+    {
+      "label": "complete.derive",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.badges",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 1739,
+      "queries": 7,
+      "queryMs": 1737.7657000000036
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 204,
+      "queries": 1,
+      "queryMs": 200.1403999999966
+    },
+    {
+      "label": "service.courseState",
+      "ms": 390,
+      "queries": 5,
+      "queryMs": 959.0414000000092
+    },
+    {
+      "label": "service.accessible",
+      "ms": 583,
+      "queries": 6,
+      "queryMs": 1151.4331000000093
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 223,
+      "queries": 1,
+      "queryMs": 221.63950000000477
+    },
+    {
+      "label": "complete.auth",
+      "ms": 223,
+      "queries": 1,
+      "queryMs": 221.63950000000477
+    },
+    {
+      "label": "complete.locks",
+      "ms": 395,
+      "queries": 2,
+      "queryMs": 394.4858000000022
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 583,
+      "queries": 2,
+      "queryMs": 777.9005000000034
+    },
+    {
+      "label": "complete.snapshot",
+      "ms": 583,
+      "queries": 2,
+      "queryMs": 777.9005000000034
+    },
+    {
+      "label": "complete.access",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.write",
+      "ms": 197,
+      "queries": 1,
+      "queryMs": 196.4971000000005
+    },
+    {
+      "label": "complete.derive",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.badges",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.revalidation",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 1784,
+      "queries": 7,
+      "queryMs": 1782.41550000001
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 194,
+      "queries": 1,
+      "queryMs": 191.67759999999544
+    },
+    {
+      "label": "service.courseState",
+      "ms": 387,
+      "queries": 5,
+      "queryMs": 945.5639000000083
+    },
+    {
+      "label": "service.accessible",
+      "ms": 580,
+      "queries": 6,
+      "queryMs": 1137.4117000000042
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 225,
+      "queries": 1,
+      "queryMs": 193.8006000000023
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 398,
+      "queries": 2,
+      "queryMs": 599.9061999999976
+    },
+    {
+      "label": "route.dashboard",
+      "ms": 624,
+      "queries": 3,
+      "queryMs": 793.7067999999999
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 203,
+      "queries": 1,
+      "queryMs": 198.9893000000011
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 389,
+      "queries": 2,
+      "queryMs": 578.6278000000093
+    },
+    {
+      "label": "route.dashboard",
+      "ms": 592,
+      "queries": 3,
+      "queryMs": 777.6171000000104
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 211,
+      "queries": 1,
+      "queryMs": 206.52210000000196
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 390,
+      "queries": 2,
+      "queryMs": 586.7727000000014
+    },
+    {
+      "label": "route.dashboard",
+      "ms": 601,
+      "queries": 3,
+      "queryMs": 793.2948000000033
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 199,
+      "queries": 1,
+      "queryMs": 195.65779999999359
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 218,
+      "queries": 2,
+      "queryMs": 422.36999999999534
+    },
+    {
+      "label": "route.dashboard",
+      "ms": 417,
+      "queries": 3,
+      "queryMs": 618.0277999999889
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 200,
+      "queries": 1,
+      "queryMs": 195.10609999999724
+    },
+    {
+      "label": "route.courses",
+      "ms": 394,
+      "queries": 4,
+      "queryMs": 781.184399999991
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 196,
+      "queries": 1,
+      "queryMs": 191.75890000000072
+    },
+    {
+      "label": "route.courses",
+      "ms": 391,
+      "queries": 4,
+      "queryMs": 777.1453000000038
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 205,
+      "queries": 1,
+      "queryMs": 200.96110000000044
+    },
+    {
+      "label": "route.courses",
+      "ms": 395,
+      "queries": 4,
+      "queryMs": 786.0359999999928
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 208,
+      "queries": 2,
+      "queryMs": 398.1915999999983
+    },
+    {
+      "label": "route.courses",
+      "ms": 396,
+      "queries": 4,
+      "queryMs": 774.4590000000026
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 199,
+      "queries": 1,
+      "queryMs": 190.98660000000382
+    },
+    {
+      "label": "service.courseState",
+      "ms": 573,
+      "queries": 5,
+      "queryMs": 1126.5102999999872
+    },
+    {
+      "label": "route.course",
+      "ms": 772,
+      "queries": 6,
+      "queryMs": 1317.496899999991
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 199,
+      "queries": 1,
+      "queryMs": 194.9991000000009
+    },
+    {
+      "label": "service.courseState",
+      "ms": 638,
+      "queries": 5,
+      "queryMs": 1363.6584999999977
+    },
+    {
+      "label": "route.course",
+      "ms": 837,
+      "queries": 6,
+      "queryMs": 1558.6575999999986
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 370,
+      "queries": 1,
+      "queryMs": 367.75039999999717
+    },
+    {
+      "label": "service.courseState",
+      "ms": 797,
+      "queries": 5,
+      "queryMs": 2001.1472000000067
+    },
+    {
+      "label": "route.course",
+      "ms": 1167,
+      "queries": 6,
+      "queryMs": 2368.897600000004
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 425,
+      "queries": 1,
+      "queryMs": 422.151300000005
+    },
+    {
+      "label": "service.courseState",
+      "ms": 569,
+      "queries": 5,
+      "queryMs": 1477.4367000000057
+    },
+    {
+      "label": "route.course",
+      "ms": 994,
+      "queries": 6,
+      "queryMs": 1899.5880000000107
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 359,
+      "queries": 1,
+      "queryMs": 355.5878999999986
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 650,
+      "queries": 2,
+      "queryMs": 960.2468000000008
+    },
+    {
+      "label": "route.roadmap",
+      "ms": 1009,
+      "queries": 3,
+      "queryMs": 1315.8346999999994
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 211,
+      "queries": 1,
+      "queryMs": 207.7525999999998
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 220,
+      "queries": 2,
+      "queryMs": 434.1652000000031
+    },
+    {
+      "label": "route.roadmap",
+      "ms": 431,
+      "queries": 3,
+      "queryMs": 641.9178000000029
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 230,
+      "queries": 1,
+      "queryMs": 226.94770000000426
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 259,
+      "queries": 2,
+      "queryMs": 496.9528999999966
+    },
+    {
+      "label": "route.roadmap",
+      "ms": 488,
+      "queries": 3,
+      "queryMs": 723.9006000000008
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 214,
+      "queries": 1,
+      "queryMs": 210.32019999999466
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 245,
+      "queries": 2,
+      "queryMs": 475.26020000000426
+    },
+    {
+      "label": "route.roadmap",
+      "ms": 459,
+      "queries": 3,
+      "queryMs": 685.5803999999989
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 209,
+      "queries": 1,
+      "queryMs": 205.4641000000047
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 214,
+      "queries": 3,
+      "queryMs": 600.0578999999998
+    },
+    {
+      "label": "route.profile",
+      "ms": 439,
+      "queries": 4,
+      "queryMs": 805.5220000000045
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 208,
+      "queries": 1,
+      "queryMs": 203.0318000000043
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 273,
+      "queries": 3,
+      "queryMs": 782.3231999999989
+    },
+    {
+      "label": "route.profile",
+      "ms": 482,
+      "queries": 4,
+      "queryMs": 985.3550000000032
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 225,
+      "queries": 1,
+      "queryMs": 222.57200000000012
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 433,
+      "queries": 3,
+      "queryMs": 866.8654000000024
+    },
+    {
+      "label": "route.profile",
+      "ms": 658,
+      "queries": 4,
+      "queryMs": 1089.4374000000025
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 221,
+      "queries": 1,
+      "queryMs": 218.21639999999752
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 235,
+      "queries": 3,
+      "queryMs": 653.0906999999934
+    },
+    {
+      "label": "route.profile",
+      "ms": 456,
+      "queries": 4,
+      "queryMs": 871.3070999999909
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 206,
+      "queries": 1,
+      "queryMs": 203.11699999999837
+    },
+    {
+      "label": "route.achievements",
+      "ms": 408,
+      "queries": 2,
+      "queryMs": 404.77790000000095
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 215,
+      "queries": 1,
+      "queryMs": 211.9213000000018
+    },
+    {
+      "label": "route.achievements",
+      "ms": 431,
+      "queries": 2,
+      "queryMs": 428.3329000000085
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 240,
+      "queries": 1,
+      "queryMs": 236.95089999999618
+    },
+    {
+      "label": "route.achievements",
+      "ms": 433,
+      "queries": 2,
+      "queryMs": 430.8110999999917
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 227,
+      "queries": 1,
+      "queryMs": 224.3027000000002
+    },
+    {
+      "label": "route.achievements",
+      "ms": 422,
+      "queries": 2,
+      "queryMs": 419.3658999999898
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 206,
+      "queries": 1,
+      "queryMs": 202.59259999998903
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 232,
+      "queries": 1,
+      "queryMs": 229.15519999999378
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 211,
+      "queries": 1,
+      "queryMs": 209.59130000000005
+    },
+    {
+      "label": "service.courseState",
+      "ms": 1162,
+      "queries": 5,
+      "queryMs": 1362.399499999985
+    },
+    {
+      "label": "service.accessible",
+      "ms": 1351,
+      "queries": 6,
+      "queryMs": 1550.8352999999915
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 381,
+      "queries": 2,
+      "queryMs": 562.9572000000044
+    },
+    {
+      "label": "service.evaluateBadgesForUser",
+      "ms": 570,
+      "queries": 3,
+      "queryMs": 750.4838000000018
+    },
+    {
+      "label": "quiz.total",
+      "ms": 4065,
+      "queries": 19,
+      "queryMs": 4243.888100000011
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 186,
+      "queries": 1,
+      "queryMs": 183.65710000001127
+    },
+    {
+      "label": "service.courseState",
+      "ms": 376,
+      "queries": 5,
+      "queryMs": 928.579200000022
+    },
+    {
+      "label": "service.accessible",
+      "ms": 581,
+      "queries": 6,
+      "queryMs": 1132.2885000000242
+    },
+    {
+      "label": "auth.resolve",
+      "ms": 187,
+      "queries": 1,
+      "queryMs": 185.68249999999534
+    },
+    {
+      "label": "complete.auth",
+      "ms": 187,
+      "queries": 1,
+      "queryMs": 185.68249999999534
+    },
+    {
+      "label": "complete.locks",
+      "ms": 387,
+      "queries": 2,
+      "queryMs": 386.6559999999881
+    },
+    {
+      "label": "service.studentOverview",
+      "ms": 593,
+      "queries": 2,
+      "queryMs": 800.7017000000051
+    },
+    {
+      "label": "complete.snapshot",
+      "ms": 593,
+      "queries": 2,
+      "queryMs": 800.7017000000051
+    },
+    {
+      "label": "complete.access",
+      "ms": 0,
+      "queries": 0,
+      "queryMs": 0
+    },
+    {
+      "label": "complete.total",
+      "ms": 1550,
+      "queries": 6,
+      "queryMs": 1571.0513999999966
+    }
+  ]
+}

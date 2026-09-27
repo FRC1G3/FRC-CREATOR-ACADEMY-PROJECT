@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import "@/styles/courses/courses.css";
 
 import CourseCatalog from "@/components/course/CourseCatalog";
@@ -7,7 +8,7 @@ import { getCurrentUser } from "@/lib/current-user";
 import { percentage } from "@/lib/learning-rules";
 import DatabaseUnavailable from "@/components/learning/DatabaseUnavailable";
 
-export default async function CoursesPage() {
+async function CoursesPage() {
   await connection();
   if (!process.env.DATABASE_URL) return <main className="courses-page"><div className="courses-container"><DatabaseUnavailable /></div></main>;
   const db = getPrisma();
@@ -38,4 +39,8 @@ export default async function CoursesPage() {
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof CoursesPage>) {
+  return timed("route.courses", () => CoursesPage(...args));
 }

@@ -1,0 +1,145 @@
+{
+  "note": "Sequential production HTTP, temporary enrolled user, first sample is first-process-use NOT proven Neon cold start; milliseconds including full response, no browser rendering.",
+  "timings": [
+    {
+      "operation": "complete",
+      "sample": 0,
+      "ms": 3581
+    },
+    {
+      "operation": "complete",
+      "sample": 1,
+      "ms": 3975
+    },
+    {
+      "operation": "complete",
+      "sample": 2,
+      "ms": 3429
+    },
+    {
+      "operation": "complete",
+      "sample": 3,
+      "ms": 3493
+    },
+    {
+      "operation": "/dashboard",
+      "sample": 0,
+      "ms": 807
+    },
+    {
+      "operation": "/dashboard",
+      "sample": 1,
+      "ms": 777
+    },
+    {
+      "operation": "/dashboard",
+      "sample": 2,
+      "ms": 810
+    },
+    {
+      "operation": "/dashboard",
+      "sample": 3,
+      "ms": 788
+    },
+    {
+      "operation": "/courses",
+      "sample": 0,
+      "ms": 599
+    },
+    {
+      "operation": "/courses",
+      "sample": 1,
+      "ms": 605
+    },
+    {
+      "operation": "/courses",
+      "sample": 2,
+      "ms": 566
+    },
+    {
+      "operation": "/courses",
+      "sample": 3,
+      "ms": 597
+    },
+    {
+      "operation": "/courses/youtube",
+      "sample": 0,
+      "ms": 987
+    },
+    {
+      "operation": "/courses/youtube",
+      "sample": 1,
+      "ms": 1520
+    },
+    {
+      "operation": "/courses/youtube",
+      "sample": 2,
+      "ms": 1651
+    },
+    {
+      "operation": "/courses/youtube",
+      "sample": 3,
+      "ms": 1084
+    },
+    {
+      "operation": "/roadmap",
+      "sample": 0,
+      "ms": 837
+    },
+    {
+      "operation": "/roadmap",
+      "sample": 1,
+      "ms": 875
+    },
+    {
+      "operation": "/roadmap",
+      "sample": 2,
+      "ms": 850
+    },
+    {
+      "operation": "/roadmap",
+      "sample": 3,
+      "ms": 860
+    },
+    {
+      "operation": "/profile",
+      "sample": 0,
+      "ms": 1758
+    },
+    {
+      "operation": "/profile",
+      "sample": 1,
+      "ms": 774
+    },
+    {
+      "operation": "/profile",
+      "sample": 2,
+      "ms": 762
+    },
+    {
+      "operation": "/profile",
+      "sample": 3,
+      "ms": 785
+    },
+    {
+      "operation": "/achievements",
+      "sample": 0,
+      "ms": 592
+    },
+    {
+      "operation": "/achievements",
+      "sample": 1,
+      "ms": 583
+    },
+    {
+      "operation": "/achievements",
+      "sample": 2,
+      "ms": 580
+    },
+    {
+      "operation": "/achievements",
+      "sample": 3,
+      "ms": 641
+    }
+  ]
+}

@@ -12,10 +12,11 @@ function createAuth() {
   if (!process.env.BETTER_AUTH_SECRET || process.env.BETTER_AUTH_SECRET.length < 32) throw new Error("Authentication is not configured.");
   return betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
+    advanced: { database: { joins: true } },
     baseURL: process.env.BETTER_AUTH_URL,
     database: prismaAdapter(getPrisma(), { provider: "postgresql", transaction: true }),
     emailAndPassword: { enabled: true, minPasswordLength: 8, maxPasswordLength: 72, autoSignIn: false, password: { hash: hashPassword, verify: verifyPassword } },
-    user: { fields: { image: "avatarUrl" }, additionalFields: { role: { type: ["STUDENT", "ADMIN"], defaultValue: "STUDENT", input: false } } },
+    user: { fields: { image: "avatarUrl" }, additionalFields: { bio: { type: "string", required: false, input: false }, role: { type: ["STUDENT", "ADMIN"], defaultValue: "STUDENT", input: false } } },
     databaseHooks: { user: { create: { before: async user => ({ data: { ...user, role: "STUDENT" as const } }) } } },
     session: { expiresIn: 60 * 60 * 24 * 7, updateAge: 60 * 60 * 24 },
     rateLimit: { enabled: true, window: 60, max: 20 },

@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import Link from "next/link";
 import { Trophy, ArrowRight } from "lucide-react";
 import ProfileHero from "@/components/profile/ProfileHero";
@@ -13,7 +14,7 @@ import type { ProfileView, ActivityView } from "@/types/learning";
 import "@/styles/achievements/achievements.css";
 import "@/styles/profile/profile.css";
 
-export default async function ProfilePage() {
+async function ProfilePage() {
   const user = await requireUser("/profile");
   const [overview, channel] = await Promise.all([studentOverview(user.id), getPrisma().youTubeConnection.findUnique({ where: { userId: user.id }, select: { channelTitle: true, subscriberCount: true, videoCount: true, viewCount: true } })]);
   const achievementBadges = badgeViews(overview.badges);
@@ -38,4 +39,8 @@ export default async function ProfilePage() {
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof ProfilePage>) {
+  return timed("route.profile", () => ProfilePage(...args));
 }
