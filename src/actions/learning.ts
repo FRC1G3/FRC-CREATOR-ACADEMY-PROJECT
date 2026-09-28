@@ -1,5 +1,6 @@
 "use server";
 import { timed } from "@/lib/performance";
+import { normalizeAvatar } from "@/lib/avatar-server";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/current-user";
 import { getPrisma } from "@/lib/prisma";
@@ -74,8 +75,13 @@ async function completeLessonMeasured(_: ActionState, data: FormData): Promise<A
 export async function saveProfile(_: ActionState, data: FormData): Promise<ActionState> {
   const user = await requireUser();
   const parsed = profileSchema.safeParse(Object.fromEntries(data));
-  if (!parsed.success) return { error: "Check your name, bio and avatar URL." };
-  try { await getPrisma().user.update({ where: { id: user.id }, data: { ...parsed.data, avatarUrl: parsed.data.avatarUrl || null } }); revalidatePath("/profile"); revalidatePath("/dashboard"); return { success: "Profile saved." }; }
+  if (!parsed.success) return { error: "Check your name, bio and profile photo." };
+  let avatarUrl = parsed.data.avatarUrl || null;
+  if (avatarUrl?.startsWith("data:")) {
+    try { avatarUrl = await normalizeAvatar(avatarUrl); }
+    catch { return { error: "Invalid profile photo. Please choose another JPEG, PNG or WebP image." }; }
+  }
+  try { await getPrisma().user.update({ where: { id: user.id }, data: { ...parsed.data, avatarUrl } }); revalidatePath("/", "layout"); return { success: "Profile updated successfully." }; }
   catch { return { error: "Unable to save profile." }; }
 }
 export async function submitQuiz(input: unknown): Promise<{ error?: string; url?: string }> {

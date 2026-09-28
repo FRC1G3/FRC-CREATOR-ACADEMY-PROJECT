@@ -83,3 +83,4 @@
 }
 
 .roadmap-checkpoint { max-width: 440px; margin-top: 22px; color: var(--color-text-secondary); font-size: 13px; line-height: 1.7; }
+@media (max-width: 900px) { .roadMap { height: auto; } }

@@ -1,3 +1,5 @@
+import BookmarkButton from "@/components/learning/BookmarkButton";
+import { getPrisma } from "@/lib/prisma";
 import { timed } from "@/lib/performance";
 import { requireUser } from "@/lib/current-user";
 import { studentOverview, nodeHref } from "@/services/learning";
@@ -14,7 +16,7 @@ import DashboardPromo from "@/components/dashboard/DashboardPromo";
 import "@/styles/dashboard/dashboard.css";
 async function DashboardPage() {
   const user = await requireUser("/dashboard");
-  const overview = await studentOverview(user.id);
+  const [overview, savedCourses] = await Promise.all([studentOverview(user.id), getPrisma().courseBookmark.findMany({ where: { userId: user.id }, select: { courseId: true } })]);
   const state = overview.active;
   const earned = badgeViews(overview.badges).filter(b => b.status === "earned");
   const last = overview.attempts[0];
@@ -23,7 +25,7 @@ async function DashboardPage() {
     <main className="dashboard">
       <DashboardHero name={user.name} />
       <section className="dashboard-sec2" aria-label="Learning overview">
-        {state ? <ContinueLearning course={state.course.title} title={state.currentLesson?.title ?? state.course.quizzes.find(q => q.id === next?.quizId)?.title ?? "Course complete"} detail={state.currentLesson ? `Lesson ${state.currentLesson.order}` : "Learning roadmap"} progress={state.percentage} href={nodeHref(state, next)} courseHref={`/courses/${state.course.slug}`} /> : <EmptyState />}
+        {state ? <ContinueLearning bookmark={<BookmarkButton kind="course" id={state.course.id} initialSaved={savedCourses.some(b => b.courseId === state.course.id)} className="continue-bookmark" />} course={state.course.title} title={state.currentLesson?.title ?? state.course.quizzes.find(q => q.id === next?.quizId)?.title ?? "Course complete"} detail={state.currentLesson ? `Lesson ${state.currentLesson.order}` : "Learning roadmap"} progress={state.percentage} href={nodeHref(state, next)} courseHref={`/courses/${state.course.slug}`} /> : <EmptyState />}
         <OverallProgress overallProgress={{ percentage: overview.percentage, summary: [{ label: "Completed", lessons: overview.completed, status: "completed" }, { label: "In Progress", lessons: overview.states.reduce((n,s) => n+s.progress.filter(p => p.status === "IN_PROGRESS").length,0), status: "in-progress" }, { label: "Not Started", lessons: overview.states.reduce((n,s) => n+s.totalLessons-s.progress.filter(p => p.status !== "NOT_STARTED").length,0), status: "not-started" }] }} />
         <StreakCard learningStreak={overview.streak} />
       </section>

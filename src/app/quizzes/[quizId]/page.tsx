@@ -1,3 +1,4 @@
+import Link from "next/link";
 import QuizHeader from "@/components/quiz/QuizHeader";
 import { notFound } from "next/navigation";
 import QuizQuestion from "@/components/quiz/QuizQuestion";
@@ -19,6 +20,9 @@ export default async function QuizPage({ params }: { params: Promise<{ quizId: s
   return (
     <main className="quiz-page">
       <div className="quiz-container">
+        <div className="student-breadcrumb" aria-label="Breadcrumb"><Link href="/courses">Courses</Link><span aria-hidden="true">/</span><Link href={`/courses/${access.state.course.slug}`}>{access.state.course.title}</Link><span aria-hidden="true">/</span><span aria-current="page">{quiz.title}</span></div>
+        <Link className="student-back" href={`/courses/${access.state.course.slug}`}>Back to Course</Link>
+        <p className="quiz-leave-note">Leaving this page discards your unsubmitted answers.</p>
         <QuizHeader quizPreview={publicQuiz} />
         <QuizQuestion quiz={publicQuiz} />
       </div>

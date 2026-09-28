@@ -1,7 +1,7 @@
 export type BadgeView = { title: string; description: string; status: "earned" | "locked"; earnedDate: string | null; icon: "play" | "star" | "flame" | "shorts" | "chart" | "crown" };
 export type RoadmapView = { title: string; detail: string; status: string; kind: string; href?: string };
-export type CourseCardView = { id: string; title: string; description: string; image: string | null; lessons: number; level: string; progress: number | null; duration?: number | null };
-export type ModuleView = { number: number; title: string; lessonCount: number; progress: number; lessons: { title: string; duration: string; status: string; href?: string }[] };
+export type CourseCardView = { id: string; title: string; description: string; image: string | null; lessons: number; level: string; progress: number | null; duration?: number | null; bookmark?: { id: string; saved: boolean } };
+export type ModuleView = { number: number; title: string; lessonCount: number; progress: number; lessons: { title: string; duration: string; status: string; href?: string; kind?: "lesson" | "quiz"; quizStatus?: "required" | "failed" | "passed" }[] };
 export type LessonView = { number: number; title: string; course: string; module: string; moduleNumber: number; duration: string; description: string; thumbnail: string; videoUrl: string; progress: number; completed: string; streak: number; quizzes: string; status: string; time: string };
 export type ProfileView = { name: string; email: string; role: string; joined: string; avatar: string; bio: string; progress: number; completed: number; total: number; quizAverage: number; streak: number; badges: number; channel: string; subscribers: string; videos: string; views: string; connected: boolean };
 export type ActivityView = { title: string; detail: string; time: string; kind: "completed" | "quiz" | "started" | "badge" };

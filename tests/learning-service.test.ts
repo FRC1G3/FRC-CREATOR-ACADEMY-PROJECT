@@ -1,8 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
+import { moduleViews } from "../src/services/presentation";
 import { overviewWithCompletedLesson, studentOverview, accessible, courseState, evaluateBadgesForUser, type Database } from "../src/services/learning";
 
 function fixture() {
-  const course = { id:"c", slug:"youtube", status:"PUBLISHED", modules:[{id:"m",order:1,lessons:[{id:"l1",slug:"first",moduleId:"m",order:1},{id:"l2",slug:"second",moduleId:"m",order:2}]}], quizzes:[{id:"q",slug:"checkpoint",moduleId:"m"}], roadmapNodes:[{id:"n1",type:"LESSON",lessonId:"l1",quizId:null,badgeId:null},{id:"n2",type:"LESSON",lessonId:"l2",quizId:null,badgeId:null},{id:"n3",type:"QUIZ",lessonId:null,quizId:"q",badgeId:null}] };
+  const course = { id:"c", slug:"youtube", status:"PUBLISHED", modules:[{id:"m",order:1,lessons:[{id:"l1",slug:"first",moduleId:"m",order:1},{id:"l2",slug:"second",moduleId:"m",order:2}]}], quizzes:[{id:"q",slug:"checkpoint",moduleId:"m",_count:{questions:3}}], roadmapNodes:[{id:"n1",type:"LESSON",lessonId:"l1",quizId:null,badgeId:null},{id:"n2",type:"LESSON",lessonId:"l2",quizId:null,badgeId:null},{id:"n3",type:"QUIZ",lessonId:null,quizId:"q",badgeId:null}] };
   const model = {
     course:{findFirst:vi.fn().mockResolvedValue(course)},
     enrollment:{findUnique:vi.fn().mockResolvedValue({id:"enrolled"}),findMany:vi.fn().mockResolvedValue([{course}]),updateMany:vi.fn()},
@@ -16,6 +17,34 @@ function fixture() {
   return {course,model,db:{...model,user} as unknown as Database};
 }
 describe("course/module progress and access", () => {
+  it("shows 75 percent for three completed lessons and an unpassed quiz", async () => {
+    const {db,model,course}=fixture(); course.modules[0].lessons.push({id:"l3",slug:"third",moduleId:"m",order:3});
+    model.lessonProgress.findMany.mockResolvedValue(["l1","l2","l3"].map(lessonId=>({lessonId,status:"COMPLETED"})));
+    expect(moduleViews((await courseState("u","youtube",db))!)[0].progress).toBe(75);
+  });
+  it("keeps a completed lesson accessible while the checkpoint is still required", async () => {
+    const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]);
+    await expect(accessible("u","LESSON","second",db)).resolves.toMatchObject({id:"l2"});
+    const state=await courseState("u","youtube",db); const view=moduleViews(state!)[0];
+    expect(view.progress).toBe(67); expect(view.lessons[1].href).toBe("/learn/second");
+    expect(view.lessons[2].quizStatus).toBe("required"); expect(state?.current?.quizId).toBe("q");
+  });
+  it("shows failed checkpoint and keeps the module incomplete", async () => {
+    const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]);
+    model.quizAttempt.findMany.mockResolvedValue([{quizId:"q",passed:false}]);
+    const view=moduleViews((await courseState("u","youtube",db))!)[0];
+    expect(view.progress).toBe(67); expect(view.lessons[2].quizStatus).toBe("failed");
+  });
+  it("counts a passed checkpoint as complete even with historical failures", async () => {
+    const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]);
+    model.quizAttempt.findMany.mockResolvedValue([{quizId:"q",passed:false},{quizId:"q",passed:true}]);
+    const view=moduleViews((await courseState("u","youtube",db))!)[0];
+    expect(view.progress).toBe(100); expect(view.lessons[2].quizStatus).toBe("passed");
+  });
+  it("does not give a locked row a navigation destination", async () => {
+    const {db}=fixture(); const view=moduleViews((await courseState("u","youtube",db))!)[0];
+    expect(view.lessons[1]).toMatchObject({status:"locked",href:undefined});
+  });
   it("queries published content only", async () => { const {db,model}=fixture(); await courseState("u","youtube",db); expect(model.course.findFirst.mock.calls[0][0].where.status).toBe("PUBLISHED"); });
   it("all lessons alone do not complete a module/course with a quiz", async () => { const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]); const state=await courseState("u","youtube",db); expect(state).toMatchObject({percentage:100,complete:false,completedModules:0}); });
   it("a historical pass remains valid after failed retries", async () => { const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]); model.quizAttempt.findMany.mockResolvedValue([{quizId:"q",passed:false},{quizId:"q",passed:true}]); const state=await courseState("u","youtube",db); expect(state).toMatchObject({complete:true,completedModules:1}); });

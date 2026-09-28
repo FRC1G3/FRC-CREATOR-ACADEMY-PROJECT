@@ -1,6 +1,8 @@
+import { validAvatarData } from "./avatar";
 // Remote images are fetched by the browser, never by the server image optimizer.
 export function validImageSource(value: string | null | undefined): string | null {
   const source = value?.trim();
+  if (source?.startsWith("data:")) return validAvatarData(source) ? source : null;
   if (!source || source.length > 2000 || /[\\\u0000-\u001f\u007f]/.test(source)) return null;
   if (/^\/images\/[\w/ .%-]+$/.test(source)) {
     try {
@@ -17,5 +19,5 @@ export function validImageSource(value: string | null | undefined): string | nul
 
 export function imageSource(value: string | null | undefined, fallback = "/images/hero.png") {
   const src = validImageSource(value) ?? fallback;
-  return { src, unoptimized: src.startsWith("https://") };
+  return { src, unoptimized: src.startsWith("https://") || src.startsWith("data:") };
 }

@@ -1,3 +1,5 @@
+import BookmarkButton from "@/components/learning/BookmarkButton";
+import { getPrisma } from "@/lib/prisma";
 import { timed } from "@/lib/performance";
 import { ArrowRight, Quote } from "lucide-react";
 import Link from "next/link";
@@ -17,13 +19,13 @@ async function CourseDetailPage({ params }: { params: Promise<{ courseId: string
   const { courseId } = await params;
   if (!process.env.DATABASE_URL) return <main className="course-detail-page"><div className="course-detail-container"><DatabaseUnavailable /></div></main>;
   const user = await getCurrentUser();
-  const state = await courseState(user?.id ?? null, courseId);
+  const [state, saved] = await Promise.all([courseState(user?.id ?? null, courseId), user ? getPrisma().courseBookmark.findFirst({ where: { userId: user.id, course: { slug: courseId } }, select: { id: true } }) : null]);
   if (!state) notFound();
   const courseModules = moduleViews(state);
   return (
     <main className="course-detail-page">
       <div className="course-detail-container">
-        <CourseDetailHero title={state.course.title} description={state.course.description} lessons={state.totalLessons} modules={state.course.modules.length} level={state.course.level} instructor={state.course.instructorName}>{state.enrollment ? <Link className="course-detail-continue" href={nodeHref(state, state.current)}>Continue Learning <ArrowRight /></Link> : user ? <ActionForm action={enroll} slug={courseId} label="Enroll in Course" className="course-detail-continue" /> : <Link className="course-detail-continue" href={`/login?callbackUrl=${encodeURIComponent(`/courses/${courseId}`)}`}>Log In to Enroll</Link>}</CourseDetailHero>
+        <CourseDetailHero bookmark={user && <BookmarkButton kind="course" id={state.course.id} initialSaved={Boolean(saved)} className="course-detail-bookmark" />} title={state.course.title} description={state.course.description} lessons={state.totalLessons} modules={state.course.modules.length} level={state.course.level} instructor={state.course.instructorName}>{state.enrollment ? <Link className="course-detail-continue" href={nodeHref(state, state.current)}>Continue Learning <ArrowRight /></Link> : user ? <ActionForm action={enroll} slug={courseId} label="Enroll in Course" className="course-detail-continue" /> : <Link className="course-detail-continue" href={`/login?callbackUrl=${encodeURIComponent(`/courses/${courseId}`)}`}>Log In to Enroll</Link>}</CourseDetailHero>
         <section className="course-detail-outcomes" aria-labelledby="course-outcomes-title">
           <h2 id="course-outcomes-title">What you&apos;ll learn</h2>
           <ul>

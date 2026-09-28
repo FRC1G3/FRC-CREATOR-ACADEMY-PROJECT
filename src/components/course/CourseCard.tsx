@@ -1,3 +1,4 @@
+import BookmarkButton from "@/components/learning/BookmarkButton";
 import DatabaseImage from "@/components/learning/DatabaseImage";
 import Link from "next/link";
 import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, LockKeyhole } from "lucide-react";
@@ -16,6 +17,7 @@ export default function CourseCard({ course }: CourseCardProps) {
         <span className="course-thumbnail-title">{course.title}</span>
         {!isActive && <span className="course-lock" aria-label="Course not available yet"><LockKeyhole size={23} /></span>}
       </div>
+      {course.bookmark && <BookmarkButton kind="course" id={course.bookmark.id} initialSaved={course.bookmark.saved} />}
       <div className="course-content">
         <h2>{course.title}</h2>
         <p>{course.description}</p>
@@ -31,7 +33,7 @@ export default function CourseCard({ course }: CourseCardProps) {
           </div>
         )}
         {isActive ? (
-          <Link className="course-button" href={`/courses/${course.id}`}>
+          <Link className="course-button" href={`/courses/${course.id}`} aria-label={`View ${course.title}`}>
             View Course <ArrowRight size={17} />
           </Link>
         ) : (

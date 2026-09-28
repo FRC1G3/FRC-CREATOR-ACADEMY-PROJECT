@@ -1,5 +1,6 @@
 "use server";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAuth } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
@@ -47,4 +48,11 @@ export async function authenticate(_: ActionState, data: FormData): Promise<Acti
 export async function logout() {
   await getAuth().api.signOut({ headers: await headers() });
   redirect("/");
+}
+export async function studentLogout(): Promise<ActionState> {
+  try {
+    await getAuth().api.signOut({ headers: await headers() });
+    revalidatePath("/", "layout");
+    return { success: "You've been logged out successfully." };
+  } catch { return { error: "Unable to log out. Please try again." }; }
 }

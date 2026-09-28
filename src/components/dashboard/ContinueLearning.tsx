@@ -1,8 +1,8 @@
 import "@/styles/dashboard/continue-learning.css";
-import { Bookmark, MoveRight,ArrowRight } from "lucide-react";
+import { MoveRight,ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-export default function ContinueLearning({ course, title, detail, progress, href, courseHref }: { course: string; title: string; detail: string; progress: number; href: string; courseHref: string }) {
+export default function ContinueLearning({ course, title, detail, progress, href, courseHref, bookmark }: { course: string; title: string; detail: string; progress: number; href: string; courseHref: string; bookmark?: React.ReactNode }) {
   return (
     <section className="continue-learning app-card col-6 ">
       <div className="continue-top">
@@ -31,7 +31,7 @@ export default function ContinueLearning({ course, title, detail, progress, href
             Continue Learning
             <MoveRight />{" "}
           </Link>{" "}
-          <button type="button" className="continue-bookmark" disabled title="Unavailable in this university demo" aria-label="Save lesson"><Bookmark /></button>
+          {bookmark}
         </div>
         </div>
       </div>

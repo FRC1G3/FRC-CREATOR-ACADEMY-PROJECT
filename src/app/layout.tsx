@@ -3,6 +3,8 @@ import { Inter, Manrope } from "next/font/google";
 import "@/styles/learning.css";
 import "./globals.css";
 import "@/styles/interactions.css";
+import "@/styles/student-ux.css";
+import StatusToast from "@/components/learning/StatusToast";
 import AccountNavigation from "@/components/layout/AccountNavigation";
 import { Suspense } from "react";
 import Footer from "@/components/layout/Footer";
@@ -33,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense fallback={<nav aria-label="Navigation loading"><span>F.R.C Creator Academy</span><span role="status">Loading navigation...</span></nav>}><AccountNavigation /></Suspense>
         {children}
         <Footer />
+        <StatusToast />
       </body>
     </html>
   );

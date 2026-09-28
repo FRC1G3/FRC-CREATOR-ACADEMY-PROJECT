@@ -34,6 +34,7 @@ export default function QuizResult({ result, quizId }: QuizResultProps) {
           <span>{passed ? <LockKeyholeOpen /> : <BookOpen />}</span>
           <div><h2>{passed ? "Next Stage Unlocked" : "Review Recommended Lessons"}</h2><p>{passed ? "Continue along your learning roadmap." : "We recommend reviewing the key lessons from this module before trying again."}</p></div>
         </div>
+        <div className="student-result-links"><Link href={`/courses/${result.courseSlug}`}>Back to Course</Link><Link href={`/roadmap?course=${result.courseSlug}`}>View Roadmap</Link></div>
         <div className="quiz-result-actions">
           {passed ? <a href="#answer-review"><RotateCw />Review Answers</a> : <Link href={`/courses/${result.courseSlug}`}><BookOpen />Review Lessons</Link>}
           <Link className="quiz-result-primary" href={passed ? `/roadmap?course=${result.courseSlug}` : quizUrl}>{passed ? <>Continue to Next Stage <ArrowRight /></> : <><RotateCw />Retry Quiz</>}</Link>

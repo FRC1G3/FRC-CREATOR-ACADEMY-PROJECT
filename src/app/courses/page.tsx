@@ -12,17 +12,19 @@ async function CoursesPage() {
   await connection();
   if (!process.env.DATABASE_URL) return <main className="courses-page"><div className="courses-container"><DatabaseUnavailable /></div></main>;
   const db = getPrisma();
-  const [records, [enrollments, completed]] = await Promise.all([
+  const [records, [enrollments, completed, bookmarks]] = await Promise.all([
     db.course.findMany({ where: { status: "PUBLISHED" }, select: { id: true, slug: true, title: true, shortDescription: true, thumbnailUrl: true, level: true, estimatedDuration: true, modules: { select: { _count: { select: { lessons: { where: { status: "PUBLISHED" } } } } } } } }),
-    getCurrentUser().then<[{ courseId: string }[], { lesson: { module: { courseId: string } } }[]]>(user => user ? Promise.all([
+    getCurrentUser().then<[{ courseId: string }[], { lesson: { module: { courseId: string } } }[], { courseId: string }[] | null]>(user => user ? Promise.all([
       db.enrollment.findMany({ where: { userId: user.id }, select: { courseId: true } }),
       db.lessonProgress.findMany({ where: { userId: user.id, status: "COMPLETED", lesson: { status: "PUBLISHED" } }, select: { lesson: { select: { module: { select: { courseId: true } } } } } }),
-    ]) : [[], []]),
+      db.courseBookmark.findMany({ where: { userId: user.id }, select: { courseId: true } }),
+    ]) : [[], [], null]),
   ]);
+  const saved = new Set(bookmarks?.map(b => b.courseId));
   const enrolled = new Set(enrollments.map(e => e.courseId));
   const completedCounts = new Map<string, number>();
   for (const progress of completed) { const id = progress.lesson.module.courseId; completedCounts.set(id, (completedCounts.get(id) ?? 0) + 1); }
-  const courses = records.map(c => { const lessons = c.modules.reduce((n, m) => n + m._count.lessons, 0); return { id: c.slug, title: c.title, description: c.shortDescription, image: c.thumbnailUrl, level: c.level, duration: c.estimatedDuration, progress: enrolled.has(c.id) ? percentage(completedCounts.get(c.id) ?? 0, lessons) : null, lessons }; });
+  const courses = records.map(c => { const lessons = c.modules.reduce((n, m) => n + m._count.lessons, 0); return { bookmark: bookmarks ? { id: c.id, saved: saved.has(c.id) } : undefined, id: c.slug, title: c.title, description: c.shortDescription, image: c.thumbnailUrl, level: c.level, duration: c.estimatedDuration, progress: enrolled.has(c.id) ? percentage(completedCounts.get(c.id) ?? 0, lessons) : null, lessons }; });
   return (
     <main className="courses-page">
       <div className="courses-container">

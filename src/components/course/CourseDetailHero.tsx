@@ -1,6 +1,6 @@
-import { Bookmark, ChartNoAxesColumnIncreasing, Clapperboard, TvMinimalPlay } from "lucide-react";
+import { ChartNoAxesColumnIncreasing, Clapperboard, TvMinimalPlay } from "lucide-react";
 
-export default function CourseDetailHero({ title, description, lessons, modules, level, instructor, children }: { title: string; description: string; lessons: number; modules: number; level: string; instructor: string; children: React.ReactNode }) {
+export default function CourseDetailHero({ title, description, lessons, modules, level, instructor, children, bookmark }: { title: string; description: string; lessons: number; modules: number; level: string; instructor: string; children: React.ReactNode; bookmark?: React.ReactNode }) {
   return (
     <section className="course-detail-hero app-card">
       <div className="course-detail-hero-content">
@@ -15,7 +15,7 @@ export default function CourseDetailHero({ title, description, lessons, modules,
         <p className="course-detail-instructor">Instructor <strong>{instructor}</strong></p>
         <div className="course-detail-actions">
           {children}
-          <button type="button" className="course-detail-bookmark" disabled title="Unavailable in this university demo" aria-label="Bookmark course"><Bookmark size={20} /></button>
+          {bookmark}
         </div>
       </div>
     </section>

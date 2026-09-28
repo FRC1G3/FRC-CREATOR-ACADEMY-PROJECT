@@ -1,3 +1,4 @@
+import { CircleCheck, CircleX } from "lucide-react";
 import QuizResult from "@/components/quiz/QuizResult";
 import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/current-user";
@@ -20,5 +21,5 @@ export default async function QuizResultPage({ params, searchParams }: {
     return <main className="quiz-result-page"><section className="quiz-result-container app-card learning-empty"><h1>No completed attempt yet</h1><Link href={`/quizzes/${quizId}`}>Open checkpoint quiz</Link></section></main>;
   }
   const result = { score: attempt.score ?? 0, passed: attempt.passed === true, correct: attempt.answers.filter(a => a.isCorrect).length, total: attempt.answers.length, time: "Not tracked", requirement: attempt.quiz.passScore, courseSlug: attempt.quiz.course.slug, courseTitle: attempt.quiz.course.title, moduleTitle: attempt.quiz.module?.title ?? "Checkpoint" };
-  return <><QuizResult result={result} quizId={quizId} /><section id="answer-review" className="quiz-container app-card learning-review"><h2>Answer Review</h2>{attempt.answers.map(answer => <article key={answer.id}><h3>{answer.question.text}</h3><p>Your answer: {answer.selectedOption.text} — {answer.isCorrect ? "Correct" : "Incorrect"}</p><p>Correct answer: {answer.question.options.map(o => o.text).join(", ")}</p><p>{answer.question.explanation}</p></article>)}</section></>;
+  return <><QuizResult result={result} quizId={quizId} /><section id="answer-review" className="quiz-container app-card learning-review"><h2>Answer Review</h2>{attempt.answers.map(answer => <article key={answer.id} className={answer.isCorrect ? "review-correct" : "review-incorrect"}><span className="review-status">{answer.isCorrect ? <CircleCheck size={18} /> : <CircleX size={18} />}{answer.isCorrect ? "Correct" : "Incorrect"}</span><h3>{answer.question.text}</h3><p><strong>Your answer</strong>{answer.selectedOption.text}</p><p><strong>Correct answer</strong>{answer.question.options.map(o => o.text).join(", ")}</p>{answer.question.explanation && <p className="review-explanation"><strong>Explanation</strong>{answer.question.explanation}</p>}</article>)}</section></>;
 }
