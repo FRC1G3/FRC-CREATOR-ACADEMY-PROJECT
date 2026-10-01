@@ -2,7 +2,7 @@ import "@/styles/dashboard/recent-achievements.css";
 import { Shield, Play, Target } from "lucide-react";
 import Link from "next/link";
 
-export default function RecentAchievements({ recentAchievements, lastQuiz }: { recentAchievements: { title: string; description: string; date: string; kind: string }[]; lastQuiz: { title: string; score: number; result: string; href: string } | null }) {
+export default function RecentAchievements({ recentAchievements, lastQuiz }: { recentAchievements: { id: string; title: string; description: string; date: string; kind: string }[]; lastQuiz: { title: string; score: number; result: string; href: string } | null }) {
   return (
     <section className="recent-achievements app-card">
       <div className="achievements-top">
@@ -12,7 +12,7 @@ export default function RecentAchievements({ recentAchievements, lastQuiz }: { r
       {recentAchievements.length === 0 && <p>No achievements yet. Keep learning!</p>}
       <div className="achievements-body">
         {recentAchievements.map((achievement) => (
-          <article className="achievement" key={achievement.title}>
+          <article className="achievement" key={achievement.id}>
             <div className={`achievement-icon ${achievement.kind}`} aria-hidden="true">
               <span className="achievement-frame" />
               {achievement.kind === "creator" ? <><Shield size={48} /><Play className="achievement-play" size={20} fill="currentColor" /></> : <Target size={48} />}

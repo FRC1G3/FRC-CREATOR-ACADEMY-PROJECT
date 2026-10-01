@@ -21,7 +21,7 @@ export default function CourseModule({ module, isExpanded, onToggle }: CourseMod
       </button></h3>
         <ul className="course-lesson-list" id={panelId} hidden={!isExpanded} inert={!isExpanded}>
           {module.lessons.map((lesson) => (
-            <li key={lesson.title} className={`course-lesson-row ${lesson.status} ${lesson.quizStatus ?? ""}`} aria-current={lesson.status === "current" ? "step" : undefined}>
+            <li key={lesson.id} className={`course-lesson-row ${lesson.status} ${lesson.quizStatus ?? ""}`} aria-current={lesson.status === "current" ? "step" : undefined}>
               <span className="course-lesson-status" aria-label={lesson.status}>
                 {lesson.status === "completed" && <Check size={13} />}
                 {lesson.status === "current" && <Play size={12} fill="currentColor" />}

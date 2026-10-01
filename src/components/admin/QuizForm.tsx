@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import type { Catalog, QuizEdit } from "@/types/admin";
 import AdminFormField from "./AdminFormField";
 import AdminEditor from "./AdminEditor";
@@ -9,7 +10,7 @@ export default function QuizForm({catalog,quiz}:{catalog:Catalog;quiz?:QuizEdit}
   const [questionCount,setQuestionCount]=useState(quiz?.questions.length ?? 1);
   const locked=Boolean(quiz?._count.attempts);
   return <AdminEditor entity="quiz" id={quiz?.id} cancel="/admin/quizzes" prepare={form=>({ ...Object.fromEntries(form), ...(!locked ? { questions:Array.from({length:questionCount},(_,i)=>({ text:form.get('question-'+i), explanation:form.get('explanation-'+i) ?? '', options:Array.from({length:quiz?.questions[i]?.options.length ?? 4},(_,j)=>({text:form.get('option-'+i+'-'+j),isCorrect:form.get('correct-'+i)===String(j)})) })) } : {}) })}>
-    <div className="admin-form-section"><h2>Quiz details</h2><p>{locked ? "Attempts exist: questions, answers and pass score are protected." : "Build a checkpoint for your course."}</p></div>
+    <div className="admin-form-section"><Link className="admin-back-link" href="/admin/quizzes">← Back to Quizzes</Link><h2>Quiz details</h2><p>{locked ? "Attempts exist: questions, answers and pass score are protected." : "Build a checkpoint for your course."}</p></div>
     <div className="admin-form-grid">
       <AdminFormField label="Quiz Title"><input name="title" required defaultValue={quiz?.title} /></AdminFormField>
       <AdminFormField label="Slug"><input name="slug" defaultValue={quiz?.slug} /></AdminFormField>

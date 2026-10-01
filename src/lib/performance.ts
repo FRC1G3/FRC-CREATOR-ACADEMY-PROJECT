@@ -11,6 +11,6 @@ export async function timed<T>(label: string, work: () => T | PromiseLike<T>): P
   try { return await work(); }
   finally {
     const after = counters.academySql ?? before;
-    console.log("ACADEMY_PERF " + JSON.stringify({ label, ms: Math.round(performance.now() - start), queries: after.count - before.count, queryMs: after.ms - before.ms }));
+    console.log("ACADEMY_PERF " + JSON.stringify({ label, ms: Math.round(performance.now() - start), queries: after.count - before.count, queryMs: after.ms - before.ms, startQueries: before.count, endQueries: after.count }));
   }
 }

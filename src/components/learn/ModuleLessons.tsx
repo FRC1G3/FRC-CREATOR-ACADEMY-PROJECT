@@ -8,7 +8,7 @@ export default function ModuleLessons({ modules, current }: { modules: ModuleVie
       {modules.map(active => {
         const moduleLessons = active.lessons.filter(l => !l.duration.endsWith("questions"));
         const quizzes = active.lessons.filter(l => l.duration.endsWith("questions"));
-        return <details key={active.number} open={active.number === current} className="lesson-module app-card">
+        return <details key={active.id} open={active.number === current} className="lesson-module app-card">
         <summary className="lesson-module-heading">
           <span className="lesson-module-icon"><FileText /></span>
           <div><h2>Module {active.number}</h2><p>{active.title}</p></div>
@@ -16,7 +16,7 @@ export default function ModuleLessons({ modules, current }: { modules: ModuleVie
         </summary>
         <ol className="lesson-module-list">
           {moduleLessons.map((lesson, index) => (
-            <li key={lesson.title} className={lesson.status} aria-current={lesson.status === "current" ? "step" : undefined} aria-label={`${lesson.title}, ${lesson.status}`}>
+            <li key={lesson.id} className={lesson.status} aria-current={lesson.status === "current" ? "step" : undefined} aria-label={`${lesson.title}, ${lesson.status}`}>
               <span className="lesson-row-icon" aria-hidden="true">{lesson.status === "completed" ? <Check /> : lesson.status === "current" ? <Play fill="currentColor" /> : index + 1}</span>
               <span className="lesson-row-number">{index + 1}</span>
               <span className="lesson-row-title">{lesson.href ? <Link href={lesson.href}>{lesson.title}</Link> : lesson.title}</span>
@@ -25,7 +25,7 @@ export default function ModuleLessons({ modules, current }: { modules: ModuleVie
             </li>
           ))}
         </ol>
-        {quizzes.map(quiz => <div key={quiz.title} className="lesson-checkpoint" aria-label={quiz.title}>
+        {quizzes.map(quiz => <div key={quiz.id} className="lesson-checkpoint" aria-label={quiz.title}>
           <span className="lesson-module-icon"><FileText /></span>
           <div><h3>{quiz.href ? <Link href={quiz.href}>{quiz.title}</Link> : quiz.title}</h3><p>{quiz.href ? "Open checkpoint" : "Complete earlier lessons to unlock"}</p></div>{!quiz.href && <LockKeyhole />}
         </div>)}

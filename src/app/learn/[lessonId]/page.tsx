@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import BookmarkButton from "@/components/learning/BookmarkButton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ import { getPrisma } from "@/lib/prisma";
 import { streak } from "@/lib/learning-rules";
 import "@/styles/learn/lesson-page.css";
 
-export default async function LessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
+async function LessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
   const { lessonId } = await params;
   const user = await requireUser(`/learn/${lessonId}`);
   const access = await accessible(user.id, "LESSON", lessonId).catch(error => { if (error instanceof LearningError) return false as const; throw error; });
@@ -34,9 +35,9 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
   const currentIndex = state.nodes.findIndex(n => n.id === access.node.id);
   const previous = state.nodes.slice(0, currentIndex).filter(n => n.type !== "REWARD").at(-1);
   const next = state.nodes.slice(currentIndex + 1).find(n => n.type !== "REWARD");
-  const [activityLessons, activityQuizzes, savedBookmark] = await Promise.all([getPrisma().lessonProgress.findMany({ where: { userId: user.id, completedAt: { not: null } }, select: { completedAt: true } }), getPrisma().quizAttempt.findMany({ where: { userId: user.id, completedAt: { not: null } }, select: { completedAt: true } }), getPrisma().lessonBookmark.findUnique({ where: { userId_lessonId: { userId: user.id, lessonId: lesson.id } }, select: { id: true } })]);
+  const [activityLessons, activityQuizzes, savedBookmark, artwork] = await Promise.all([getPrisma().lessonProgress.findMany({ where: { userId: user.id, completedAt: { not: null } }, select: { completedAt: true } }), getPrisma().quizAttempt.findMany({ where: { userId: user.id, completedAt: { not: null } }, select: { completedAt: true } }), getPrisma().lessonBookmark.findUnique({ where: { userId_lessonId: { userId: user.id, lessonId: lesson.id } }, select: { id: true } }), getPrisma().lesson.findUniqueOrThrow({where:{id:lesson.id},select:{thumbnailUrl:true}})]);
   const activityStreak = streak([...activityLessons, ...activityQuizzes].flatMap(a => a.completedAt ? [a.completedAt] : []));
-  const lessonPreview: LessonView = { number: lesson.order, title: lesson.title, course: state.course.title, module: courseModule.title, moduleNumber: courseModule.order, duration: `${Math.ceil(lesson.durationSeconds / 60)} min`, description: lesson.description, thumbnail: lesson.thumbnailUrl ?? "/images/hero.png", videoUrl: lesson.videoUrl, progress: state.percentage, completed: `${state.completedLessons} / ${state.totalLessons}`, streak: activityStreak.days, quizzes: `${state.passed.size} / ${state.course.quizzes.length}`, status: state.completed.has(lesson.id) ? "Completed" : "In Progress", time: "Video not available yet" };
+  const lessonPreview: LessonView = { number: lesson.order, title: lesson.title, course: state.course.title, module: courseModule.title, moduleNumber: courseModule.order, duration: `${Math.ceil(lesson.durationSeconds / 60)} min`, description: lesson.description, thumbnail: artwork.thumbnailUrl ?? "/images/hero.png", videoUrl: lesson.videoUrl, progress: state.percentage, completed: `${state.completedLessons} / ${state.totalLessons}`, streak: activityStreak.days, quizzes: `${state.passed.size} / ${state.course.quizzes.length}`, status: state.completed.has(lesson.id) ? "Completed" : "In Progress", time: "Video not available yet" };
   return (
     <main className="lesson-page">
       <div className="lesson-container">
@@ -65,4 +66,8 @@ export default async function LessonPage({ params }: { params: Promise<{ lessonI
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof LessonPage>) {
+  return timed("route.lesson", () => LessonPage(...args));
 }

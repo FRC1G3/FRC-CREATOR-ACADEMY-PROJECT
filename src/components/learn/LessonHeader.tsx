@@ -1,4 +1,4 @@
-import { Layers, Clock3, Circle, Download } from "lucide-react";
+import { Layers, Clock3, Circle } from "lucide-react";
 import type { LessonView } from "@/types/learning";
 
 export default function LessonHeader({ lessonPreview, children }: { lessonPreview: LessonView; children: React.ReactNode }) {
@@ -14,7 +14,6 @@ export default function LessonHeader({ lessonPreview, children }: { lessonPrevie
       <p>{lessonPreview.description}</p>
       <div className="lesson-actions">
         {children}
-        <button type="button" disabled title="Unavailable in this university demo" className="lesson-notes"><Download />Download Notes</button>
       </div>
     </section>
   );

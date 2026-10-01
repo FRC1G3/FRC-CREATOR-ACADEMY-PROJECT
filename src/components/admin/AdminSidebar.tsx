@@ -1,16 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { usePathname, useRouter, unstable_rethrow } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import DatabaseImage from "@/components/learning/DatabaseImage";
-import { Menu, ChevronsLeft, ArrowLeft } from "lucide-react";
+import { Menu, ChevronsLeft, ArrowLeft, LogOut } from "lucide-react";
 import { adminNavigation } from "@/data/admin-data";
+import { studentLogout } from "@/actions/auth";
+import { notifyStatus } from "@/components/learning/StatusToast";
 
 export default function AdminSidebar({ user }: { user: { name: string; avatarUrl: string | null; role: string } }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const [pending, startLogout] = useTransition();
+  const [loggedOut, setLoggedOut] = useState(false);
+  function logout() {
+    if (pending) return;
+    startLogout(async () => {
+      try {
+        const result = await studentLogout();
+        if (result.error) { notifyStatus(result.error); return; }
+        setLoggedOut(true); setIsOpen(false);
+        notifyStatus(result.success ?? "You've been logged out successfully.");
+        router.replace("/");
+      } catch (error) { unstable_rethrow(error); notifyStatus("Unable to log out. Please try again."); }
+    });
+  }
   const panelRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!isOpen) return;
@@ -34,7 +51,7 @@ export default function AdminSidebar({ user }: { user: { name: string; avatarUrl
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }}>
         <div className="admin-sidebar-top">
-          <Link href="/admin" onClick={() => setIsOpen(false)}><Image src="/images/frc-academy-logo.png" alt="F.R.C Creator Academy" width={2172} height={724} /></Link>
+          <Link href="/" onClick={() => setIsOpen(false)}><Image src="/images/frc-academy-logo.png" alt="F.R.C Creator Academy" width={2172} height={724} /></Link>
           <button type="button" aria-label="Close admin navigation" onClick={() => setIsOpen(false)}><ChevronsLeft /></button>
         </div>
         <p className="admin-sidebar-label">ACADEMY ADMIN</p>
@@ -47,7 +64,7 @@ export default function AdminSidebar({ user }: { user: { name: string; avatarUrl
         </div>
         <div className="admin-sidebar-bottom">
           <Link href="/dashboard" onClick={() => setIsOpen(false)}><ArrowLeft size={18} />Back to Academy</Link>
-          <div className="admin-profile"><DatabaseImage src={user.avatarUrl} fallback="/images/profiles/frc.PNG" alt="" width={42} height={42} /><div><strong>{user.name}</strong><span>{user.role === "ADMIN" ? "Admin" : "Student"}</span></div></div>
+          {!loggedOut && <><button type="button" className="admin-sidebar-logout" onClick={logout} disabled={pending} aria-busy={pending}><LogOut size={18} />{pending ? "Logging out..." : "Log out"}</button><div className="admin-profile"><DatabaseImage src={user.avatarUrl} fallback="/images/profiles/frc.PNG" alt="" width={42} height={42} /><div><strong>{user.name}</strong><span>{user.role === "ADMIN" ? "Admin" : "Student"}</span></div></div></>}
         </div>
       </aside>
     </>

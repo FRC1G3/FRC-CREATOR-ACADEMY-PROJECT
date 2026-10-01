@@ -3,7 +3,7 @@ export function videoSource(value: string | null | undefined): { type: "youtube"
   try {
     const local = /^\/(?!\/)/.test(value);
     const url = new URL(value, local ? "https://academy.invalid" : undefined);
-    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) return null;
+    if (url.protocol !== "https:" || url.username || url.password || (local && (url.hostname !== "academy.invalid" || value.includes("\\")))) return null;
     const host = url.hostname.toLowerCase();
     let id: string | null = null;
     if (host === "youtu.be") id = url.pathname.slice(1);

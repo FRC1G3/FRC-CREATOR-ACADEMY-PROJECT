@@ -49,11 +49,10 @@ export default function QuizPreview() {
           <span>future creators</span>
         </div>
       </div>
-      <h2 className="section-title w-[80%]">Join a Growing <span className="text-red-500">Community</span></h2>
+      <h2 className="section-title w-[80%]">Continue Your Creator <span className="text-red-500">Journey</span></h2>
       <p className="opacity-[0.7] mb-5 w-[300px]">
-        Learn, share and grow together with a community of future creators. Get
-        access to exclusive content, resources and support from like-minded
-        individuals.
+        Learn, practice and grow with structured courses, quizzes and a clear
+        roadmap. Track your progress and celebrate each milestone.
       </p>
       </div>
       <Link href="/courses" className="start">

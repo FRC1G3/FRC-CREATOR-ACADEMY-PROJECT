@@ -3,21 +3,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { authenticate } from "@/actions/auth";
 import AuthInput from "./AuthInput";
+import { authClient } from "@/lib/auth-client";
+import { googleCallback } from "@/lib/oauth";
 import "@/styles/auth/auth.css";
 
-export default function AuthForm() {
+export default function AuthForm({ googleEnabled = false }: { googleEnabled?: boolean }) {
+  const [googlePending, setGooglePending] = useState(false), [googleError, setGoogleError] = useState("");
+  const googleBusy = useRef(false);
   const [result, submit, pending] = useActionState(authenticate, {});
   const [submittedMode, setSubmittedMode] = useState("");
-  const callbackUrl = useSearchParams().get("callbackUrl") ?? "";
+  const search = useSearchParams();
+  const callbackUrl = search.get("callbackUrl") ?? "";
   const pathname = usePathname();
   const mode = pathname === "/register" ? "register" : "login";
   const [contentMode, setContentMode] = useState(mode);
   const isLogin = contentMode === "login";
   const state = submittedMode === contentMode ? result : {};
+
+  useEffect(() => {
+    const reset = () => { googleBusy.current = false; setGooglePending(false); };
+    window.addEventListener("pageshow", reset);
+    return () => window.removeEventListener("pageshow", reset);
+  }, []);
 
   useEffect(() => {
     // Swap the content halfway through the 700ms panel slide.
@@ -26,6 +37,17 @@ export default function AuthForm() {
 
     return () => window.clearTimeout(timer);
   }, [mode]);
+  async function googleSignIn() {
+    if (googleBusy.current || pending) return;
+    googleBusy.current = true; setGooglePending(true); setGoogleError("");
+    try {
+      const response = await authClient.signIn.social({ provider: "google", callbackURL: googleCallback(callbackUrl), errorCallbackURL: "/auth/error" });
+      if (response.error) throw new Error("Sign-in unavailable");
+    } catch {
+      setGoogleError("Google sign-in could not be started. Please try again or use your password.");
+      googleBusy.current = false; setGooglePending(false);
+    }
+  }
 
   return (
     <main className={`auth-page auth-page-${mode}`}>
@@ -41,7 +63,7 @@ export default function AuthForm() {
             ? "Continue your creator journey and pick up where you left off."
             : "Start your creator journey today and gain access to all courses."}</p>
         </header>
-        <form key={contentMode} className="auth-form" action={submit} onSubmit={() => setSubmittedMode(contentMode)} noValidate>
+        <form key={contentMode} className="auth-form" action={submit} onSubmit={event => { if (googlePending) event.preventDefault(); else setSubmittedMode(contentMode); }} noValidate>
           <input type="hidden" name="mode" value={contentMode} /><input type="hidden" name="callbackUrl" value={callbackUrl} />
           {!isLogin && <AuthInput id="full-name" label="Full Name" type="text" placeholder="Your full name" autoComplete="name" error={state.fieldErrors?.name} />}
           <AuthInput id="email" label="Email" type="email" placeholder="you@example.com" autoComplete="email" error={state.fieldErrors?.email} />
@@ -52,24 +74,24 @@ export default function AuthForm() {
           {isLogin && (
             <div className="auth-options">
               <label className="auth-remember"><input type="checkbox" name="remember" defaultChecked /> Keep me signed in</label>
-              <button type="button" className="auth-forgot" disabled title="Unavailable in this university demo">Forgot password?</button>
             </div>
           )}
           {state.error && <p role="alert">{state.error}</p>}{state.success && <p role="status">{state.success} <Link href="/login">Log In</Link></p>}
-          <button type="submit" className="auth-primary" disabled={pending || mode !== contentMode}>
+          <button type="submit" className="auth-primary" disabled={pending || googlePending || mode !== contentMode}>
             {pending ? "Please wait..." : isLogin ? "Log In" : "Create Account"}<ArrowRight size={20} aria-hidden="true" />
           </button>
         </form>
-        <div className="auth-divider"><span>OR</span></div>
-        <button type="button" className="auth-google" disabled title="Unavailable in this university demo">
+        {googleEnabled && <><div className="auth-divider"><span>OR</span></div>
+        <button type="button" className="auth-google" disabled={pending || googlePending || mode !== contentMode} aria-busy={googlePending} onClick={googleSignIn}>
           <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.51h3.24c1.9-1.75 2.98-4.33 2.98-7.36Z" />
             <path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.41l-3.24-2.51c-.9.6-2.05.97-3.38.97-2.6 0-4.81-1.76-5.6-4.12H3.06v2.59A10 10 0 0 0 12 22Z" />
             <path fill="#FBBC05" d="M6.4 13.93a6 6 0 0 1 0-3.86V7.48H3.06a10 10 0 0 0 0 9.04l3.34-2.59Z" />
             <path fill="#EA4335" d="M12 5.95c1.47 0 2.79.5 3.83 1.5l2.88-2.88A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.94 5.48l3.34 2.59C7.19 7.71 9.4 5.95 12 5.95Z" />
           </svg>
-          Continue with Google
-        </button>
+          {googlePending ? "Connecting to Google..." : "Continue with Google"}
+        </button></>}
+        {(googleError || search.get("oauth") === "error") && <p role="alert">{googleError || "Google sign-in was not completed. If you already have an account, sign in with your password and connect Google from Profile."}</p>}
         <p className="auth-switch">
           {isLogin ? "Don't have an account?" : "Already have an account?"}
           <Link href={isLogin ? "/register" : "/login"} scroll={false}>{isLogin ? "Create Account" : "Log In"}</Link>

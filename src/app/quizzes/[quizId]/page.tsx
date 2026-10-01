@@ -1,3 +1,4 @@
+import { timed } from "@/lib/performance";
 import Link from "next/link";
 import QuizHeader from "@/components/quiz/QuizHeader";
 import { notFound } from "next/navigation";
@@ -5,14 +6,17 @@ import QuizQuestion from "@/components/quiz/QuizQuestion";
 import { requireUser } from "@/lib/current-user";
 import { accessible, LearningError } from "@/services/learning";
 import { getPrisma } from "@/lib/prisma";
-import EmptyState from "@/components/learning/EmptyState";
+import LockedQuiz from "@/components/quiz/LockedQuiz";
 import "@/styles/quiz/quiz-page.css";
 
-export default async function QuizPage({ params }: { params: Promise<{ quizId: string }> }) {
+async function QuizPage({ params }: { params: Promise<{ quizId: string }> }) {
   const { quizId } = await params;
   const user = await requireUser(`/quizzes/${quizId}`);
   const access = await accessible(user.id, "QUIZ", quizId).catch(error => { if (error instanceof LearningError) return false as const; throw error; });
-  if (access === false) return <main className="quiz-page"><div className="quiz-container"><EmptyState message="Complete earlier roadmap lessons to unlock this checkpoint." /></div></main>;
+  if (access === false) {
+    const context = await getPrisma().quiz.findFirst({where:{slug:quizId,status:"PUBLISHED",course:{status:"PUBLISHED"}},select:{course:{select:{slug:true}}}});
+    return <LockedQuiz courseSlug={context?.course.slug} />;
+  }
   if (!access) notFound();
   // Explicit projection: neither correctness nor explanations cross the client boundary.
   const quiz = await getPrisma().quiz.findUniqueOrThrow({ where: { id: access.id }, select: { title: true, description: true, module: { select: { title: true } }, questions: { orderBy: { order: "asc" }, select: { id: true, text: true, options: { orderBy: { order: "asc" }, select: { id: true, text: true } } } } } });
@@ -28,4 +32,8 @@ export default async function QuizPage({ params }: { params: Promise<{ quizId: s
       </div>
     </main>
   );
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof QuizPage>) {
+  return timed("route.quiz", () => QuizPage(...args));
 }

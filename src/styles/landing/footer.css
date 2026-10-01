@@ -22,7 +22,7 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.65fr 0.75fr 0.75fr 1fr 1.55fr;
+  grid-template-columns: 1.65fr 1fr 1fr;
   gap: clamp(18px, 2.6vw, 38px);
   align-items: start;
 }

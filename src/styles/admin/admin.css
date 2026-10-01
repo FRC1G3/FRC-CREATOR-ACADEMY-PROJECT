@@ -10,6 +10,35 @@ body > main.admin-page { padding: 0; min-height: 100svh; background: #030a10; co
 .admin-search { display: flex; align-items: center; gap: 10px; border: 1px solid #ffffff25; border-radius: 12px; padding: 10px 14px; background: #12131caa; color: #c1cbd7; }
 .admin-search input { min-width: 0; width: 235px; background: transparent; border: 0; outline: none; color: #f5f5f5; font: inherit; font-size: 12px; }
 .admin-search:focus-within { border-color: var(--color-red); }
+.admin-page .admin-search:focus-within { outline: 2px solid var(--color-red); outline-offset: 3px; }
+.admin-page .admin-search input:focus-visible { outline: none; box-shadow: none; }
+.admin-editor-fields { display: contents; border: 0; min-width: 0; }
+.admin-image-field { display: grid; gap: 12px; min-width: 0; }
+.admin-image-field > img { width: min(240px, 100%); height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; border: 1px solid #ffffff25; }
+.admin-image-field small { color: #a7bed0; font-size: 12px; }
+.admin-image-field [role="alert"] { color: #ff9cac; }
+.admin-back-link { display: inline-flex; margin-bottom: 14px; color: #ff6572; font-size: 13px; text-decoration: none; }
+.admin-roadmap-add { margin-top: 18px; padding: 20px; }
+.admin-roadmap-add > h2 { margin-bottom: 14px; }
+.admin-target-empty { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 12px; padding: 16px; border: 1px dashed #ffffff20; border-radius: 10px; }
+.admin-node-edit { display: grid; grid-template-columns: minmax(180px, 1fr) auto; align-items: end; gap: 10px; margin-top: 7px; }
+.admin-node-edit .admin-form-footer { margin: 0; padding: 0; border: 0; }
+.admin-node-edit .admin-form-footer > p { display: none; }
+.admin-student-detail-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; margin-bottom: 18px; }
+.admin-student-detail-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+.admin-detail-section { padding: 20px; min-width: 0; }
+.admin-detail-list,.admin-badge-mini-list { display: grid; gap: 10px; }
+.admin-detail-list > article,.admin-badge-mini-list > article { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px; border: 1px solid #ffffff10; border-radius: 10px; background: #ffffff03; }
+.admin-detail-list h3,.admin-badge-mini-list h3 { font-size: 13px; }
+.admin-detail-list p,.admin-badge-mini-list p,.admin-detail-list time,.admin-detail-attempt time { margin-top: 4px; color: #91a5b7; font-size: 11px; }
+.admin-detail-progress { display: grid; grid-template-columns: auto minmax(80px,150px) auto; align-items: center; gap: 9px; }
+.admin-detail-progress progress { accent-color: var(--color-red); }
+.admin-detail-attempt { display: grid; justify-items: end; gap: 3px; }
+.admin-badge-mini-list > article { justify-content: flex-start; }
+.admin-badge-mini-list .admin-icon { width: 42px; height: 42px; }
+@media (max-width: 900px) { .admin-student-detail-stats,.admin-student-detail-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .admin-student-detail-stats,.admin-student-detail-grid { grid-template-columns: 1fr; } .admin-detail-list > article { align-items: flex-start; flex-direction: column; } .admin-detail-progress { width: 100%; } }
+.admin-sidebar-bottom > .admin-sidebar-logout { display: flex; align-items: center; gap: 13px; width: 100%; padding: 13px; color: #b6c0cf; background: transparent; border: 1px solid transparent; border-radius: 10px; font-size: 14px; }
 .admin-search input::placeholder { color: #9ca3af; }
 .admin-notifications { position: relative; padding: 8px; border: 1px solid #ffffff20; border-radius: 12px; color: #d3dce4; background: #0b1019aa; }
 .admin-notifications span { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; background: var(--color-red); border-radius: 50%; }
@@ -53,6 +82,7 @@ body > main.admin-page { padding: 0; min-height: 100svh; background: #030a10; co
 .admin-course-name small { display: block; font-weight: 400; font-size: 10px; color: #a7bed0; margin-top: 4px; }
 .admin-status { display: inline-block; padding: 4px 9px; border-radius: 9px; border: 1px solid; font-size: 11px; }
 .admin-status.is-published { color: #00e7a2; background: #00d18e10; border-color: #00d18e40; }
+.admin-status.is-failed { color: #ff4155; background: #ff183510; border-color: #ff183540; }
 .admin-status.is-draft { color: #f3c442; background: #f3b32210; border-color: #f3b32240; }
 .admin-row-actions { display: flex; align-items: center; gap: 10px; }
 .admin-row-actions button { padding: 6px 16px; border: 1px solid #293b4b; border-radius: 7px; background: #0a1620; color: #edf2f7; font-size: 12px; }

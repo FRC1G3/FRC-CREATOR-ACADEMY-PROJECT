@@ -1,0 +1,2959 @@
+{
+  "note": "Sequential production HTTP; isolated four-lesson/10-question quiz course. Initial is first route/action use, not proven Neon cold start. Full body timings, not hydrated browser paint. SQL emitted statement counts include transaction statements; proxy, not packet counts. Quiz full flow is Submit HTTP plus Result HTTP. Fixtures reset before each mutation sample. Role promotion/demotion verified in same active session. Numeric aggregates only; fixtures removed.",
+  "samples": [
+    {
+      "operation": "Mark Complete",
+      "sample": 0,
+      "httpMs": 39004,
+      "bytes": 24227,
+      "sql": 19,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 7736,
+          "queries": 2,
+          "queryMs": 7614.337599999999,
+          "startQueries": 0,
+          "endQueries": 2
+        },
+        {
+          "label": "complete.auth",
+          "ms": 7737,
+          "queries": 2,
+          "queryMs": 7614.337599999999,
+          "startQueries": 0,
+          "endQueries": 2
+        },
+        {
+          "label": "complete.locks",
+          "ms": 1567,
+          "queries": 2,
+          "queryMs": 1564.333399999996,
+          "startQueries": 2,
+          "endQueries": 4
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 2406,
+          "queries": 2,
+          "queryMs": 3193.583000000006,
+          "startQueries": 4,
+          "endQueries": 6
+        },
+        {
+          "label": "complete.snapshot",
+          "ms": 2407,
+          "queries": 2,
+          "queryMs": 3193.583000000006,
+          "startQueries": 4,
+          "endQueries": 6
+        },
+        {
+          "label": "complete.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 6,
+          "endQueries": 6
+        },
+        {
+          "label": "complete.write",
+          "ms": 1980,
+          "queries": 1,
+          "queryMs": 1972.4216000000015,
+          "startQueries": 6,
+          "endQueries": 7
+        },
+        {
+          "label": "complete.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 7,
+          "endQueries": 7
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 7,
+          "endQueries": 7
+        },
+        {
+          "label": "complete.badges",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 7,
+          "endQueries": 7
+        },
+        {
+          "label": "complete.revalidation",
+          "ms": 1,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 8,
+          "endQueries": 8
+        },
+        {
+          "label": "complete.total",
+          "ms": 16269,
+          "queries": 8,
+          "queryMs": 15971.341800000002,
+          "startQueries": 0,
+          "endQueries": 8
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 1037,
+          "queries": 1,
+          "queryMs": 1030.2933000000048,
+          "startQueries": 8,
+          "endQueries": 9
+        },
+        {
+          "label": "service.courseState",
+          "ms": 13113,
+          "queries": 5,
+          "queryMs": 35320.7807,
+          "startQueries": 10,
+          "endQueries": 15
+        },
+        {
+          "label": "service.accessible",
+          "ms": 13826,
+          "queries": 6,
+          "queryMs": 36031.8236,
+          "startQueries": 9,
+          "endQueries": 15
+        },
+        {
+          "label": "route.lesson",
+          "ms": 22643,
+          "queries": 11,
+          "queryMs": 47795.114800000025,
+          "startQueries": 8,
+          "endQueries": 19
+        }
+      ]
+    },
+    {
+      "operation": "Mark Complete",
+      "sample": 1,
+      "httpMs": 11411,
+      "bytes": 24227,
+      "sql": 18,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 3618,
+          "queries": 1,
+          "queryMs": 3615.677399999993,
+          "startQueries": 19,
+          "endQueries": 20
+        },
+        {
+          "label": "complete.auth",
+          "ms": 3618,
+          "queries": 1,
+          "queryMs": 3615.677399999993,
+          "startQueries": 19,
+          "endQueries": 20
+        },
+        {
+          "label": "complete.locks",
+          "ms": 807,
+          "queries": 2,
+          "queryMs": 806.295100000003,
+          "startQueries": 20,
+          "endQueries": 22
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 772,
+          "queries": 2,
+          "queryMs": 1161.5458999999973,
+          "startQueries": 22,
+          "endQueries": 24
+        },
+        {
+          "label": "complete.snapshot",
+          "ms": 772,
+          "queries": 2,
+          "queryMs": 1161.5458999999973,
+          "startQueries": 22,
+          "endQueries": 24
+        },
+        {
+          "label": "complete.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 24,
+          "endQueries": 24
+        },
+        {
+          "label": "complete.write",
+          "ms": 654,
+          "queries": 1,
+          "queryMs": 653.8390999999974,
+          "startQueries": 24,
+          "endQueries": 25
+        },
+        {
+          "label": "complete.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 25,
+          "endQueries": 25
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 25,
+          "endQueries": 25
+        },
+        {
+          "label": "complete.badges",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 25,
+          "endQueries": 25
+        },
+        {
+          "label": "complete.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 26,
+          "endQueries": 26
+        },
+        {
+          "label": "complete.total",
+          "ms": 6572,
+          "queries": 7,
+          "queryMs": 6560.206899999997,
+          "startQueries": 19,
+          "endQueries": 26
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 419,
+          "queries": 1,
+          "queryMs": 413.8842000000004,
+          "startQueries": 26,
+          "endQueries": 27
+        },
+        {
+          "label": "service.courseState",
+          "ms": 3699,
+          "queries": 5,
+          "queryMs": 10695.644400000005,
+          "startQueries": 28,
+          "endQueries": 33
+        },
+        {
+          "label": "service.accessible",
+          "ms": 4034,
+          "queries": 6,
+          "queryMs": 11029.775300000008,
+          "startQueries": 27,
+          "endQueries": 33
+        },
+        {
+          "label": "route.lesson",
+          "ms": 4826,
+          "queries": 11,
+          "queryMs": 12933.0916,
+          "startQueries": 26,
+          "endQueries": 37
+        }
+      ]
+    },
+    {
+      "operation": "Mark Complete",
+      "sample": 2,
+      "httpMs": 4578,
+      "bytes": 24227,
+      "sql": 18,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 305,
+          "queries": 1,
+          "queryMs": 303.07219999999506,
+          "startQueries": 37,
+          "endQueries": 38
+        },
+        {
+          "label": "complete.auth",
+          "ms": 305,
+          "queries": 1,
+          "queryMs": 303.07219999999506,
+          "startQueries": 37,
+          "endQueries": 38
+        },
+        {
+          "label": "complete.locks",
+          "ms": 614,
+          "queries": 2,
+          "queryMs": 613.0329000000202,
+          "startQueries": 38,
+          "endQueries": 40
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 634,
+          "queries": 2,
+          "queryMs": 956.3016999999963,
+          "startQueries": 40,
+          "endQueries": 42
+        },
+        {
+          "label": "complete.snapshot",
+          "ms": 634,
+          "queries": 2,
+          "queryMs": 956.3016999999963,
+          "startQueries": 40,
+          "endQueries": 42
+        },
+        {
+          "label": "complete.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 42,
+          "endQueries": 42
+        },
+        {
+          "label": "complete.write",
+          "ms": 355,
+          "queries": 1,
+          "queryMs": 354.47269999999844,
+          "startQueries": 42,
+          "endQueries": 43
+        },
+        {
+          "label": "complete.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 43,
+          "endQueries": 43
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 43,
+          "endQueries": 43
+        },
+        {
+          "label": "complete.badges",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 43,
+          "endQueries": 43
+        },
+        {
+          "label": "complete.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 44,
+          "endQueries": 44
+        },
+        {
+          "label": "complete.total",
+          "ms": 2787,
+          "queries": 7,
+          "queryMs": 2545.4442000000126,
+          "startQueries": 37,
+          "endQueries": 44
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 348,
+          "queries": 1,
+          "queryMs": 345.5448000000033,
+          "startQueries": 44,
+          "endQueries": 45
+        },
+        {
+          "label": "service.courseState",
+          "ms": 713,
+          "queries": 5,
+          "queryMs": 1634.0172999999922,
+          "startQueries": 46,
+          "endQueries": 51
+        },
+        {
+          "label": "service.accessible",
+          "ms": 1085,
+          "queries": 6,
+          "queryMs": 2005.1848000000027,
+          "startQueries": 45,
+          "endQueries": 51
+        },
+        {
+          "label": "route.lesson",
+          "ms": 1780,
+          "queries": 11,
+          "queryMs": 3736.0394000000233,
+          "startQueries": 44,
+          "endQueries": 55
+        }
+      ]
+    },
+    {
+      "operation": "Mark Complete",
+      "sample": 3,
+      "httpMs": 5919,
+      "bytes": 24227,
+      "sql": 18,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 418,
+          "queries": 1,
+          "queryMs": 416.10089999999036,
+          "startQueries": 55,
+          "endQueries": 56
+        },
+        {
+          "label": "complete.auth",
+          "ms": 418,
+          "queries": 1,
+          "queryMs": 416.10089999999036,
+          "startQueries": 55,
+          "endQueries": 56
+        },
+        {
+          "label": "complete.locks",
+          "ms": 1035,
+          "queries": 2,
+          "queryMs": 1034.3830000000016,
+          "startQueries": 56,
+          "endQueries": 58
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 1116,
+          "queries": 2,
+          "queryMs": 1588.2957000000024,
+          "startQueries": 58,
+          "endQueries": 60
+        },
+        {
+          "label": "complete.snapshot",
+          "ms": 1116,
+          "queries": 2,
+          "queryMs": 1588.2957000000024,
+          "startQueries": 58,
+          "endQueries": 60
+        },
+        {
+          "label": "complete.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 60,
+          "endQueries": 60
+        },
+        {
+          "label": "complete.write",
+          "ms": 380,
+          "queries": 1,
+          "queryMs": 379.60939999998664,
+          "startQueries": 60,
+          "endQueries": 61
+        },
+        {
+          "label": "complete.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 61,
+          "endQueries": 61
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 61,
+          "endQueries": 61
+        },
+        {
+          "label": "complete.badges",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 61,
+          "endQueries": 61
+        },
+        {
+          "label": "complete.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 62,
+          "endQueries": 62
+        },
+        {
+          "label": "complete.total",
+          "ms": 3799,
+          "queries": 7,
+          "queryMs": 3790.636399999974,
+          "startQueries": 55,
+          "endQueries": 62
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 453,
+          "queries": 1,
+          "queryMs": 449.3157000000065,
+          "startQueries": 62,
+          "endQueries": 63
+        },
+        {
+          "label": "service.courseState",
+          "ms": 928,
+          "queries": 5,
+          "queryMs": 2282.2503000000142,
+          "startQueries": 64,
+          "endQueries": 69
+        },
+        {
+          "label": "service.accessible",
+          "ms": 1338,
+          "queries": 6,
+          "queryMs": 2691.304900000003,
+          "startQueries": 63,
+          "endQueries": 69
+        },
+        {
+          "label": "route.lesson",
+          "ms": 2112,
+          "queries": 11,
+          "queryMs": 4421.18220000001,
+          "startQueries": 62,
+          "endQueries": 73
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Submit",
+      "sample": 0,
+      "httpMs": 4711,
+      "bytes": 15326,
+      "sql": 21,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 447,
+          "queries": 1,
+          "queryMs": 445.37630000000354,
+          "startQueries": 73,
+          "endQueries": 74
+        },
+        {
+          "label": "quiz.auth",
+          "ms": 448,
+          "queries": 1,
+          "queryMs": 445.37630000000354,
+          "startQueries": 73,
+          "endQueries": 74
+        },
+        {
+          "label": "quiz.locks",
+          "ms": 553,
+          "queries": 2,
+          "queryMs": 551.6799000000028,
+          "startQueries": 74,
+          "endQueries": 76
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 500,
+          "queries": 2,
+          "queryMs": 750.6307000000088,
+          "startQueries": 76,
+          "endQueries": 78
+        },
+        {
+          "label": "quiz.snapshot",
+          "ms": 500,
+          "queries": 2,
+          "queryMs": 750.6307000000088,
+          "startQueries": 76,
+          "endQueries": 78
+        },
+        {
+          "label": "quiz.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 78,
+          "endQueries": 78
+        },
+        {
+          "label": "quiz.quiz-lock",
+          "ms": 236,
+          "queries": 1,
+          "queryMs": 235.98360000000685,
+          "startQueries": 78,
+          "endQueries": 79
+        },
+        {
+          "label": "quiz.idempotency",
+          "ms": 245,
+          "queries": 1,
+          "queryMs": 244.091499999995,
+          "startQueries": 79,
+          "endQueries": 80
+        },
+        {
+          "label": "quiz.questions",
+          "ms": 218,
+          "queries": 1,
+          "queryMs": 216.8698999999906,
+          "startQueries": 80,
+          "endQueries": 81
+        },
+        {
+          "label": "quiz.score",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 81,
+          "endQueries": 81
+        },
+        {
+          "label": "quiz.write",
+          "ms": 683,
+          "queries": 3,
+          "queryMs": 672.1263999999937,
+          "startQueries": 81,
+          "endQueries": 84
+        },
+        {
+          "label": "quiz.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 84,
+          "endQueries": 84
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 192,
+          "queries": 1,
+          "queryMs": 191.23339999999735,
+          "startQueries": 84,
+          "endQueries": 85
+        },
+        {
+          "label": "quiz.badges-completion",
+          "ms": 192,
+          "queries": 1,
+          "queryMs": 191.23339999999735,
+          "startQueries": 84,
+          "endQueries": 85
+        },
+        {
+          "label": "quiz.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 86,
+          "endQueries": 86
+        },
+        {
+          "label": "quiz.total",
+          "ms": 3747,
+          "queries": 13,
+          "queryMs": 3503.320700000011,
+          "startQueries": 73,
+          "endQueries": 86
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 196,
+          "queries": 1,
+          "queryMs": 190.07769999999437,
+          "startQueries": 86,
+          "endQueries": 87
+        },
+        {
+          "label": "service.courseState",
+          "ms": 378,
+          "queries": 5,
+          "queryMs": 931.0233000000007,
+          "startQueries": 88,
+          "endQueries": 93
+        },
+        {
+          "label": "service.accessible",
+          "ms": 565,
+          "queries": 6,
+          "queryMs": 1117.9042000000045,
+          "startQueries": 87,
+          "endQueries": 93
+        },
+        {
+          "label": "route.quiz",
+          "ms": 952,
+          "queries": 8,
+          "queryMs": 1498.0462999999872,
+          "startQueries": 86,
+          "endQueries": 94
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Result",
+      "sample": 0,
+      "httpMs": 408,
+      "bytes": 58752,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 198,
+          "queries": 1,
+          "queryMs": 185.33150000000023,
+          "startQueries": 94,
+          "endQueries": 95
+        },
+        {
+          "label": "route.result",
+          "ms": 390,
+          "queries": 2,
+          "queryMs": 375.9788000000117,
+          "startQueries": 94,
+          "endQueries": 96
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Submit",
+      "sample": 1,
+      "httpMs": 3624,
+      "bytes": 15326,
+      "sql": 21,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 188.44860000000335,
+          "startQueries": 96,
+          "endQueries": 97
+        },
+        {
+          "label": "quiz.auth",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 188.44860000000335,
+          "startQueries": 96,
+          "endQueries": 97
+        },
+        {
+          "label": "quiz.locks",
+          "ms": 378,
+          "queries": 2,
+          "queryMs": 376.87079999997513,
+          "startQueries": 97,
+          "endQueries": 99
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 373,
+          "queries": 2,
+          "queryMs": 563.6273999999976,
+          "startQueries": 99,
+          "endQueries": 101
+        },
+        {
+          "label": "quiz.snapshot",
+          "ms": 373,
+          "queries": 2,
+          "queryMs": 563.6273999999976,
+          "startQueries": 99,
+          "endQueries": 101
+        },
+        {
+          "label": "quiz.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 101,
+          "endQueries": 101
+        },
+        {
+          "label": "quiz.quiz-lock",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 189.4099999999744,
+          "startQueries": 101,
+          "endQueries": 102
+        },
+        {
+          "label": "quiz.idempotency",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 187.7724000000162,
+          "startQueries": 102,
+          "endQueries": 103
+        },
+        {
+          "label": "quiz.questions",
+          "ms": 197,
+          "queries": 1,
+          "queryMs": 196.24739999999292,
+          "startQueries": 103,
+          "endQueries": 104
+        },
+        {
+          "label": "quiz.score",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 104,
+          "endQueries": 104
+        },
+        {
+          "label": "quiz.write",
+          "ms": 585,
+          "queries": 3,
+          "queryMs": 584.3188000000082,
+          "startQueries": 104,
+          "endQueries": 107
+        },
+        {
+          "label": "quiz.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 107,
+          "endQueries": 107
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 187.38799999997718,
+          "startQueries": 107,
+          "endQueries": 108
+        },
+        {
+          "label": "quiz.badges-completion",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 187.38799999997718,
+          "startQueries": 107,
+          "endQueries": 108
+        },
+        {
+          "label": "quiz.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 109,
+          "endQueries": 109
+        },
+        {
+          "label": "quiz.total",
+          "ms": 2670,
+          "queries": 13,
+          "queryMs": 2667.0798999999533,
+          "startQueries": 96,
+          "endQueries": 109
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 186.32279999999446,
+          "startQueries": 109,
+          "endQueries": 110
+        },
+        {
+          "label": "service.courseState",
+          "ms": 392,
+          "queries": 5,
+          "queryMs": 968.0539000000281,
+          "startQueries": 111,
+          "endQueries": 116
+        },
+        {
+          "label": "service.accessible",
+          "ms": 575,
+          "queries": 6,
+          "queryMs": 1151.0811000000394,
+          "startQueries": 110,
+          "endQueries": 116
+        },
+        {
+          "label": "route.quiz",
+          "ms": 947,
+          "queries": 8,
+          "queryMs": 1519.5686000000278,
+          "startQueries": 109,
+          "endQueries": 117
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Result",
+      "sample": 1,
+      "httpMs": 383,
+      "bytes": 58752,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 187,
+          "queries": 1,
+          "queryMs": 182.26230000000214,
+          "startQueries": 117,
+          "endQueries": 118
+        },
+        {
+          "label": "route.result",
+          "ms": 373,
+          "queries": 2,
+          "queryMs": 368.491399999999,
+          "startQueries": 117,
+          "endQueries": 119
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Submit",
+      "sample": 2,
+      "httpMs": 3591,
+      "bytes": 15326,
+      "sql": 21,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 184.63470000002417,
+          "startQueries": 119,
+          "endQueries": 120
+        },
+        {
+          "label": "quiz.auth",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 184.63470000002417,
+          "startQueries": 119,
+          "endQueries": 120
+        },
+        {
+          "label": "quiz.locks",
+          "ms": 371,
+          "queries": 2,
+          "queryMs": 370.30650000000605,
+          "startQueries": 120,
+          "endQueries": 122
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 382,
+          "queries": 2,
+          "queryMs": 573.857799999998,
+          "startQueries": 122,
+          "endQueries": 124
+        },
+        {
+          "label": "quiz.snapshot",
+          "ms": 382,
+          "queries": 2,
+          "queryMs": 573.857799999998,
+          "startQueries": 122,
+          "endQueries": 124
+        },
+        {
+          "label": "quiz.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 124,
+          "endQueries": 124
+        },
+        {
+          "label": "quiz.quiz-lock",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 188.05830000000424,
+          "startQueries": 124,
+          "endQueries": 125
+        },
+        {
+          "label": "quiz.idempotency",
+          "ms": 187,
+          "queries": 1,
+          "queryMs": 186.80730000001495,
+          "startQueries": 125,
+          "endQueries": 126
+        },
+        {
+          "label": "quiz.questions",
+          "ms": 222,
+          "queries": 1,
+          "queryMs": 221.27410000000964,
+          "startQueries": 126,
+          "endQueries": 127
+        },
+        {
+          "label": "quiz.score",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 127,
+          "endQueries": 127
+        },
+        {
+          "label": "quiz.write",
+          "ms": 549,
+          "queries": 3,
+          "queryMs": 547.5733999999939,
+          "startQueries": 127,
+          "endQueries": 130
+        },
+        {
+          "label": "quiz.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 130,
+          "endQueries": 130
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 184.34879999997793,
+          "startQueries": 130,
+          "endQueries": 131
+        },
+        {
+          "label": "quiz.badges-completion",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 184.34879999997793,
+          "startQueries": 130,
+          "endQueries": 131
+        },
+        {
+          "label": "quiz.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 132,
+          "endQueries": 132
+        },
+        {
+          "label": "quiz.total",
+          "ms": 2638,
+          "queries": 13,
+          "queryMs": 2641.269900000043,
+          "startQueries": 119,
+          "endQueries": 132
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 211,
+          "queries": 1,
+          "queryMs": 207.6803999999829,
+          "startQueries": 132,
+          "endQueries": 133
+        },
+        {
+          "label": "service.courseState",
+          "ms": 364,
+          "queries": 5,
+          "queryMs": 908.53820000001,
+          "startQueries": 134,
+          "endQueries": 139
+        },
+        {
+          "label": "service.accessible",
+          "ms": 554,
+          "queries": 6,
+          "queryMs": 1097.8128000000142,
+          "startQueries": 133,
+          "endQueries": 139
+        },
+        {
+          "label": "route.quiz",
+          "ms": 947,
+          "queries": 8,
+          "queryMs": 1488.6313999999838,
+          "startQueries": 132,
+          "endQueries": 140
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Result",
+      "sample": 2,
+      "httpMs": 384,
+      "bytes": 58752,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 183.75740000000224,
+          "startQueries": 140,
+          "endQueries": 141
+        },
+        {
+          "label": "route.result",
+          "ms": 376,
+          "queries": 2,
+          "queryMs": 371.80510000002687,
+          "startQueries": 140,
+          "endQueries": 142
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Submit",
+      "sample": 3,
+      "httpMs": 3626,
+      "bytes": 15326,
+      "sql": 21,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 183.20020000002114,
+          "startQueries": 142,
+          "endQueries": 143
+        },
+        {
+          "label": "quiz.auth",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 183.20020000002114,
+          "startQueries": 142,
+          "endQueries": 143
+        },
+        {
+          "label": "quiz.locks",
+          "ms": 403,
+          "queries": 2,
+          "queryMs": 402.4430000000284,
+          "startQueries": 143,
+          "endQueries": 145
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 381,
+          "queries": 2,
+          "queryMs": 565.5522000000055,
+          "startQueries": 145,
+          "endQueries": 147
+        },
+        {
+          "label": "quiz.snapshot",
+          "ms": 382,
+          "queries": 2,
+          "queryMs": 565.5522000000055,
+          "startQueries": 145,
+          "endQueries": 147
+        },
+        {
+          "label": "quiz.access",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 147,
+          "endQueries": 147
+        },
+        {
+          "label": "quiz.quiz-lock",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 185.85030000002007,
+          "startQueries": 147,
+          "endQueries": 148
+        },
+        {
+          "label": "quiz.idempotency",
+          "ms": 183,
+          "queries": 1,
+          "queryMs": 182.5158999999985,
+          "startQueries": 148,
+          "endQueries": 149
+        },
+        {
+          "label": "quiz.questions",
+          "ms": 205,
+          "queries": 1,
+          "queryMs": 204.52559999999357,
+          "startQueries": 149,
+          "endQueries": 150
+        },
+        {
+          "label": "quiz.score",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 150,
+          "endQueries": 150
+        },
+        {
+          "label": "quiz.write",
+          "ms": 549,
+          "queries": 3,
+          "queryMs": 547.9198000000033,
+          "startQueries": 150,
+          "endQueries": 153
+        },
+        {
+          "label": "quiz.derive",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 153,
+          "endQueries": 153
+        },
+        {
+          "label": "service.evaluateBadgesForUser",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 184.4948999999906,
+          "startQueries": 153,
+          "endQueries": 154
+        },
+        {
+          "label": "quiz.badges-completion",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 184.4948999999906,
+          "startQueries": 153,
+          "endQueries": 154
+        },
+        {
+          "label": "quiz.revalidation",
+          "ms": 0,
+          "queries": 0,
+          "queryMs": 0,
+          "startQueries": 155,
+          "endQueries": 155
+        },
+        {
+          "label": "quiz.total",
+          "ms": 2647,
+          "queries": 13,
+          "queryMs": 2641.7784000000684,
+          "startQueries": 142,
+          "endQueries": 155
+        },
+        {
+          "label": "auth.resolve",
+          "ms": 200,
+          "queries": 1,
+          "queryMs": 197.44089999998687,
+          "startQueries": 155,
+          "endQueries": 156
+        },
+        {
+          "label": "service.courseState",
+          "ms": 386,
+          "queries": 5,
+          "queryMs": 921.6565000000701,
+          "startQueries": 157,
+          "endQueries": 162
+        },
+        {
+          "label": "service.accessible",
+          "ms": 581,
+          "queries": 6,
+          "queryMs": 1116.6656000000658,
+          "startQueries": 156,
+          "endQueries": 162
+        },
+        {
+          "label": "route.quiz",
+          "ms": 974,
+          "queries": 8,
+          "queryMs": 1506.3099000000511,
+          "startQueries": 155,
+          "endQueries": 163
+        }
+      ]
+    },
+    {
+      "operation": "Quiz Result",
+      "sample": 3,
+      "httpMs": 381,
+      "bytes": 58752,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 181.4548000000068,
+          "startQueries": 163,
+          "endQueries": 164
+        },
+        {
+          "label": "route.result",
+          "ms": 373,
+          "queries": 2,
+          "queryMs": 368.8576999999932,
+          "startQueries": 163,
+          "endQueries": 165
+        }
+      ]
+    },
+    {
+      "operation": "Dashboard",
+      "sample": 0,
+      "httpMs": 463,
+      "bytes": 53880,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 204,
+          "queries": 1,
+          "queryMs": 198.50879999998142,
+          "startQueries": 165,
+          "endQueries": 166
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 186,
+          "queries": 3,
+          "queryMs": 545.5366000000213,
+          "startQueries": 166,
+          "endQueries": 169
+        },
+        {
+          "label": "route.dashboard",
+          "ms": 451,
+          "queries": 4,
+          "queryMs": 744.0454000000027,
+          "startQueries": 165,
+          "endQueries": 169
+        }
+      ]
+    },
+    {
+      "operation": "Dashboard",
+      "sample": 1,
+      "httpMs": 398,
+      "bytes": 53880,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 181.37140000000363,
+          "startQueries": 169,
+          "endQueries": 170
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 203,
+          "queries": 3,
+          "queryMs": 591.0290999999852,
+          "startQueries": 170,
+          "endQueries": 173
+        },
+        {
+          "label": "route.dashboard",
+          "ms": 389,
+          "queries": 4,
+          "queryMs": 772.4004999999888,
+          "startQueries": 169,
+          "endQueries": 173
+        }
+      ]
+    },
+    {
+      "operation": "Dashboard",
+      "sample": 2,
+      "httpMs": 394,
+      "bytes": 53880,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 185.59279999998398,
+          "startQueries": 173,
+          "endQueries": 174
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 195,
+          "queries": 3,
+          "queryMs": 567.5116999999736,
+          "startQueries": 174,
+          "endQueries": 177
+        },
+        {
+          "label": "route.dashboard",
+          "ms": 385,
+          "queries": 4,
+          "queryMs": 753.1044999999576,
+          "startQueries": 173,
+          "endQueries": 177
+        }
+      ]
+    },
+    {
+      "operation": "Dashboard",
+      "sample": 3,
+      "httpMs": 385,
+      "bytes": 53880,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 181.2839999999851,
+          "startQueries": 177,
+          "endQueries": 178
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 193,
+          "queries": 3,
+          "queryMs": 558.5641999999643,
+          "startQueries": 178,
+          "endQueries": 181
+        },
+        {
+          "label": "route.dashboard",
+          "ms": 378,
+          "queries": 4,
+          "queryMs": 739.8481999999494,
+          "startQueries": 177,
+          "endQueries": 181
+        }
+      ]
+    },
+    {
+      "operation": "Courses",
+      "sample": 0,
+      "httpMs": 1462,
+      "bytes": 45668,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 181.08250000001863,
+          "startQueries": 181,
+          "endQueries": 182
+        },
+        {
+          "label": "route.courses",
+          "ms": 1449,
+          "queries": 6,
+          "queryMs": 2168.40790000002,
+          "startQueries": 181,
+          "endQueries": 187
+        }
+      ]
+    },
+    {
+      "operation": "Courses",
+      "sample": 1,
+      "httpMs": 374,
+      "bytes": 45668,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 2,
+          "queryMs": 359.261599999998,
+          "startQueries": 187,
+          "endQueries": 189
+        },
+        {
+          "label": "route.courses",
+          "ms": 368,
+          "queries": 6,
+          "queryMs": 1082.1922000000195,
+          "startQueries": 187,
+          "endQueries": 193
+        }
+      ]
+    },
+    {
+      "operation": "Courses",
+      "sample": 2,
+      "httpMs": 387,
+      "bytes": 45668,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 182.00949999998556,
+          "startQueries": 193,
+          "endQueries": 194
+        },
+        {
+          "label": "route.courses",
+          "ms": 381,
+          "queries": 6,
+          "queryMs": 1115.9723999999696,
+          "startQueries": 193,
+          "endQueries": 199
+        }
+      ]
+    },
+    {
+      "operation": "Courses",
+      "sample": 3,
+      "httpMs": 372,
+      "bytes": 45668,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 184,
+          "queries": 1,
+          "queryMs": 180.55549999998766,
+          "startQueries": 199,
+          "endQueries": 200
+        },
+        {
+          "label": "route.courses",
+          "ms": 365,
+          "queries": 6,
+          "queryMs": 1089.3655000000435,
+          "startQueries": 199,
+          "endQueries": 205
+        }
+      ]
+    },
+    {
+      "operation": "Course Detail",
+      "sample": 0,
+      "httpMs": 593,
+      "bytes": 51656,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 197,
+          "queries": 1,
+          "queryMs": 191.82339999999385,
+          "startQueries": 205,
+          "endQueries": 206
+        },
+        {
+          "label": "service.courseState",
+          "ms": 385,
+          "queries": 6,
+          "queryMs": 1144.9556999999622,
+          "startQueries": 206,
+          "endQueries": 212
+        },
+        {
+          "label": "route.course",
+          "ms": 581,
+          "queries": 7,
+          "queryMs": 1336.779099999956,
+          "startQueries": 205,
+          "endQueries": 212
+        }
+      ]
+    },
+    {
+      "operation": "Course Detail",
+      "sample": 1,
+      "httpMs": 566,
+      "bytes": 51656,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 192,
+          "queries": 1,
+          "queryMs": 189.48259999998845,
+          "startQueries": 212,
+          "endQueries": 213
+        },
+        {
+          "label": "service.courseState",
+          "ms": 367,
+          "queries": 6,
+          "queryMs": 1093.7072000000335,
+          "startQueries": 213,
+          "endQueries": 219
+        },
+        {
+          "label": "route.course",
+          "ms": 559,
+          "queries": 7,
+          "queryMs": 1283.189800000022,
+          "startQueries": 212,
+          "endQueries": 219
+        }
+      ]
+    },
+    {
+      "operation": "Course Detail",
+      "sample": 2,
+      "httpMs": 603,
+      "bytes": 51656,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 231,
+          "queries": 1,
+          "queryMs": 227.92900000000373,
+          "startQueries": 219,
+          "endQueries": 220
+        },
+        {
+          "label": "service.courseState",
+          "ms": 367,
+          "queries": 6,
+          "queryMs": 1102.0591999999597,
+          "startQueries": 220,
+          "endQueries": 226
+        },
+        {
+          "label": "route.course",
+          "ms": 598,
+          "queries": 7,
+          "queryMs": 1329.9881999999634,
+          "startQueries": 219,
+          "endQueries": 226
+        }
+      ]
+    },
+    {
+      "operation": "Course Detail",
+      "sample": 3,
+      "httpMs": 562,
+      "bytes": 51656,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 194,
+          "queries": 1,
+          "queryMs": 190.61009999999078,
+          "startQueries": 226,
+          "endQueries": 227
+        },
+        {
+          "label": "service.courseState",
+          "ms": 362,
+          "queries": 6,
+          "queryMs": 1075.6647999999986,
+          "startQueries": 227,
+          "endQueries": 233
+        },
+        {
+          "label": "route.course",
+          "ms": 556,
+          "queries": 7,
+          "queryMs": 1266.2748999999894,
+          "startQueries": 226,
+          "endQueries": 233
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap",
+      "sample": 0,
+      "httpMs": 557,
+      "bytes": 46144,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 182.60399999999208,
+          "startQueries": 233,
+          "endQueries": 234
+        },
+        {
+          "label": "service.courseState",
+          "ms": 363,
+          "queries": 5,
+          "queryMs": 899.4834999999439,
+          "startQueries": 234,
+          "endQueries": 239
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 549,
+          "queries": 6,
+          "queryMs": 1082.087499999936,
+          "startQueries": 233,
+          "endQueries": 239
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap",
+      "sample": 1,
+      "httpMs": 569,
+      "bytes": 46144,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 185,
+          "queries": 1,
+          "queryMs": 181.81299999999464,
+          "startQueries": 239,
+          "endQueries": 240
+        },
+        {
+          "label": "service.courseState",
+          "ms": 380,
+          "queries": 5,
+          "queryMs": 916.5536000000138,
+          "startQueries": 240,
+          "endQueries": 245
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 564,
+          "queries": 6,
+          "queryMs": 1098.3666000000085,
+          "startQueries": 239,
+          "endQueries": 245
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap",
+      "sample": 2,
+      "httpMs": 576,
+      "bytes": 46144,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 196,
+          "queries": 1,
+          "queryMs": 193.1067000000039,
+          "startQueries": 245,
+          "endQueries": 246
+        },
+        {
+          "label": "service.courseState",
+          "ms": 374,
+          "queries": 5,
+          "queryMs": 903.0905000000203,
+          "startQueries": 246,
+          "endQueries": 251
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 570,
+          "queries": 6,
+          "queryMs": 1096.1972000000242,
+          "startQueries": 245,
+          "endQueries": 251
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap",
+      "sample": 3,
+      "httpMs": 571,
+      "bytes": 46144,
+      "sql": 6,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 186,
+          "queries": 1,
+          "queryMs": 181.44880000001285,
+          "startQueries": 251,
+          "endQueries": 252
+        },
+        {
+          "label": "service.courseState",
+          "ms": 379,
+          "queries": 5,
+          "queryMs": 960.915800000017,
+          "startQueries": 252,
+          "endQueries": 257
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 565,
+          "queries": 6,
+          "queryMs": 1142.36460000003,
+          "startQueries": 251,
+          "endQueries": 257
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap Default",
+      "sample": 0,
+      "httpMs": 458,
+      "bytes": 45930,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 201,
+          "queries": 1,
+          "queryMs": 197.63079999998445,
+          "startQueries": 257,
+          "endQueries": 258
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 252,
+          "queries": 2,
+          "queryMs": 501.4493000000075,
+          "startQueries": 258,
+          "endQueries": 260
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 453,
+          "queries": 3,
+          "queryMs": 699.080099999992,
+          "startQueries": 257,
+          "endQueries": 260
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap Default",
+      "sample": 1,
+      "httpMs": 459,
+      "bytes": 45930,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 211,
+          "queries": 1,
+          "queryMs": 207.46940000000177,
+          "startQueries": 260,
+          "endQueries": 261
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 243,
+          "queries": 2,
+          "queryMs": 438.765699999989,
+          "startQueries": 261,
+          "endQueries": 263
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 453,
+          "queries": 3,
+          "queryMs": 646.2350999999908,
+          "startQueries": 260,
+          "endQueries": 263
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap Default",
+      "sample": 2,
+      "httpMs": 397,
+      "bytes": 45930,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 193,
+          "queries": 1,
+          "queryMs": 190.44229999999516,
+          "startQueries": 263,
+          "endQueries": 264
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 199,
+          "queries": 2,
+          "queryMs": 390.79859999998007,
+          "startQueries": 264,
+          "endQueries": 266
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 392,
+          "queries": 3,
+          "queryMs": 581.2408999999752,
+          "startQueries": 263,
+          "endQueries": 266
+        }
+      ]
+    },
+    {
+      "operation": "Roadmap Default",
+      "sample": 3,
+      "httpMs": 408,
+      "bytes": 45930,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 203,
+          "queries": 1,
+          "queryMs": 199.4317999999912,
+          "startQueries": 266,
+          "endQueries": 267
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 200,
+          "queries": 2,
+          "queryMs": 386.2667000000074,
+          "startQueries": 267,
+          "endQueries": 269
+        },
+        {
+          "label": "route.roadmap",
+          "ms": 402,
+          "queries": 3,
+          "queryMs": 585.6984999999986,
+          "startQueries": 266,
+          "endQueries": 269
+        }
+      ]
+    },
+    {
+      "operation": "Profile",
+      "sample": 0,
+      "httpMs": 448,
+      "bytes": 59376,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 224,
+          "queries": 1,
+          "queryMs": 218.74799999999232,
+          "startQueries": 269,
+          "endQueries": 270
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 213,
+          "queries": 3,
+          "queryMs": 615.0580999999947,
+          "startQueries": 270,
+          "endQueries": 273
+        },
+        {
+          "label": "route.profile",
+          "ms": 438,
+          "queries": 4,
+          "queryMs": 833.806099999987,
+          "startQueries": 269,
+          "endQueries": 273
+        }
+      ]
+    },
+    {
+      "operation": "Profile",
+      "sample": 1,
+      "httpMs": 425,
+      "bytes": 59376,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 199,
+          "queries": 1,
+          "queryMs": 195.68940000000293,
+          "startQueries": 273,
+          "endQueries": 274
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 220,
+          "queries": 3,
+          "queryMs": 656.6043000000063,
+          "startQueries": 274,
+          "endQueries": 277
+        },
+        {
+          "label": "route.profile",
+          "ms": 419,
+          "queries": 4,
+          "queryMs": 852.2937000000093,
+          "startQueries": 273,
+          "endQueries": 277
+        }
+      ]
+    },
+    {
+      "operation": "Profile",
+      "sample": 2,
+      "httpMs": 711,
+      "bytes": 59376,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 211,
+          "queries": 1,
+          "queryMs": 207.8006999999925,
+          "startQueries": 277,
+          "endQueries": 278
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 495,
+          "queries": 3,
+          "queryMs": 1480.1054000000004,
+          "startQueries": 278,
+          "endQueries": 281
+        },
+        {
+          "label": "route.profile",
+          "ms": 706,
+          "queries": 4,
+          "queryMs": 1687.9060999999929,
+          "startQueries": 277,
+          "endQueries": 281
+        }
+      ]
+    },
+    {
+      "operation": "Profile",
+      "sample": 3,
+      "httpMs": 622,
+      "bytes": 59376,
+      "sql": 4,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 282,
+          "queries": 1,
+          "queryMs": 278.3866000000271,
+          "startQueries": 281,
+          "endQueries": 282
+        },
+        {
+          "label": "service.studentOverview",
+          "ms": 334,
+          "queries": 3,
+          "queryMs": 998.3123000000196,
+          "startQueries": 282,
+          "endQueries": 285
+        },
+        {
+          "label": "route.profile",
+          "ms": 616,
+          "queries": 4,
+          "queryMs": 1276.6989000000467,
+          "startQueries": 281,
+          "endQueries": 285
+        }
+      ]
+    },
+    {
+      "operation": "Achievements",
+      "sample": 0,
+      "httpMs": 611,
+      "bytes": 51094,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 290,
+          "queries": 1,
+          "queryMs": 287.12959999998566,
+          "startQueries": 285,
+          "endQueries": 286
+        },
+        {
+          "label": "route.achievements",
+          "ms": 600,
+          "queries": 2,
+          "queryMs": 596.4266000000061,
+          "startQueries": 285,
+          "endQueries": 287
+        }
+      ]
+    },
+    {
+      "operation": "Achievements",
+      "sample": 1,
+      "httpMs": 850,
+      "bytes": 51094,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 622,
+          "queries": 1,
+          "queryMs": 618.4135999999999,
+          "startQueries": 287,
+          "endQueries": 288
+        },
+        {
+          "label": "route.achievements",
+          "ms": 844,
+          "queries": 2,
+          "queryMs": 840.1343000000052,
+          "startQueries": 287,
+          "endQueries": 289
+        }
+      ]
+    },
+    {
+      "operation": "Achievements",
+      "sample": 2,
+      "httpMs": 438,
+      "bytes": 51094,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 209,
+          "queries": 1,
+          "queryMs": 206.46900000001187,
+          "startQueries": 289,
+          "endQueries": 290
+        },
+        {
+          "label": "route.achievements",
+          "ms": 432,
+          "queries": 2,
+          "queryMs": 428.8768000000273,
+          "startQueries": 289,
+          "endQueries": 291
+        }
+      ]
+    },
+    {
+      "operation": "Achievements",
+      "sample": 3,
+      "httpMs": 458,
+      "bytes": 51094,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 205,
+          "queries": 1,
+          "queryMs": 202.511199999979,
+          "startQueries": 291,
+          "endQueries": 292
+        },
+        {
+          "label": "route.achievements",
+          "ms": 452,
+          "queries": 2,
+          "queryMs": 449.38689999998314,
+          "startQueries": 291,
+          "endQueries": 293
+        }
+      ]
+    },
+    {
+      "operation": "Bookmarks",
+      "sample": 0,
+      "httpMs": 425,
+      "bytes": 32396,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 198,
+          "queries": 1,
+          "queryMs": 195.11860000001616,
+          "startQueries": 293,
+          "endQueries": 294
+        },
+        {
+          "label": "route.bookmarks",
+          "ms": 418,
+          "queries": 3,
+          "queryMs": 631.5631000000285,
+          "startQueries": 293,
+          "endQueries": 296
+        }
+      ]
+    },
+    {
+      "operation": "Bookmarks",
+      "sample": 1,
+      "httpMs": 433,
+      "bytes": 32396,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 207,
+          "queries": 1,
+          "queryMs": 204.18510000000242,
+          "startQueries": 296,
+          "endQueries": 297
+        },
+        {
+          "label": "route.bookmarks",
+          "ms": 430,
+          "queries": 3,
+          "queryMs": 649.7624000000069,
+          "startQueries": 296,
+          "endQueries": 299
+        }
+      ]
+    },
+    {
+      "operation": "Bookmarks",
+      "sample": 2,
+      "httpMs": 523,
+      "bytes": 32396,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 255,
+          "queries": 1,
+          "queryMs": 252.74150000000373,
+          "startQueries": 299,
+          "endQueries": 300
+        },
+        {
+          "label": "route.bookmarks",
+          "ms": 519,
+          "queries": 3,
+          "queryMs": 770.0847000000067,
+          "startQueries": 299,
+          "endQueries": 302
+        }
+      ]
+    },
+    {
+      "operation": "Bookmarks",
+      "sample": 3,
+      "httpMs": 589,
+      "bytes": 32396,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 358,
+          "queries": 1,
+          "queryMs": 354.6389999999956,
+          "startQueries": 302,
+          "endQueries": 303
+        },
+        {
+          "label": "route.bookmarks",
+          "ms": 585,
+          "queries": 3,
+          "queryMs": 807.1425000000163,
+          "startQueries": 302,
+          "endQueries": 305
+        }
+      ]
+    },
+    {
+      "operation": "Lesson",
+      "sample": 0,
+      "httpMs": 1217,
+      "bytes": 61310,
+      "sql": 11,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 194,
+          "queries": 1,
+          "queryMs": 189.86449999999604,
+          "startQueries": 305,
+          "endQueries": 306
+        },
+        {
+          "label": "service.courseState",
+          "ms": 409,
+          "queries": 5,
+          "queryMs": 993.5754000000015,
+          "startQueries": 307,
+          "endQueries": 312
+        },
+        {
+          "label": "service.accessible",
+          "ms": 629,
+          "queries": 6,
+          "queryMs": 1212.4980000000214,
+          "startQueries": 306,
+          "endQueries": 312
+        },
+        {
+          "label": "route.lesson",
+          "ms": 1210,
+          "queries": 11,
+          "queryMs": 2945.886600000027,
+          "startQueries": 305,
+          "endQueries": 316
+        }
+      ]
+    },
+    {
+      "operation": "Lesson",
+      "sample": 1,
+      "httpMs": 1432,
+      "bytes": 61310,
+      "sql": 11,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 407,
+          "queries": 1,
+          "queryMs": 404.5335999999952,
+          "startQueries": 316,
+          "endQueries": 317
+        },
+        {
+          "label": "service.courseState",
+          "ms": 428,
+          "queries": 5,
+          "queryMs": 976.2492000000202,
+          "startQueries": 318,
+          "endQueries": 323
+        },
+        {
+          "label": "service.accessible",
+          "ms": 827,
+          "queries": 6,
+          "queryMs": 1374.548700000014,
+          "startQueries": 317,
+          "endQueries": 323
+        },
+        {
+          "label": "route.lesson",
+          "ms": 1426,
+          "queries": 11,
+          "queryMs": 2543.8091000000422,
+          "startQueries": 316,
+          "endQueries": 327
+        }
+      ]
+    },
+    {
+      "operation": "Lesson",
+      "sample": 2,
+      "httpMs": 1180,
+      "bytes": 61310,
+      "sql": 11,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 233,
+          "queries": 1,
+          "queryMs": 229.42300000000978,
+          "startQueries": 327,
+          "endQueries": 328
+        },
+        {
+          "label": "service.courseState",
+          "ms": 479,
+          "queries": 5,
+          "queryMs": 1142.4092999999702,
+          "startQueries": 329,
+          "endQueries": 334
+        },
+        {
+          "label": "service.accessible",
+          "ms": 696,
+          "queries": 6,
+          "queryMs": 1358.8980999999621,
+          "startQueries": 328,
+          "endQueries": 334
+        },
+        {
+          "label": "route.lesson",
+          "ms": 1173,
+          "queries": 11,
+          "queryMs": 2491.7617999999784,
+          "startQueries": 327,
+          "endQueries": 338
+        }
+      ]
+    },
+    {
+      "operation": "Lesson",
+      "sample": 3,
+      "httpMs": 950,
+      "bytes": 61310,
+      "sql": 11,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 193,
+          "queries": 1,
+          "queryMs": 188.42829999999958,
+          "startQueries": 338,
+          "endQueries": 339
+        },
+        {
+          "label": "service.courseState",
+          "ms": 373,
+          "queries": 5,
+          "queryMs": 894.2025999999896,
+          "startQueries": 340,
+          "endQueries": 345
+        },
+        {
+          "label": "service.accessible",
+          "ms": 563,
+          "queries": 6,
+          "queryMs": 1084.2213999999803,
+          "startQueries": 339,
+          "endQueries": 345
+        },
+        {
+          "label": "route.lesson",
+          "ms": 942,
+          "queries": 11,
+          "queryMs": 2011.5565999999526,
+          "startQueries": 338,
+          "endQueries": 349
+        }
+      ]
+    },
+    {
+      "operation": "Admin Dashboard",
+      "sample": 0,
+      "httpMs": 1633,
+      "bytes": 71905,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 193,
+          "queries": 1,
+          "queryMs": 187.82950000002165,
+          "startQueries": 349,
+          "endQueries": 350
+        },
+        {
+          "label": "route.admin",
+          "ms": 1620,
+          "queries": 7,
+          "queryMs": 3637.806500000006,
+          "startQueries": 349,
+          "endQueries": 356
+        }
+      ]
+    },
+    {
+      "operation": "Admin Dashboard",
+      "sample": 1,
+      "httpMs": 399,
+      "bytes": 71905,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 197,
+          "queries": 1,
+          "queryMs": 194.11900000000605,
+          "startQueries": 356,
+          "endQueries": 357
+        },
+        {
+          "label": "route.admin",
+          "ms": 391,
+          "queries": 7,
+          "queryMs": 1291.7679999999527,
+          "startQueries": 356,
+          "endQueries": 363
+        }
+      ]
+    },
+    {
+      "operation": "Admin Dashboard",
+      "sample": 2,
+      "httpMs": 389,
+      "bytes": 71905,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 191,
+          "queries": 1,
+          "queryMs": 187.89609999998356,
+          "startQueries": 363,
+          "endQueries": 364
+        },
+        {
+          "label": "route.admin",
+          "ms": 380,
+          "queries": 7,
+          "queryMs": 1276.3737000000256,
+          "startQueries": 363,
+          "endQueries": 370
+        }
+      ]
+    },
+    {
+      "operation": "Admin Dashboard",
+      "sample": 3,
+      "httpMs": 399,
+      "bytes": 71905,
+      "sql": 7,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 194,
+          "queries": 1,
+          "queryMs": 191.23099999999977,
+          "startQueries": 370,
+          "endQueries": 371
+        },
+        {
+          "label": "route.admin",
+          "ms": 392,
+          "queries": 7,
+          "queryMs": 1310.9779000000563,
+          "startQueries": 370,
+          "endQueries": 377
+        }
+      ]
+    },
+    {
+      "operation": "Admin Courses",
+      "sample": 0,
+      "httpMs": 410,
+      "bytes": 44537,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 200,
+          "queries": 1,
+          "queryMs": 196.89100000000326,
+          "startQueries": 377,
+          "endQueries": 378
+        },
+        {
+          "label": "route.admin-courses",
+          "ms": 399,
+          "queries": 2,
+          "queryMs": 396.0222000000067,
+          "startQueries": 377,
+          "endQueries": 379
+        }
+      ]
+    },
+    {
+      "operation": "Admin Courses",
+      "sample": 1,
+      "httpMs": 376,
+      "bytes": 44537,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 187,
+          "queries": 1,
+          "queryMs": 184.49160000000848,
+          "startQueries": 379,
+          "endQueries": 380
+        },
+        {
+          "label": "route.admin-courses",
+          "ms": 370,
+          "queries": 2,
+          "queryMs": 367.40359999999055,
+          "startQueries": 379,
+          "endQueries": 381
+        }
+      ]
+    },
+    {
+      "operation": "Admin Courses",
+      "sample": 2,
+      "httpMs": 384,
+      "bytes": 44537,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 185.99990000002435,
+          "startQueries": 381,
+          "endQueries": 382
+        },
+        {
+          "label": "route.admin-courses",
+          "ms": 379,
+          "queries": 2,
+          "queryMs": 374.7382000000216,
+          "startQueries": 381,
+          "endQueries": 383
+        }
+      ]
+    },
+    {
+      "operation": "Admin Courses",
+      "sample": 3,
+      "httpMs": 378,
+      "bytes": 44537,
+      "sql": 2,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 189,
+          "queries": 1,
+          "queryMs": 186.00159999998868,
+          "startQueries": 383,
+          "endQueries": 384
+        },
+        {
+          "label": "route.admin-courses",
+          "ms": 372,
+          "queries": 2,
+          "queryMs": 369.0522999999812,
+          "startQueries": 383,
+          "endQueries": 385
+        }
+      ]
+    },
+    {
+      "operation": "Admin Lessons",
+      "sample": 0,
+      "httpMs": 390,
+      "bytes": 62763,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 186.97390000001178,
+          "startQueries": 385,
+          "endQueries": 386
+        },
+        {
+          "label": "route.admin-lessons",
+          "ms": 379,
+          "queries": 3,
+          "queryMs": 559.6388000000443,
+          "startQueries": 385,
+          "endQueries": 388
+        }
+      ]
+    },
+    {
+      "operation": "Admin Lessons",
+      "sample": 1,
+      "httpMs": 401,
+      "bytes": 62763,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 199,
+          "queries": 1,
+          "queryMs": 195.94250000000466,
+          "startQueries": 388,
+          "endQueries": 389
+        },
+        {
+          "label": "route.admin-lessons",
+          "ms": 394,
+          "queries": 3,
+          "queryMs": 580.4869000000181,
+          "startQueries": 388,
+          "endQueries": 391
+        }
+      ]
+    },
+    {
+      "operation": "Admin Lessons",
+      "sample": 2,
+      "httpMs": 382,
+      "bytes": 62763,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 184.84299999999348,
+          "startQueries": 391,
+          "endQueries": 392
+        },
+        {
+          "label": "route.admin-lessons",
+          "ms": 375,
+          "queries": 3,
+          "queryMs": 550.994399999996,
+          "startQueries": 391,
+          "endQueries": 394
+        }
+      ]
+    },
+    {
+      "operation": "Admin Lessons",
+      "sample": 3,
+      "httpMs": 390,
+      "bytes": 62763,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 185.9890000000014,
+          "startQueries": 394,
+          "endQueries": 395
+        },
+        {
+          "label": "route.admin-lessons",
+          "ms": 383,
+          "queries": 3,
+          "queryMs": 559.770600000018,
+          "startQueries": 394,
+          "endQueries": 397
+        }
+      ]
+    },
+    {
+      "operation": "Admin Quizzes",
+      "sample": 0,
+      "httpMs": 395,
+      "bytes": 46821,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 200,
+          "queries": 1,
+          "queryMs": 195.68170000001555,
+          "startQueries": 397,
+          "endQueries": 398
+        },
+        {
+          "label": "route.admin-quizzes",
+          "ms": 385,
+          "queries": 3,
+          "queryMs": 565.0625,
+          "startQueries": 397,
+          "endQueries": 400
+        }
+      ]
+    },
+    {
+      "operation": "Admin Quizzes",
+      "sample": 1,
+      "httpMs": 393,
+      "bytes": 46821,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 193,
+          "queries": 1,
+          "queryMs": 190.06119999999646,
+          "startQueries": 400,
+          "endQueries": 401
+        },
+        {
+          "label": "route.admin-quizzes",
+          "ms": 388,
+          "queries": 3,
+          "queryMs": 577.5976000000082,
+          "startQueries": 400,
+          "endQueries": 403
+        }
+      ]
+    },
+    {
+      "operation": "Admin Quizzes",
+      "sample": 2,
+      "httpMs": 383,
+      "bytes": 46821,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 196,
+          "queries": 1,
+          "queryMs": 193.12890000001062,
+          "startQueries": 403,
+          "endQueries": 404
+        },
+        {
+          "label": "route.admin-quizzes",
+          "ms": 377,
+          "queries": 3,
+          "queryMs": 555.1229000000167,
+          "startQueries": 403,
+          "endQueries": 406
+        }
+      ]
+    },
+    {
+      "operation": "Admin Quizzes",
+      "sample": 3,
+      "httpMs": 394,
+      "bytes": 46821,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 204,
+          "queries": 1,
+          "queryMs": 200.74760000000242,
+          "startQueries": 406,
+          "endQueries": 407
+        },
+        {
+          "label": "route.admin-quizzes",
+          "ms": 389,
+          "queries": 3,
+          "queryMs": 571.2000999999873,
+          "startQueries": 406,
+          "endQueries": 409
+        }
+      ]
+    },
+    {
+      "operation": "Admin Students",
+      "sample": 0,
+      "httpMs": 385,
+      "bytes": 44397,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 188,
+          "queries": 1,
+          "queryMs": 185.011599999998,
+          "startQueries": 409,
+          "endQueries": 410
+        },
+        {
+          "label": "route.admin-students",
+          "ms": 376,
+          "queries": 3,
+          "queryMs": 554.6141999999527,
+          "startQueries": 409,
+          "endQueries": 412
+        }
+      ]
+    },
+    {
+      "operation": "Admin Students",
+      "sample": 1,
+      "httpMs": 403,
+      "bytes": 44397,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 201,
+          "queries": 1,
+          "queryMs": 197.40739999999641,
+          "startQueries": 412,
+          "endQueries": 413
+        },
+        {
+          "label": "route.admin-students",
+          "ms": 397,
+          "queries": 3,
+          "queryMs": 585.1389999999956,
+          "startQueries": 412,
+          "endQueries": 415
+        }
+      ]
+    },
+    {
+      "operation": "Admin Students",
+      "sample": 2,
+      "httpMs": 394,
+      "bytes": 44397,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 192,
+          "queries": 1,
+          "queryMs": 187.57620000001043,
+          "startQueries": 415,
+          "endQueries": 416
+        },
+        {
+          "label": "route.admin-students",
+          "ms": 388,
+          "queries": 3,
+          "queryMs": 577.5675000000047,
+          "startQueries": 415,
+          "endQueries": 418
+        }
+      ]
+    },
+    {
+      "operation": "Admin Students",
+      "sample": 3,
+      "httpMs": 388,
+      "bytes": 44397,
+      "sql": 3,
+      "spans": [
+        {
+          "label": "auth.resolve",
+          "ms": 190,
+          "queries": 1,
+          "queryMs": 187.19689999998081,
+          "startQueries": 418,
+          "endQueries": 419
+        },
+        {
+          "label": "route.admin-students",
+          "ms": 384,
+          "queries": 3,
+          "queryMs": 568.8518999999797,
+          "startQueries": 418,
+          "endQueries": 421
+        }
+      ]
+    }
+  ],
+  "probes": [
+    186,
+    185,
+    184,
+    185
+  ]
+}

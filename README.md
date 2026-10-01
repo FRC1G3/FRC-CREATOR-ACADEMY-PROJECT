@@ -6,7 +6,7 @@ An online learning platform for content creators, with a dark/red UI, real stude
 
 Register -> log in -> browse/search published courses -> enroll -> watch lessons -> mark progress -> pass quiz checkpoints -> unlock the next linear roadmap stage -> earn badges and review your profile/dashboard.
 
-Seed checkpoints require **80% or higher**. The server calculates scores; retry history remains intact and a later failure does not cancel an earlier pass. Course completion requires all published lessons and quizzes. If an admin changes those requirements, current completion is recalculated without deleting history.
+Seed checkpoints require **80% or higher**. The server calculates scores; retry history remains intact and a later failure does not cancel an earlier pass. Overall progress counts completed published lessons plus unique passed published quizzes, divided by all required lessons and quizzes. Three completed lessons with a pending quiz are 75%; passing makes it 100%. Empty courses are incomplete. Course completion requires all these units. If an admin changes those requirements, current completion is recalculated without deleting history.
 
 Admins manage courses, modules, lessons, quizzes, roadmap nodes and badges, and inspect student progress. Every Admin route and mutation is server-authorized. Public registration cannot select ADMIN.
 
@@ -26,6 +26,7 @@ Next.js 16 App Router, React 19, TypeScript, plain CSS/Tailwind, Lucide, Better 
 | BETTER_AUTH_SECRET | Private random secret, at least 32 characters |
 | BETTER_AUTH_URL | App origin; http://localhost:3000 locally |
 | SEED_PASSWORD | Your development seed password; 10-72 characters, at most 72 UTF-8 bytes |
+| GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET | Optional server-only Google OAuth Web client; both required to enable Google/YouTube controls |
 
 Never commit .env or real credentials.
 
@@ -46,13 +47,15 @@ The development seed is idempotent and refuses production mode. It defines admin
 
 Public: /, /login, /register, /courses, /courses/[slug].
 
-Authenticated: /dashboard, /roadmap, /learn/[slug], /quizzes/[slug], quiz results, /achievements, /profile. Admin-only management lives under /admin.
+Authenticated: /dashboard, /roadmap, /learn/[slug], /quizzes/[slug], quiz results, /achievements, /profile and /bookmarks. Admin-only management lives under /admin.
 
-Course search matches titles/descriptions and combines with Beginner/Intermediate/Advanced filters. Data still comes from PostgreSQL. Outcomes use the course's real module descriptions/titles.
+Course search matches titles/descriptions and combines with Beginner/Intermediate/Advanced filters. Data still comes from PostgreSQL. Outcomes use real module descriptions/titles. Empty/draft-only modules are hidden from students; a published lesson or quiz makes its module visible. Admin manages all modules.
 
-Lesson.videoUrl supports YouTube embeds and native MP4/WebM/OGV playback. The current temporary shared video is stored in the database; admin edits remain respected. This is **embedded lesson video support**, not YouTube account OAuth/API or analytics sync. Database images support local /images/ assets and browser-loaded HTTPS sources, with safe local fallbacks and no unrestricted remote image optimizer.
+Lesson.videoUrl supports HTTPS YouTube embeds, HTTPS native MP4/WebM/OGV playback and safe local media paths. Remote HTTP video is rejected. The current temporary shared video is stored in the database; admin edits remain respected. Embedded lesson playback is separate from optional YouTube channel connection. Course/lesson/profile image pickers validate and resize/compress files in the browser, validate/re-encode them on the server and store compressed data URLs in existing PostgreSQL text fields. Local /images/ and browser-loaded HTTPS images also work with safe fallbacks. External object storage is not implemented; it is a future recommendation.
 
-The roadmap is linear. Add a roadmap node after publishing a new lesson/quiz; direct access to unconfigured learning content stays locked. Attempted quiz questions/options/pass thresholds cannot be rewritten. History-bearing deletion is blocked; use Draft/Inactive. Enrollment.completedAt reflects current requirements and is reconciled during curriculum edits and student progress writes. No course versioning is implemented.
+Google sign-in requests basic identity only and creates STUDENT users. Profile separately supports explicit Google account linking with YouTube readonly, real channel identity/basic statistics, manual refresh and local metadata removal. Normal Profile renders only stored DB metadata; Better Auth Account stores encrypted provider tokens. Google/password login methods, roles and learning history survive local channel removal. Inactive product controls are hidden. Follow [Google/YouTube setup](docs/GOOGLE_YOUTUBE_SETUP.md) and [the manual OAuth checklist](docs/MANUAL_GOOGLE_YOUTUBE_SMOKE_TEST.md); real OAuth, public verification and deployment are not claimed.
+
+The roadmap is linear. Add a roadmap node after publishing a new lesson/quiz; direct access to unconfigured learning content stays locked. Attempted quiz questions/options/pass thresholds cannot be rewritten. History-bearing deletion is blocked; use Draft/Inactive. Enrollment.completedAt reflects current requirements and is reconciled during curriculum edits and student progress writes. Admin curriculum edits batch-reconcile completion and badge eligibility. Active badge creation/activation/condition edits evaluate relevant existing learners; earned awards are never revoked. Roadmap titles are safely editable; history-dependent retarget/removal is restricted. No course versioning is implemented.
 
 ## Checks
 
@@ -72,6 +75,10 @@ See also the [P0 interaction/performance audit](docs/INTERACTION_PERFORMANCE_AUD
 
 The [real latency audit](docs/REAL_LATENCY_AUDIT.md) supersedes earlier performance estimates with instrumented production completion timings, SQL counts, region/idle findings and explicit target limitations. Profiling is opt-in with `PROFILE_PERFORMANCE=1`; ordinary runs do not emit timing/query logs.
 
+Current final code audit: [FINAL_CODE_AUDIT.md](docs/FINAL_CODE_AUDIT.md). Headers provide nosniff, referrer/permissions policy and SAMEORIGIN protection. Strict CSP is deferred pending embed/Auth/data-image compatibility testing. This pass does not deploy or change credentials.
+
+Latest product/Google/YouTube pass: [FINAL_PRODUCT_POLISH.md](docs/FINAL_PRODUCT_POLISH.md). Final automated verification: 338 passed, 1 opt-in test skipped, 0 failed; additive migration and isolated PostgreSQL metadata checks passed. Real OAuth and responsive browser smoke testing remain manual.
+
 ## Future / post-university
 
-YouTube OAuth/API, branching roadmap, production deployment hardening, password recovery/email verification, large-scale pagination, course versioning, community, payments, AI and certificates are outside this submission's implementation scope.
+YouTube Analytics/write access/video import, branching roadmap, external object storage, password recovery/email delivery, commercial-scale pagination/monitoring, course versioning, community, payments, AI and certificates are outside this submission's implementation scope.

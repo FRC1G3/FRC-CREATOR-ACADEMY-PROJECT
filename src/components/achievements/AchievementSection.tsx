@@ -11,7 +11,7 @@ export default function AchievementSection({ status, achievementBadges }: { stat
         <div><h2 id={`achievements-${status}-title`}>{earned ? "Earned Badges" : "Locked Badges"}</h2><p>{earned ? "Badges you've unlocked on your creator journey." : "Keep learning to unlock these badges."}</p></div>
       </div>
       {!achievementBadges.some(b => b.status === status) && <p>{earned ? "Complete learning milestones to earn your first badge." : "No locked badges."}</p>}
-      <div className="achievements-badge-grid">{achievementBadges.filter((badge) => badge.status === status).map((badge) => <AchievementBadge key={badge.title} badge={badge} />)}</div>
+      <div className="achievements-badge-grid">{achievementBadges.filter((badge) => badge.status === status).map((badge) => <AchievementBadge key={badge.id} badge={badge} />)}</div>
     </section>
   );
 }

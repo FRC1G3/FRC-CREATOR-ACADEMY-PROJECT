@@ -3,7 +3,7 @@
 .profile-heading { padding-bottom: 20px; background: linear-gradient(90deg, #03080c 40%, #03080c65), url("/images/dashboard/dashboardbottom.webp") right center / auto 240px no-repeat; > span { color: var(--color-red); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; } h1 { font-family: var(--font-manrope), sans-serif; font-size: clamp(32px, 4vw, 46px); font-weight: 750; letter-spacing: -0.03em; line-height: 1.2; margin: 5px 0; } p { color: var(--color-text-secondary); font-size: 14px; line-height: 1.5; } }
 .profile-page button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--color-border); border-radius: 7px; background: #0a141f; color: var(--color-text-primary); padding: 8px 14px; font-size: 11px; svg { width: 15px; height: 15px; } }
 .profile-page button:disabled { cursor: default; }
-.profile-page a:focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
+.profile-page :is(a, button):focus-visible { outline: 2px solid var(--color-red); outline-offset: 4px; }
 .profile-page .profile-primary { background: var(--color-red); border-color: var(--color-red); }
 .profile-hero { display: flex; align-items: center; gap: 24px; padding: 24px; background: linear-gradient(90deg, #050b13 40%, #050b1390), url("/images/dashboard/dashboardbottom.webp") right center / cover no-repeat; }
 .profile-avatar { position: relative; flex-shrink: 0; img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; } button { position: absolute; right: 5px; bottom: 8px; padding: 7px; border-radius: 50%; border-color: #a7b3c1; } }
@@ -28,7 +28,11 @@
 .profile-badges .achievements-badge-footer { gap: 6px; margin-top: 8px; }
 .profile-badges .achievements-badge-date { font-size: 8px; gap: 4px; }
 .profile-badges .achievements-badge-status { font-size: 8px; padding: 3px 8px; }
-.profile-channel { display: grid; grid-template-columns: 1.65fr 1fr 1fr 1fr; align-items: center; padding: 10px 14px; border-radius: 10px; gap: 16px; }
+.profile-channel { display: grid; grid-template-columns: minmax(0, 1.65fr) repeat(3, minmax(0, 1fr)); align-items: center; padding: 10px 14px; border-radius: 10px; gap: 16px; }
+.profile-channel-identity { min-width: 0; > div { min-width: 0; overflow-wrap: anywhere; } img { flex-shrink: 0; } }
+.profile-youtube-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; > a { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--color-border); border-radius: 7px; background: #0a141f; color: var(--color-text-primary); padding: 8px 14px; font-size: 11px; } :is(a, button) { max-width: 100%; overflow-wrap: anywhere; } svg { width: 15px; height: 15px; flex-shrink: 0; } img { border-radius: 50%; flex-shrink: 0; } }
+.profile-youtube-feedback { margin-top: 12px; font-size: 12px; line-height: 1.5; color: var(--color-text-secondary); }
+.profile-youtube-feedback[role="alert"] { color: #ff8790; }
 .profile-channel-identity { display: flex; align-items: center; gap: 12px; img { width: 54px; height: 54px; object-fit: cover; border-radius: 50%; border: 1px solid var(--color-red); } h3 { font-size: 14px; font-weight: 650; } span, small { display: flex; align-items: center; gap: 5px; font-size: 9px; margin-top: 3px; color: #12cc8d; } small { color: var(--color-text-secondary); font-size: 8px; } svg { width: 10px; height: 10px; } }
 .profile-channel-stat { display: flex; gap: 16px; align-items: center; border-left: 1px solid var(--color-border); padding-left: 20px; > svg { color: #aabed0; width: 23px; height: 23px; flex-shrink: 0; } strong { display: block; font-size: 15px; } span { font-size: 10px; color: var(--color-text-secondary); } }
 .profile-activity .profile-section-heading { align-items: center; > svg { color: #acbed1; } button { background: none; border: 0; padding: 0; font-size: 10px; color: #aabed0; } }

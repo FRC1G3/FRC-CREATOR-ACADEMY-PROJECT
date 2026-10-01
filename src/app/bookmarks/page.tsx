@@ -1,8 +1,9 @@
+import { timed } from "@/lib/performance";
 import Link from "next/link";
 import { requireUser } from "@/lib/current-user";
 import { getPrisma } from "@/lib/prisma";
 import BookmarkButton from "@/components/learning/BookmarkButton";
-export default async function BookmarksPage() {
+async function BookmarksPage() {
   const user = await requireUser("/bookmarks"), db = getPrisma();
   const [courses, lessons] = await Promise.all([
     db.courseBookmark.findMany({ where: { userId: user.id, course: { status: "PUBLISHED" } }, orderBy: { createdAt: "desc" }, select: { course: { select: { id: true, slug: true, title: true, level: true } } } }),
@@ -13,4 +14,8 @@ export default async function BookmarksPage() {
     <section><h2>Saved Courses</h2>{!courses.length && <p>No saved courses.</p>}{courses.map(({ course }) => <article className="app-card bookmark-item" key={course.id}><div><Link href={`/courses/${course.slug}`}>{course.title}</Link><p>{course.level}</p></div><BookmarkButton kind="course" id={course.id} initialSaved /></article>)}</section>
     <section><h2>Saved Lessons</h2>{!lessons.length && <p>No saved lessons.</p>}{lessons.map(({ lesson }) => <article className="app-card bookmark-item" key={lesson.id}><div><Link href={`/learn/${lesson.slug}`}>{lesson.title}</Link><p>{lesson.module.course.title} · {lesson.module.title}</p></div><BookmarkButton kind="lesson" id={lesson.id} initialSaved /></article>)}</section>
   </main>;
+}
+
+export default async function ProfiledPage(...args: Parameters<typeof BookmarksPage>) {
+  return timed("route.bookmarks", () => BookmarksPage(...args));
 }

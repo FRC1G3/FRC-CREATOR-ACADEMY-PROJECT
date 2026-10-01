@@ -1,5 +1,7 @@
 # University demo — manual interaction smoke test
 
+Historical checklist: statements below about disabled future controls/bookmarks/photo uploads predate the final feature passes. For the current Google/YouTube controls and inactive UI behavior, use [MANUAL_GOOGLE_YOUTUBE_SMOKE_TEST.md](MANUAL_GOOGLE_YOUTUBE_SMOKE_TEST.md); that checklist supersedes those earlier statements. Existing learning/Admin checks below remain useful where unchanged.
+
 Browser automation was not available in the audit session. These clicks are **not** claimed as browser-verified. Use a production build (`npm run build`, `npm run start`), your seeded student/admin credentials from the local environment, a desktop browser, then repeat key checks at about 390px width. Do not reset the database.
 
 ## Public navigation and authentication

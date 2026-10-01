@@ -1,6 +1,25 @@
 import { describe, expect, it, vi } from "vitest";
 import { moduleViews } from "../src/services/presentation";
-import { overviewWithCompletedLesson, studentOverview, accessible, courseState, evaluateBadgesForUser, type Database } from "../src/services/learning";
+import { overviewWithCompletedLesson, overviewWithQuizAttempt, studentOverview, accessible, courseState, evaluateBadgesForUser, type Database } from "../src/services/learning";
+
+it("derives quiz completion and preserves an earlier pass after a failed retry without refetching", async () => {
+  const { db, model } = fixture();
+  model.lessonProgress.findMany.mockResolvedValue([{ lessonId: "l1", status: "COMPLETED" }, { lessonId: "l2", status: "COMPLETED" }]);
+  const overview = await studentOverview("u", db);
+  const attempt = { id: "pass", quizId: "q", score: 80, passed: true, completedAt: new Date(), quiz: { title: "Quiz", slug: "checkpoint" } };
+  const passed = overviewWithQuizAttempt(overview, attempt);
+  expect(passed.states[0]).toMatchObject({ complete: true, completedModules: 1, percentage:100 });
+  expect(passed.percentage).toBe(100);
+  expect(overview.percentage).toBe(67);
+  expect(overview.states[0].complete).toBe(false);
+  const retried = overviewWithQuizAttempt(passed, { ...attempt, id: "retry", passed: false, score: 70 });
+  expect(retried.states[0].complete).toBe(true);
+  expect(retried.attempts).toHaveLength(2);
+  const reads = model.enrollment.findMany.mock.calls.length;
+  await evaluateBadgesForUser("u", db, retried);
+  expect(model.enrollment.findMany).toHaveBeenCalledTimes(reads);
+  expect(model.enrollment.updateMany).toHaveBeenCalled();
+});
 
 function fixture() {
   const course = { id:"c", slug:"youtube", status:"PUBLISHED", modules:[{id:"m",order:1,lessons:[{id:"l1",slug:"first",moduleId:"m",order:1},{id:"l2",slug:"second",moduleId:"m",order:2}]}], quizzes:[{id:"q",slug:"checkpoint",moduleId:"m",_count:{questions:3}}], roadmapNodes:[{id:"n1",type:"LESSON",lessonId:"l1",quizId:null,badgeId:null},{id:"n2",type:"LESSON",lessonId:"l2",quizId:null,badgeId:null},{id:"n3",type:"QUIZ",lessonId:null,quizId:"q",badgeId:null}] };
@@ -13,7 +32,7 @@ function fixture() {
     userBadge:{findMany:vi.fn().mockResolvedValue([]),createMany:vi.fn()},
     badge:{findMany:vi.fn().mockResolvedValue([{id:"badge",status:"ACTIVE",conditionType:"FIRST_SECTION_COMPLETE",conditionValue:1,users:[]}])},
   };
-  const user = { findUniqueOrThrow: vi.fn(async () => ({ enrollments: await model.enrollment.findMany(), lessonProgress: await model.lessonProgress.findMany(), quizAttempts: await model.quizAttempt.findMany() })) };
+  const user = { findUnique: vi.fn(async () => ({ enrollments: (await model.enrollment.findUnique()) ? [await model.enrollment.findUnique()] : [], lessonProgress: await model.lessonProgress.findMany(), quizAttempts: await model.quizAttempt.findMany(), badges: await model.userBadge.findMany() })), findUniqueOrThrow: vi.fn(async () => ({ enrollments: await model.enrollment.findMany(), lessonProgress: await model.lessonProgress.findMany(), quizAttempts: await model.quizAttempt.findMany() })) };
   return {course,model,db:{...model,user} as unknown as Database};
 }
 describe("course/module progress and access", () => {
@@ -46,7 +65,7 @@ describe("course/module progress and access", () => {
     expect(view.lessons[1]).toMatchObject({status:"locked",href:undefined});
   });
   it("queries published content only", async () => { const {db,model}=fixture(); await courseState("u","youtube",db); expect(model.course.findFirst.mock.calls[0][0].where.status).toBe("PUBLISHED"); });
-  it("all lessons alone do not complete a module/course with a quiz", async () => { const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]); const state=await courseState("u","youtube",db); expect(state).toMatchObject({percentage:100,complete:false,completedModules:0}); });
+  it("all lessons alone do not complete a module/course with a quiz", async () => { const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]); const state=await courseState("u","youtube",db); expect(state).toMatchObject({percentage:67,complete:false,completedModules:0}); });
   it("a historical pass remains valid after failed retries", async () => { const {db,model}=fixture(); model.lessonProgress.findMany.mockResolvedValue([{lessonId:"l1",status:"COMPLETED"},{lessonId:"l2",status:"COMPLETED"}]); model.quizAttempt.findMany.mockResolvedValue([{quizId:"q",passed:false},{quizId:"q",passed:true}]); const state=await courseState("u","youtube",db); expect(state).toMatchObject({complete:true,completedModules:1}); });
   it("blocks a future lesson even for an enrolled user", async () => { const {db}=fixture(); await expect(accessible("u","LESSON","second",db)).rejects.toThrow("earlier roadmap"); });
   it("blocks an unenrolled user", async () => { const {db,model}=fixture(); model.enrollment.findUnique.mockResolvedValue(null); await expect(accessible("u","LESSON","second",db)).rejects.toThrow("Enroll"); });

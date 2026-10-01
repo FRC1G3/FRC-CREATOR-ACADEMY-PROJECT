@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import DatabaseImage from "@/components/learning/DatabaseImage";
 import Link from "next/link";
-import { LogOut, Route, UsersRound, ChevronsLeft, House, TvMinimalPlay, BookOpen,ChartNoAxesCombined,Star,Wrench,Bookmark,NotebookPen,Settings } from "lucide-react";
+import { LogOut, Route, ChevronsLeft, House, TvMinimalPlay, Star, Bookmark } from "lucide-react";
 type MenuProps = {
   user: { name: string; avatarUrl: string | null; role: string } | null;
   isSidebarOpen: boolean;
@@ -75,31 +75,13 @@ export default function Menu({ isSidebarOpen, setisSidebarOpen, user, onLogout, 
       <div className="menu-icons" data-active={pathname === "/roadmap" ? "true" : undefined}>
         <Link href="/roadmap" aria-current={pathname === "/roadmap" ? "page" : undefined}><Route /> <span>Roadmap</span></Link>
       </div>
-      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
-         <ChartNoAxesCombined /> <span>Progress</span>
-      </div>
       <div className="menu-icons" data-active={pathname === "/achievements" ? "true" : undefined}>
         <Link href="/achievements" aria-current={pathname === "/achievements" ? "page" : undefined}><Star /> <span>Achievements</span></Link>
-      </div>
-      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
-       <UsersRound /> <span>Community</span>
-      </div>
-      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
-        <Wrench /> <span>Creator Tools</span>
-      </div>
-      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
-        <NotebookPen /><span>Notes</span>
       </div>
       
       <div className="menu-i-bottom">
         <div className="menu-icons" data-active={pathname === "/bookmarks" ? "true" : undefined}>
         <Link href="/bookmarks" aria-current={pathname === "/bookmarks" ? "page" : undefined}><Bookmark /> <span>Bookmarks</span></Link>
-      </div>
-      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
-        <Settings /> <span>Settings</span>
-      </div>
-      <div className="menu-icons" aria-disabled="true" title="Unavailable in this university demo">
-        <BookOpen /> <span>Library</span>
       </div>
       </div>
      

@@ -23,6 +23,6 @@ export default function CourseCurriculum({ modules }: { modules: ModuleView[] })
       <h2 id="course-content-title">Course Content</h2>
       <button type="button" disabled={!numbers.length} onClick={() => setOpen(value => toggleAllModules(value, numbers))}>{allOpen ? "Collapse All" : "Expand All"}{allOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}</button>
     </div>
-    <div className="course-module-list">{modules.map(module => <CourseModule key={module.number} module={module} isExpanded={open.includes(module.number)} onToggle={() => setOpen(value => toggleModule(value, module.number))} />)}</div>
+    <div className="course-module-list">{modules.map(module => <CourseModule key={module.id} module={module} isExpanded={open.includes(module.number)} onToggle={() => setOpen(value => toggleModule(value, module.number))} />)}</div>
   </section>;
 }

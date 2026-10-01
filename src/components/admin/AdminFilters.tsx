@@ -8,6 +8,6 @@ export default function AdminFilters({ label, search, onSearch, children }: {
   return <div className="admin-filters"><label className="admin-search"><Search size={18} aria-hidden="true" /><input type="search" aria-label={label} placeholder={label} value={search} onChange={(event) => onSearch(event.target.value)} /></label>{children}</div>;
 }
 
-export function AdminCourseFilter({ value, onChange, courses }: { value: string; onChange: (value: string) => void; courses: string[] }) {
-  return <select className="admin-select" aria-label="Filter by course" value={value} onChange={(event) => onChange(event.target.value)}><option value="">All courses</option>{courses.map((course) => <option key={course}>{course}</option>)}</select>;
+export function AdminCourseFilter({ value, onChange, courses }: { value: string; onChange: (value: string) => void; courses: {id:string;title:string}[] }) {
+  return <select className="admin-select" aria-label="Filter by course" value={value} onChange={(event) => onChange(event.target.value)}><option value="">All courses</option>{courses.map((course) => <option key={course.id} value={course.id}>{course.title}</option>)}</select>;
 }

@@ -8,6 +8,7 @@ function fixture() {
   const attempts: { userId: string; quizId: string; passed: boolean }[] = [];
   const enrollment = { userId: "u", courseId: "c", completedAt: null as Date | null };
   const model = {
+    user:{findMany:vi.fn().mockResolvedValue([])},badge:{findMany:vi.fn().mockResolvedValue([])},userBadge:{createMany:vi.fn()},
     course: { findUnique: vi.fn(async () => ({ id: "c", modules: [{ id: "m", lessons: lessons.filter(l => l.status === "PUBLISHED") }], quizzes: quizzes.filter(q => q.status === "PUBLISHED"), roadmapNodes: [] })) },
     enrollment: { findMany: vi.fn(async () => [enrollment]), updateMany: vi.fn(async ({ where, data }: { where: { completedAt: null | { not: null } }; data: { completedAt: Date | null } }) => {
       if ((where.completedAt === null) === (enrollment.completedAt === null)) enrollment.completedAt = data.completedAt;
@@ -57,4 +58,12 @@ it("does not count another student's progress or passes", async () => {
 it("an empty course is not complete", async () => {
   const f = fixture(); await f.sync(); f.lessons.pop();
   await f.sync(); expect(f.enrollment.completedAt).toBeNull();
+});
+it("unpublishing the unmet quiz reconciles both completion and eligible course badges",async()=>{
+  const f=fixture();f.quizzes.push({id:"q",moduleId:"m",status:"PUBLISHED"});
+  f.model.user.findMany.mockImplementation(async()=>[{id:"u",enrollments:[{...f.enrollment,course:await f.model.course.findUnique()}],lessonProgress:f.progress,quizAttempts:[]}]);
+  f.model.badge.findMany.mockResolvedValue([{id:"b",conditionType:"COURSE_COMPLETE",conditionValue:1,users:[]}]);
+  await f.sync();expect(f.enrollment.completedAt).toBeNull();expect(f.model.userBadge.createMany).not.toHaveBeenCalled();
+  f.quizzes[0].status="DRAFT";await f.sync();expect(f.enrollment.completedAt).toBeInstanceOf(Date);
+  expect(f.model.userBadge.createMany).toHaveBeenCalledWith({data:[{userId:"u",badgeId:"b"}],skipDuplicates:true});
 });

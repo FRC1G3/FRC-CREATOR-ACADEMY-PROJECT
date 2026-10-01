@@ -1,4 +1,9 @@
 export function percentage(completed: number, total: number) { return total > 0 ? Math.round(completed / total * 100) : 0; }
+// 100 means every required unit is complete; rounding must not hide a pending unit.
+export function learningProgress(completedLessons: number, totalLessons: number, passedQuizzes: number, totalQuizzes: number) {
+  const completed = completedLessons + passedQuizzes, total = totalLessons + totalQuizzes;
+  return { completed, total, percentage: total > 0 ? completed >= total ? 100 : Math.min(99, percentage(completed, total)) : 0, complete: total > 0 && completed >= total };
+}
 export function passes(score: number, requirement = 80) { return score >= requirement; }
 export type LearningNode = { id: string; type: "LESSON" | "QUIZ" | "REWARD"; lessonId: string | null; quizId: string | null; badgeId: string | null };
 export function roadmapStates(nodes: LearningNode[], enrolled: boolean, lessons: Set<string>, quizzes: Set<string>, badges: Set<string>) {

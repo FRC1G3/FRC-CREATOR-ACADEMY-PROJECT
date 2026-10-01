@@ -12,7 +12,7 @@ async function RoadmapPage({ searchParams }: { searchParams: Promise<{ course?: 
   const { course } = await searchParams;
   const state = course ? await courseState(user.id, course) : (await studentOverview(user.id)).active;
   if (!state?.enrollment) return <main className="roadmap-page"><div className="roadmap-container"><EmptyState /></div></main>;
-  const roadmapNodes = state.nodes.map(n => ({ title: state.course.roadmapNodes.find(r => r.id === n.id)!.title, detail: n.type === "QUIZ" ? `${state.course.quizzes.find(q => q.id === n.quizId)?._count.questions ?? 0} questions` : n.type === "REWARD" ? "Learning milestone" : "Video lesson", status: n.status, kind: n.type === "REWARD" ? "reward" : n.type === "QUIZ" ? "quiz" : "module", href: n.status !== "locked" ? nodeHref(state,n) : undefined }));
+  const roadmapNodes = state.nodes.map(n => ({ id:n.id, title: state.course.roadmapNodes.find(r => r.id === n.id)!.title, detail: n.type === "QUIZ" ? `${state.course.quizzes.find(q => q.id === n.quizId)?._count.questions ?? 0} questions` : n.type === "REWARD" ? "Learning milestone" : "Video lesson", status: n.status, kind: n.type === "REWARD" ? "reward" : n.type === "QUIZ" ? "quiz" : "module", href: n.status !== "locked" ? nodeHref(state,n) : undefined }));
   return (
     <main className="roadmap-page">
       <div className="roadmap-container">
@@ -23,7 +23,7 @@ async function RoadmapPage({ searchParams }: { searchParams: Promise<{ course?: 
         </header>
         <RoadmapSummary roadmapSummary={{ percentage: state.percentage, lessons: `${state.completedLessons} of ${state.totalLessons} lessons`, modules: `${state.completedModules} / ${state.course.modules.length}`, quizzes: `${state.passed.size} / ${state.course.quizzes.length}`, current: state.currentLesson?.title ?? state.course.quizzes.find(q => q.id === state.current?.quizId)?.title ?? "Complete" }} />
         <ol className="roadmap-path" aria-label="Course learning stages">
-          {roadmapNodes.map((node, index) => <RoadmapNode key={node.title} node={node} index={index} last={index === roadmapNodes.length - 1} />)}
+          {roadmapNodes.map((node, index) => <RoadmapNode key={node.id} node={node} index={index} last={index === roadmapNodes.length - 1} />)}
         </ol>
       </div>
     </main>

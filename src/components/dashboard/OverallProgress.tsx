@@ -17,7 +17,7 @@ export default function OverallProgress({ overallProgress }: { overallProgress: 
           {overallProgress.summary.map((item) => (
             <li key={item.status}>
               <span className={`overall-progress-dot ${item.status}`} aria-hidden="true" />
-              <div><span>{item.label}</span><p>{item.lessons} lessons</p></div>
+              <div><span>{item.label}</span><p>{item.lessons} learning units</p></div>
             </li>
           ))}
         </ul>

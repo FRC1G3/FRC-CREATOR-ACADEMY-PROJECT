@@ -24,7 +24,7 @@ export default function CoursesManagement({ rows, initialSearch = "" }: { rows: 
         {courses.map((course) => <tr key={course.id}>
           <th scope="row"><div className="admin-course-name"><DatabaseImage src={course.image} alt="" width={56} height={42} /><div><strong>{course.title}</strong><small>{course.description}</small></div></div></th>
           <td>{course.lessons}</td><td>{course.modules}</td><td>{course.students}</td><td><AdminStatusBadge status={course.status} /></td><td>{course.updated}</td>
-          <td><div className="admin-row-actions"><Link href={`/admin/courses/${course.id}/edit`} className="admin-button" aria-label={`Edit ${course.title}`}>Edit</Link><AdminCommandButton entity="course" id={course.id} /></div></td>
+          <td><div className="admin-row-actions"><Link href={`/admin/courses/${course.id}/edit`} className="admin-button" aria-label={`Edit ${course.title}`}>Edit</Link><AdminCommandButton entity="course" id={course.id} operation={course.status === "Published" ? "unpublish" : "publish"} label={course.status === "Published" ? "Unpublish" : "Publish"} /><AdminCommandButton entity="course" id={course.id} /></div></td>
         </tr>)}
       </AdminTable>
     </>

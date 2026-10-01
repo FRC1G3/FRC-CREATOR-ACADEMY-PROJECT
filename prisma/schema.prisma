@@ -105,6 +105,8 @@ model Account {
   updatedAt             DateTime  @updatedAt
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  youtubeConnections YouTubeConnection[]
+
   @@unique([providerId, accountId])
   @@index([userId])
 }
@@ -360,6 +362,10 @@ model YouTubeConnection {
   userId                String    @unique
   channelId             String
   channelTitle          String
+  googleAccountId       String?
+  thumbnailUrl          String?
+  customUrl             String?
+  hiddenSubscriberCount Boolean   @default(false)
   subscriberCount       BigInt?
   videoCount            BigInt?
   viewCount             BigInt?
@@ -370,7 +376,8 @@ model YouTubeConnection {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  googleAccount Account? @relation(fields: [googleAccountId], references: [id], onDelete: SetNull)
 }
 
 model CourseBookmark {
